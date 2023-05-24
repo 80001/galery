@@ -13,13 +13,13 @@ const Header = () => {
 
     return (
         <header className="header">
-            <div className={`header__container${open ? ' header__container--open' : ''}`}>
+            <div className={`container header__container${open ? ' header__container--open' : ''}`}>
                 <button hidden="hidden" className={`header__button${open ? ' header__button--open' : ''}`} onClick={handleToggle}>
                     <span className="burger-menu__icon">XXX</span>
                 </button>
                 <div className={`header__logo${open ? ' header__logo--open' : ''} header__shrink`}>
                     <Link to='/' className="header__logo-title">
-                        Image Gallery
+                        Gallery
                     </Link>
                 </div>
                 {/* <SearchImage /> */}

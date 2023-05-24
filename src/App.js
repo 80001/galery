@@ -3,22 +3,18 @@ import './App.css';
 import Footer from './pages/footer';
 import Header from './pages/header';
 import Blog from './pages/blog';
+import Aside from './pages/aside';
 import Account from './pages/account';
-import Galery from './pages/galery';
+import Gallery from './pages/gallery';
+import MainPage from './pages/main';
 
 function App() {
   return (
     <div className="app">
       <Header />
+      <Aside />
       <div className='content'>
-        <Routes>
-          <Route index element={<Galery />}>
-          </Route>
-          <Route path='/blog' element={<Blog />}>
-          </Route>
-          <Route path='/account' element={<Account />}>
-          </Route>
-        </Routes>
+        <MainPage />
       </div>
       <Footer />
     </div>
