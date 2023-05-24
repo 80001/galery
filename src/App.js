@@ -10,14 +10,16 @@ function App() {
   return (
     <div className="app">
       <Header />
-      <Routes>
-        <Route index element={<Galery />}>
-        </Route>
-        <Route path='/blog' element={<Blog />}>
-        </Route>
-        <Route path='/account' element={<Account />}>
-        </Route>
-      </Routes>
+      <div className='content'>
+        <Routes>
+          <Route index element={<Galery />}>
+          </Route>
+          <Route path='/blog' element={<Blog />}>
+          </Route>
+          <Route path='/account' element={<Account />}>
+          </Route>
+        </Routes>
+      </div>
       <Footer />
     </div>
   );

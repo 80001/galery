@@ -1,8 +1,19 @@
 import React from 'react'
+import './styles.scss'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
     return (
-        <div>Footer</div>
+        <footer className='footer'>
+            <div className="footer__container">
+                <div className="footer__nav">
+                    <Link to="/" className="footer__link">LOGO</Link>
+                    <Link to="/blog" className="footer__link">Blog</Link>
+                    <Link to="/account" className="footer__link">Account</Link>
+                </div>
+                <div className="footer__info">2023 © DISKPISK ™</div>
+            </div>
+        </footer>
     )
 }
 
