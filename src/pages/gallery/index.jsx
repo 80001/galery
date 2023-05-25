@@ -1,8 +1,11 @@
-import React from 'react';
-import { UnsplashAPI } from '../../api/Unsplash';
+import React from 'react'
+import { UnsplashAPI } from '../../api/Unsplash'
+import PhotoComp from './PhotoComp'
+import './styles.scss'
 
 const Gallery = () => {
     const dataAPI = UnsplashAPI();
+    console.log(dataAPI)
 
     if (dataAPI.results.length === 0) {
         return (
@@ -19,18 +22,21 @@ const Gallery = () => {
         );
     } else {
         return (
-            <div className='gallery'>
-                {dataAPI.results.map(photo => (
-                    <li key={photo.id}>
-                        <div>
-                            <img
-                                src={photo.urls.regular}
-                                alt="img"
-                                className="gallery__img"
-                            />
-                        </div>
-                    </li>
-                ))}
+            <div className="galery">
+                <h2 className="galery__title">{'You`re images'}</h2>
+                <div className="galery__utils">
+                    {/* <ViewChanger />
+                    <Pages lastPage={data.total_pages} /> */}
+                </div>
+                <ul className={`galery__container`}>
+                    {(
+                        <>
+                            {dataAPI.results.map(photo => (
+                                <PhotoComp key={photo.id} photo={photo} />
+                            ))}
+                        </>
+                    )}
+                </ul>
             </div>
         );
     }
