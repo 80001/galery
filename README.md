@@ -1,7 +1,7 @@
-Galery site:
+Gallery site:
 
 Main Task:
-- Show Images on GaleryPage from API Unsplash
+- Show Images on GalleryPage from API Unsplash
 - Search Image on API
 - Create Posts on BlogPage with image from API and other url ??? image files???
 - Create Comments to Post 
@@ -9,7 +9,7 @@ Main Task:
 - Share url with post
 
 main.page:
-Galery/Search
+Gallery/Search
 blog.page:
 Blog
 auth.page:
@@ -18,7 +18,7 @@ Auth/ShowPosts
 Tech quest:
 
 Main Page:
-- Create Galery
+- Create Gallery
 - Show Images from api
 - Enable search for Image
 - Enable filters for Image
