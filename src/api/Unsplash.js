@@ -33,3 +33,12 @@ export const UnsplashAPI = () => {
     }, [])
     return data
 }
+
+export const UnsplashImage = (imageId) => {
+    const [data, setData] = useState(null)
+    useEffect(() => {
+        unsplash.photos.get({ photoId: imageId })
+            .then(photo => setData(photo))
+    }, [])
+    return data
+}
