@@ -1,7 +1,7 @@
 //import { useState } from "react"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import ZoomModal from "../../components/modal/ZoomModal"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import CreatePost from "../../components/modal/CreatePost"
 
 const PhotoComp = ({ photo }) => {
@@ -44,11 +44,12 @@ const PhotoComp = ({ photo }) => {
                 {isPostModalOpen && (
                     <CreatePost setPost={setPostModalOpen} url={urls.regular} />
                 )}
-                <Link className="" to={`image/${photo.id}`} onClick={openModal}>
+                <Link className="gallery__img" to={`image/${photo.id}`} onClick={openModal}>
                     <img
                         src={urls.regular}
                         alt="img"
                         className="gallery__img"
+                        title="CLICK ON IMAGE TO ZOOM IN"
                     />
                 </Link>
                 <Link className="gallery__btns gallery__post"

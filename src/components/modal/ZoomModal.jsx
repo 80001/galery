@@ -4,7 +4,7 @@ import './styles.scss'
 
 const ZoomModal = (props) => {
   const { urls, id, username, user, dwnld, setModal, description, setPostModal, links } = props
-  const openModal = () => {
+  const closeModal = () => {
     setModal(false);
     document.body.style.overflow = '';
   };
@@ -12,12 +12,13 @@ const ZoomModal = (props) => {
     setPostModal(true)
   }
   return (
-    <div className="bg-modal">
+    <div className="bg-modal" onClick={closeModal}>
       <div className="modal">
-        <Link Link className="" to={`/`} onClick={openModal}>
+        <Link className="modal__img" to={`/`} onClick={closeModal}>
           < img
             src={urls}
             alt="img"
+            title='CLICK ON IMAGE TO ZOOM OUT'
             className="modal__img" />
         </Link>
         <Link className="modal__btns modal__post"
