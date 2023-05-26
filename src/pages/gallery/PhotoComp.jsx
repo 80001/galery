@@ -1,5 +1,5 @@
 //import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, } from "react-router-dom"
 import ZoomModal from "../../components/modal/ZoomModal"
 import { useState } from "react"
 import CreatePost from "../../components/modal/CreatePost"
@@ -9,10 +9,7 @@ const PhotoComp = ({ photo }) => {
     //const { modal, setModal } = useState(false)
 
     const dwnld = `Size: ${width}x${height}`
-    const navigate = useNavigate()
-    const handleComments = (e) => {
-        navigate('/')
-    }
+
     const [isModalOpen, setModalOpen] = useState(false);
     const [isPostModalOpen, setPostModalOpen] = useState(false);
 
