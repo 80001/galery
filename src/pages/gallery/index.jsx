@@ -22,13 +22,13 @@ const Gallery = () => {
         );
     } else {
         return (
-            <div className="galery">
-                <h2 className="galery__title">{'You`re images'}</h2>
-                <div className="galery__utils">
+            <div className="gallery">
+                <h2 className="gallery__title">{'You`re images'}</h2>
+                <div className="gallery__utils">
                     {/* <ViewChanger />
                     <Pages lastPage={data.total_pages} /> */}
                 </div>
-                <ul className={`galery__container`}>
+                <ul className={`gallery__container`}>
                     {(
                         <>
                             {dataAPI.results.map(photo => (

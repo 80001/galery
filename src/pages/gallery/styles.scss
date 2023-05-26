@@ -1,4 +1,4 @@
-.galery {
+.gallery {
     width: 100%;
     height: 100%;
     margin: 0 auto;
@@ -49,6 +49,11 @@
         position: relative;
         width: 100%;
         height: 100%;
+        &:hover{
+            .gallery__btns{
+                display: block;
+            }
+        }
     }
     &__item-small {
         width: 90%;
@@ -60,7 +65,25 @@
             object-fit: cover;
         }
     }
-
+    &__zoom{
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px;
+        border: 3px solid salmon;
+        background-color: rgba(223, 163, 156, 0.61);
+    }
+    &__post{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 5px;
+        border: 3px solid salmon;
+        background-color: rgba(223, 163, 156, 0.61);
+    }
+    &__btns{
+        display: none;
+    }
     &__img {
         &:hover{
             cursor: pointer;

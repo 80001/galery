@@ -1,0 +1,77 @@
+.bg-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.827);
+    width: 100%;
+    height: 100%;
+}
+.modal{
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    width: 80%;
+    height: 80%;
+&__zoom{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    border: 3px solid salmon;
+    background-color: rgba(223, 163, 156, 0.61);
+}
+&__post{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+    border: 3px solid salmon;
+    background-color: rgba(223, 163, 156, 0.61);
+}
+&__img {
+    &:hover{
+        cursor: pointer;
+    }
+    width: 100%;
+    height: 100%;
+}
+
+&__download {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    border: 3px solid salmon;
+    background-color: rgba(223, 163, 156, 0.61);
+}
+
+&__credit {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    padding: 5px;
+    border: 3px solid salmon;
+    background-color: rgba(223, 163, 156, 0.61);
+}
+
+&__subtitle {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding: 5px;
+    border: 3px solid salmon;
+    background-color: rgba(223, 163, 156, 0.61);
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 40ch;
+}
+}
