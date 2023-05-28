@@ -1,0 +1,23 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading {
+  border-radius: 50%;
+  width: 5em;
+  height: 5em;
+  position: relative;
+  animation: spin 1s infinite linear;
+  border: 0.3em solid #7b7b7b;
+  border-top-color: #333;
+  box-sizing: border-box;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

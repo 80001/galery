@@ -3,10 +3,13 @@ import { Link } from "react-router-dom"
 import './styles.scss'
 
 const ZoomModal = (props) => {
+  console.log('Modal component')
+
   const { urls, id, username, user, dwnld, setModal, description, setPostModal, links } = props
   const closeModal = () => {
     setModal(false);
     document.body.style.overflow = '';
+    window.history.pushState(null, '', '/')
   };
   const openPostModal = () => {
     setPostModal(true)
@@ -14,13 +17,12 @@ const ZoomModal = (props) => {
   return (
     <div className="bg-modal" onClick={closeModal}>
       <div className="modal">
-        <Link className="modal__img" to={`/`} onClick={closeModal}>
-          < img
-            src={urls}
-            alt="img"
-            title='CLICK ON IMAGE TO ZOOM OUT'
-            className="modal__img" />
-        </Link>
+        <img
+          onClick={closeModal}
+          src={urls}
+          alt="img"
+          title='CLICK ON IMAGE TO ZOOM OUT'
+          className="modal__img" />
         <Link className="modal__btns modal__post"
           to={`create_post/${id}`}
           onClick={openPostModal}>
@@ -40,7 +42,7 @@ const ZoomModal = (props) => {
         </a>
         <span className='modal__description'>{description}</span>
       </div>
-    </div>
+    </div >
   )
 }
 

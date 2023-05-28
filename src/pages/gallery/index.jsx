@@ -2,17 +2,20 @@ import React from 'react'
 import { UnsplashAPI } from '../../api/Unsplash'
 import PhotoComp from './PhotoComp'
 import './styles.scss'
+import Loader from '../../components/Loading';
 
 const Gallery = () => {
     const dataAPI = UnsplashAPI();
     console.log(dataAPI)
-
     if (dataAPI.results.length === 0) {
-        return (
-            <div className='gallery'>
-                <h2 className="gallery__title">Ask something else, beach!!!</h2>
-            </div>
-        );
+        if (dataAPI.results.total === 0) {
+            return (
+                <div className='gallery'>
+                    <h2 className="gallery__title">Ask something else, beach!!!</h2>
+                </div>
+            );
+        }
+        return <Loader />
     } else if (dataAPI.errors) {
         return (
             <div className='gallery'>

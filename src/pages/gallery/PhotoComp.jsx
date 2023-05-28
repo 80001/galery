@@ -1,10 +1,11 @@
 //import { useState } from "react"
-import { Link, } from "react-router-dom"
+import { Link, useNavigate, } from "react-router-dom"
 import ZoomModal from "../../components/modal/ZoomModal"
 import { useState } from "react"
 import CreatePost from "../../components/modal/CreatePost"
 
 const PhotoComp = ({ photo }) => {
+    const navigate = useNavigate()
     const { user, urls, width, height, links } = photo
     //const { modal, setModal } = useState(false)
 
@@ -16,13 +17,12 @@ const PhotoComp = ({ photo }) => {
     const openModal = () => {
         setModalOpen(true);
         document.body.style.overflow = 'hidden';
+        window.history.pushState(null, '', `/image/${photo.id}`)
     };
     const openPostModal = () => {
         setPostModalOpen(true);
         document.body.style.overflow = 'hidden';
     };
-
-    console.log(photo)
 
     return (
         <li className={`gallery__item`}>
@@ -41,14 +41,13 @@ const PhotoComp = ({ photo }) => {
                 {isPostModalOpen && (
                     <CreatePost setPost={setPostModalOpen} url={urls.regular} />
                 )}
-                <Link className="gallery__img" to={`image/${photo.id}`} onClick={openModal}>
-                    <img
-                        src={urls.regular}
-                        alt="img"
-                        className="gallery__img"
-                        title="CLICK ON IMAGE TO ZOOM IN"
-                    />
-                </Link>
+                <img
+                    src={urls.regular}
+                    onClick={openModal}
+                    alt="img"
+                    className="gallery__img"
+                    title="CLICK ON IMAGE TO ZOOM IN"
+                />
                 <Link className="gallery__btns gallery__post"
                     to={`create_post/${photo.id}`}
                     onClick={openPostModal}>
