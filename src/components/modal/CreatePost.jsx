@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import './styles.scss'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setOpenPostModal } from '../../store/gallery/gallery.action'
 
-const CreatePost = (props) => {
-  const { setPost, url } = props
+const CreatePost = ({ url }) => {
   const [inpUrl, setInpUrl] = useState(url)
   const params = useParams()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
 
   useEffect(() => {
@@ -14,8 +16,8 @@ const CreatePost = (props) => {
   }, [params])
 
   const closeModal = () => {
-    setPost(false);
     document.body.style.overflow = '';
+    dispatch(setOpenPostModal(false))
     navigate(-1)
   };
 

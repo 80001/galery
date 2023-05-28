@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
-import { userReducer } from "./user/user.reducer";
+import { UserReducer } from "./user/user.reducer";
 import { BlogReducer } from "./blog/blog.reducer";
 import { SearchReducer } from "./search/search.reducer";
+import { GalleryReducer } from "./gallery/gallery.reducer";
 
 export const rootReducer = combineReducers({
-    user: userReducer,
+    user: UserReducer,
     blog: BlogReducer,
-    search: SearchReducer
+    search: SearchReducer,
+    gallery: GalleryReducer
 })

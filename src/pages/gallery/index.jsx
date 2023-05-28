@@ -3,9 +3,12 @@ import { UnsplashAPI } from '../../api/Unsplash'
 import PhotoComp from './PhotoComp'
 import './styles.scss'
 import Loader from '../../components/Loading';
+import { useSelector } from 'react-redux';
+import { selectSearch } from '../../store/search/search.selector';
 
 const Gallery = () => {
     const dataAPI = UnsplashAPI();
+    const search = useSelector(selectSearch)
     console.log(dataAPI)
     if (dataAPI.results.length === 0) {
         if (dataAPI.results.total === 0) {
@@ -26,7 +29,7 @@ const Gallery = () => {
     } else {
         return (
             <div className="gallery">
-                <h2 className="gallery__title">{'You`re images'}</h2>
+                <h2 className="gallery__title">{search}</h2>
                 <div className="gallery__utils">
                     {/* <ViewChanger />
                     <Pages lastPage={data.total_pages} /> */}

@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     user: null,
     userName: null,
 }
-export const userReducer = (state = INITIAL_STATE, action) => {
+export const UserReducer = (state = INITIAL_STATE, action) => {
     const { type, payload } = action
 
     switch (type) {
