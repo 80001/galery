@@ -1,0 +1,46 @@
+.search{
+    display: flex;
+    flex: 1 0;
+    margin-left: 10px;
+    &__form{
+        height: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    &__input{
+        font-size: 18px;
+        padding: 10px 10px 10px 5px;
+        width: 80px;
+    }
+    &__input-value{
+        width: 100%;        
+        font-size: 18px;
+        padding: 10px 50px 10px 5px;
+        +.search__button{
+            display: block;
+        }
+    }
+    &__input:focus{
+        width: 100%;
+        padding-right: 50px;
+        +.search__button{
+            display: block;
+        }
+    }
+    &__button{
+        padding: 0 20px;
+        display: none;
+        position: absolute;
+        right: 0;
+        height: 100%;
+        border-radius: 10px;
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}

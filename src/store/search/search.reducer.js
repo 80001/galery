@@ -1,7 +1,7 @@
 import { SEARCH_ACTION_TYPES } from "./search.types"
 
 const INITIAL_STATE = {
-    search: '',
+    search: 'star wars',
     history: [],
     showComments: true,
     writeComments: false,
@@ -12,7 +12,8 @@ const INITIAL_STATE = {
     view: 'big',
     classChange: '',
 }
-export const searchReducer = (state = INITIAL_STATE, action) => {
+
+export const SearchReducer = (state = INITIAL_STATE, action) => {
     const { type, payload } = action
 
     switch (type) {

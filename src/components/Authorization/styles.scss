@@ -1,0 +1,16 @@
+.auth{
+    display: flex;
+    flex: 1 0;
+    &__title{
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        font-style: italic;
+    }
+    &__button{
+        margin-left: 10px;
+        text-align: center;
+        text-transform: uppercase;
+        padding: 10px 5px;
+    }
+}

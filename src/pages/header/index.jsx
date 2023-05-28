@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './styles.scss'
 import { Link, Outlet } from 'react-router-dom';
+import SearchImage from '../../components/Search';
 //import Authorization from '../Authorization';
 //import SearchImage from '../Search';
 
@@ -21,6 +22,9 @@ const Header = () => {
                     <Link to='/' className="header__logo-title">
                         Gallery
                     </Link>
+                </div>
+                <div className="header__search">
+                    <SearchImage />
                 </div>
                 {/* <SearchImage /> */}
                 <ul className={`header__links-wrap${open ? ' header__links-wrap--open' : ''}`}>
