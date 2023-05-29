@@ -14,13 +14,8 @@ const GalleryImage = () => {
     console.log(data)
     const dispatch = useDispatch()
     const isPostModalOpen = useSelector(selectOpenPostModal)
+    const setPostModalOpen = (bool) => dispatch(setOpenPostModal(bool))
 
-    const openModal = () => {
-        debugger
-        dispatch(setOpenModal(true))
-        document.body.style.overflow = 'hidden';
-        window.history.pushState(null, '', `/image/${data.id}`)
-    };
     const openPostModal = () => {
         dispatch(setOpenPostModal(true))
         document.body.style.overflow = 'hidden';
@@ -30,7 +25,7 @@ const GalleryImage = () => {
         return (
             <div className='image-page'>
                 {isPostModalOpen && (
-                    <CreatePost url={data.response.urls.regular} />
+                    <CreatePost url={data.response.urls.regular} setPost={setPostModalOpen} />
                 )}
                 <img
                     src={data.response.urls.regular}
@@ -55,7 +50,7 @@ const GalleryImage = () => {
                     rel="noreferrer"
                     className="image-page__btns image-page__credit">{data.response.user.name}
                 </a>
-                <span className='modal__description'>{data.response.description}</span>
+                <span className='modal__description'>{data.response.description || data.response.alt_description || 'Description`s gone!'}</span>
             </div>
         )
     } else {
