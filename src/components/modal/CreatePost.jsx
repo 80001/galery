@@ -6,9 +6,6 @@ import { useDispatch } from 'react-redux'
 
 const CreatePost = ({ url, setPost }) => {
   const params = useParams()
-  //const navigate = useNavigate()
-  //const dispatch = useDispatch()
-
 
   useEffect(() => {
     console.log('Params: ', params)
@@ -17,7 +14,7 @@ const CreatePost = ({ url, setPost }) => {
   const closeModal = () => {
     document.body.style.overflow = '';
     setPost(false)
-    //navigate(-1)
+    console.log('close')
     window.history.back()
   };
 

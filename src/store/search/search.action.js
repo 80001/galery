@@ -2,6 +2,7 @@ import { createAction } from "../../utils/reducer.utils"
 import { SEARCH_ACTION_TYPES } from "./search.types"
 
 export const setSearch = (search) => createAction(SEARCH_ACTION_TYPES.SET_SEARCH, search)
+export const setSearchBoolean = (bool) => createAction(SEARCH_ACTION_TYPES.SET_SEARCH_BOOLEAN, bool)
 export const setHistory = (history) => createAction(SEARCH_ACTION_TYPES.SET_HISTORY, history)
 export const setShowComments = (showComments) => createAction(SEARCH_ACTION_TYPES.SET_SHOW_COMMENTS, showComments)
 export const setWriteComments = (writeComments) => createAction(SEARCH_ACTION_TYPES.SET_WRITE_COMMENTS, writeComments)

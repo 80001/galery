@@ -13,6 +13,32 @@ const dataTemplate = {
     total: 0,
     total_pages: 0,
 }
+export const DefaultUnsplashAPI = () => {
+    const [data, setData] = useState(dataTemplate);
+    const query = 'star wars'
+    const page = '1'
+    const orientation = 'landscape'
+
+
+    useEffect(() => {
+        unsplash.search.getPhotos({
+            query,
+            page,
+            orientation,
+        }).then(result => {
+            console.log(page)
+            switch (result.type) {
+                case 'success':
+                    setData(result.response)
+                    break
+                default:
+                    console.log('error occurred: ', result.errors[0])
+                    break
+            }
+        })
+    }, [])
+    return data
+}
 
 export const UnsplashAPI = () => {
     const [data, setData] = useState(dataTemplate);
@@ -29,6 +55,7 @@ export const UnsplashAPI = () => {
             perPage,
             orientation,
         }).then(result => {
+            console.log(page)
             switch (result.type) {
                 case 'success':
                     setData(result.response)
@@ -38,7 +65,7 @@ export const UnsplashAPI = () => {
                     break
             }
         })
-    }, [query])
+    }, [query, page, perPage, orientation])
     return data
 }
 

@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     isLoading: false,
     view: 'big',
     classChange: '',
+    searchBoolean: false,
 }
 
 export const SearchReducer = (state = INITIAL_STATE, action) => {
@@ -66,6 +67,11 @@ export const SearchReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 classChange: payload
+            }
+        case SEARCH_ACTION_TYPES.SET_SEARCH_BOOLEAN:
+            return {
+                ...state,
+                searchBoolean: payload
             }
         default:
             return state

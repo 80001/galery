@@ -8,3 +8,4 @@ export const selectPerPage = (state) => state.search.perPage
 export const selectIsLoading = (state) => state.search.isLoading
 export const selectView = (state) => state.search.view
 export const selectClassChange = (state) => state.search.classChange
+export const selectSearchBoolean = (state) => state.search.searchBoolean

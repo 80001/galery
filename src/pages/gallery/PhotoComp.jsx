@@ -21,17 +21,16 @@ const PhotoComp = ({ photo }) => {
     const openModal = () => {
         setModalOpen(true)
         document.body.style.overflow = 'hidden';
-        window.history.pushState(null, '', `/image/${photo.id}`)
+        window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
     };
     const openPostModal = () => {
         setPostModalOpen(true);
         document.body.style.overflow = 'hidden'
-        window.history.pushState(null, '', `/create_post/${photo.id}`)
+        window.history.pushState(null, '', `${window.location.pathname}/create_post/${photo.id}`)
     };
 
     return (
         <li className={`gallery__item`}>
-            {console.log('comp: ', photo.id)}
             <div className="gallery__item-view">
                 {isModalOpen && (
                     <ZoomModal urls={urls.regular}

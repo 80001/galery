@@ -1,15 +1,17 @@
 import React from 'react'
-import { Link } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import './styles.scss'
 
 const ZoomModal = (props) => {
   const { urls, id, username, user, dwnld, setModal, description, setPostModal, links } = props
+  const params = useParams()
+  console.log('parsms :', params)
   console.log('Modal component: ', id)
   const closeModal = () => {
     setModal(false)
     console.log('close')
     document.body.style.overflow = '';
-    window.history.pushState(null, '', '/')
+    window.history.back()
   };
   const openPostModal = () => {
     setPostModal(true)

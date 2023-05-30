@@ -14,6 +14,7 @@ const SearchImage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        //dispatch(setPage(1))
         dispatch(setSearch(searchValue))
         console.log(searchValue)
         console.log(search)
@@ -23,7 +24,6 @@ const SearchImage = () => {
         setSearchValue('')
     }
     const handleChange = (e) => {
-        dispatch(setPage(1))
         setSearchValue(e.target.value)
         if (e.target.value.trim() === '') {
             setValue("")
