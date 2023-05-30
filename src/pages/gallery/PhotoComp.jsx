@@ -1,22 +1,22 @@
 import ZoomModal from "../../components/modal/ZoomModal"
 import { useState } from "react"
 import CreatePost from "../../components/modal/CreatePost"
-//import { useDispatch, useSelector } from "react-redux"
-//import { selectOpenModal, selectOpenPostModal } from "../../store/gallery/gallery.selector"
-//import { setOpenModal, setOpenPostModal } from "../../store/gallery/gallery.action"
+import { useDispatch, useSelector } from "react-redux"
+import { selectOpenModal, selectOpenPostModal } from "../../store/gallery/gallery.selector"
+import { setOpenModal, setOpenPostModal } from "../../store/gallery/gallery.action"
 
 const PhotoComp = ({ photo }) => {
-    //const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const { user, urls, width, height, links } = photo
     const dwnld = `Size: ${width}x${height}`
 
 
     const [isModalOpen, setModalOpen] = useState(false);
-    const [isPostModalOpen, setPostModalOpen] = useState(false);
+    //const [isPostModalOpen, setPostModalOpen] = useState(false);
     //const isModalOpen = useSelector(selectOpenModal)
-    //const isPostModalOpen = useSelector(selectOpenPostModal)
+    const isPostModalOpen = useSelector(selectOpenPostModal)
     //const setModalOpen = (bool) => dispatch(setOpenModal(bool))
-    //const setPostModalOpen = (bool) => dispatch(setOpenPostModal(bool))
+    const setPostModalOpen = (bool) => dispatch(setOpenPostModal(bool))
 
     const openModal = () => {
         setModalOpen(true)
@@ -44,7 +44,7 @@ const PhotoComp = ({ photo }) => {
                         description={photo.description || photo.alt_description || 'Description`s gone!'} />
                 )}
                 {isPostModalOpen && (
-                    <CreatePost setPost={setPostModalOpen} url={urls.regular} />
+                    <CreatePost />
                 )}
                 <img
                     src={urls.regular}

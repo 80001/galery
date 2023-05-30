@@ -10,9 +10,8 @@ const MainPage = () => {
     return (
         <div className='container'>
             <Routes>
-                <Route path='/' element={<Gallery />}>
-                    <Route path='/s/:search/:page' element={<Gallery />} />
-                </Route>
+                <Route path='/' element={<Gallery />} />
+                <Route path='/s/:search/:page' element={<Gallery />} />
                 <Route path='/s/:search/:page/:id' element={<GalleryImage />} />
                 <Route path='/s/:search/:page/create_post/:id' element={<GalleryImage showModal={true} />} />
                 <Route path='blog/*' element={<Blog />} />

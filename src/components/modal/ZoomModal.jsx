@@ -4,9 +4,6 @@ import './styles.scss'
 
 const ZoomModal = (props) => {
   const { urls, id, username, user, dwnld, setModal, description, setPostModal, links } = props
-  const params = useParams()
-  console.log('parsms :', params)
-  console.log('Modal component: ', id)
   const closeModal = () => {
     setModal(false)
     console.log('close')

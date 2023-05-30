@@ -9,22 +9,14 @@ import { selectOpenPostModal } from '../../store/gallery/gallery.selector'
 
 const GalleryImage = (props) => {
     const params = useParams()
-    console.log('12', params)
     const imageId = params.id
     const dispatch = useDispatch()
     const setPostModalOpen = (bool) => dispatch(setOpenPostModal(bool))
     if (props.showModal) {
-        //window.history.pushState(null, '', `s/${params.search}/${params.page}/${imageId}`)
-        //window.history.replaceState(null, '', `s/${params.search}/${params.page}/create_post/${imageId}`)
-        //window.history.replaceState(null, '', `create_post/${imageId}`)
-        console.log('show')
-
         setPostModalOpen(true)
     }
     const data = UnsplashImage(imageId)
-    console.log(data)
     const isPostModalOpen = useSelector(selectOpenPostModal)
-    console.log('aawfa', window.location.pathname)
 
     const openPostModal = () => {
         dispatch(setOpenPostModal(true))
@@ -36,7 +28,7 @@ const GalleryImage = (props) => {
         return (
             <div className='image-page'>
                 {isPostModalOpen && (
-                    <CreatePost url={data.response.urls.regular} setPost={setPostModalOpen} />
+                    <CreatePost />
                 )}
                 <img
                     src={data.response.urls.regular}

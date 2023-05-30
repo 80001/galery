@@ -1,20 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './styles.scss'
-import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-//import { setOpenPostModal } from '../../store/gallery/gallery.action'
+import { setOpenPostModal } from '../../store/gallery/gallery.action'
 
-const CreatePost = ({ url, setPost }) => {
-  const params = useParams()
-
-  useEffect(() => {
-    console.log('Params: ', params)
-  }, [params])
+const CreatePost = () => {
+  const dispatch = useDispatch()
+  const setPostModalOpen = (bool) => dispatch(setOpenPostModal(bool))
 
   const closeModal = () => {
     document.body.style.overflow = '';
-    setPost(false)
-    console.log('close')
+    setPostModalOpen(false)
+    console.log('create_post .BACK')
     window.history.back()
   };
 
