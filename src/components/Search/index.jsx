@@ -14,13 +14,9 @@ const SearchImage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        //dispatch(setPage(1))
+        dispatch(setPage(1))
         dispatch(setSearch(searchValue))
-        console.log(searchValue)
-        console.log(search)
-        console.log(history)
         handleHistory()
-        console.log(history)
         setSearchValue('')
     }
     const handleChange = (e) => {

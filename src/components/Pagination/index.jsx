@@ -1,9 +1,8 @@
-
-import Button from "../Buttons"
 import './styles.scss'
 import { useDispatch, useSelector } from "react-redux"
 import { selectPage } from "../../store/search/search.selector"
 import { setPage } from "../../store/search/search.action"
+import Button from '../Button'
 
 const Pages = ({ lastPage }) => {
 	const dispatch = useDispatch()
