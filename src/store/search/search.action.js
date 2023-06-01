@@ -8,6 +8,7 @@ export const setShowComments = (showComments) => createAction(SEARCH_ACTION_TYPE
 export const setWriteComments = (writeComments) => createAction(SEARCH_ACTION_TYPES.SET_WRITE_COMMENTS, writeComments)
 export const setOrientation = (orientation) => createAction(SEARCH_ACTION_TYPES.SET_ORIENTATION, orientation)
 export const setPage = (page) => createAction(SEARCH_ACTION_TYPES.SET_PAGE, page)
+export const setMorePage = (morePage) => createAction(SEARCH_ACTION_TYPES.SET_MORE_PAGE, morePage)
 export const setPerPage = (perPage) => createAction(SEARCH_ACTION_TYPES.SET_PER_PAGE, perPage)
 export const setIsLoading = (isLoading) => createAction(SEARCH_ACTION_TYPES.SET_IS_LOADING, isLoading)
 export const setView = (view) => createAction(SEARCH_ACTION_TYPES.SET_VIEW, view)

@@ -1,8 +1,9 @@
 import { createApi } from "unsplash-js";
 import { accessKey } from "../configs/UpscalesConfig";
 import { useEffect, useState } from "react";
-import { selectPage, selectPerPage, selectSearch, selectorientation } from "../store/search/search.selector";
-import { useSelector } from "react-redux";
+import { selectMorePage, selectPage, selectPerPage, selectSearch, selectorientation } from "../store/search/search.selector";
+import { useDispatch, useSelector } from "react-redux";
+import { setMorePage } from "../store/search/search.action";
 
 const unsplash = createApi({
     accessKey: accessKey,
@@ -41,12 +42,14 @@ export const DefaultUnsplashAPI = () => {
 }
 
 export const UnsplashAPI = () => {
-    const [data, setData] = useState(dataTemplate);
+    const dispatch = useDispatch
+    const [data, setData] = useState(dataTemplate)
     const query = useSelector(selectSearch)
     const page = useSelector(selectPage)
     const perPage = useSelector(selectPerPage)
     const orientation = useSelector(selectorientation)
-
+    console.log('main images map', page)
+    dispatch(setMorePage(1))
 
     useEffect(() => {
         unsplash.search.getPhotos({
@@ -55,7 +58,6 @@ export const UnsplashAPI = () => {
             perPage,
             orientation,
         }).then(result => {
-            console.log(page)
             switch (result.type) {
                 case 'success':
                     setData(result.response)
@@ -69,11 +71,56 @@ export const UnsplashAPI = () => {
     return data
 }
 
-export const UnsplashImage = (imageId) => {
+export const ShowMoreImage = () => {
+    const [data, setData] = useState(dataTemplate);
+    const query = useSelector(selectSearch)
+    let page = useSelector(selectPage) + useSelector(selectMorePage)
+    console.log('show more', page)
+
+    useEffect(() => {
+        unsplash.search.getPhotos({
+            query,
+            page,
+            orientation: 'landscape'
+        }).then(result => {
+            switch (result.type) {
+                case 'success':
+                    setData(result.response)
+                    break
+                default:
+                    console.log('error occurred: ', result.errors[0])
+                    break
+            }
+        })
+    }, [page])
+    return data.results
+}
+
+export const UnsplashImage = ({ imageId }) => {
     const [data, setData] = useState(null)
+    console.log('show one image')
     useEffect(() => {
         unsplash.photos.get({ photoId: imageId })
             .then(photo => setData(photo))
     }, [])
     return data
 }
+
+export const ShowRandomImages = () => {
+    const [data, setData] = useState(null);
+    console.log('random images')
+
+    useEffect(() => {
+        unsplash.photos
+            .getRandom({ count: 10, orientation: 'landscape' })
+            .then(response => {
+                setData(response);
+                console.log(response);
+            })
+            .catch(error => {
+                console.log('Error fetching random photos:', error);
+            });
+    }, []);
+
+    return data
+};

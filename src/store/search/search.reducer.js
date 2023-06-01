@@ -7,6 +7,7 @@ const INITIAL_STATE = {
     writeComments: false,
     orientation: 'landscape',
     page: 1,
+    morePage: 1,
     perPage: 10,
     isLoading: false,
     view: 'big',
@@ -47,6 +48,11 @@ export const SearchReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 page: payload
+            }
+        case SEARCH_ACTION_TYPES.SET_MORE_PAGE:
+            return {
+                ...state,
+                morePage: payload
             }
         case SEARCH_ACTION_TYPES.SET_PER_PAGE:
             return {

@@ -4,6 +4,7 @@ export const selectshowComments = (state) => state.search.showComments
 export const selectwriteComments = (state) => state.search.writeComments
 export const selectorientation = (state) => state.search.orientation
 export const selectPage = (state) => state.search.page
+export const selectMorePage = (state) => state.search.morePage
 export const selectPerPage = (state) => state.search.perPage
 export const selectIsLoading = (state) => state.search.isLoading
 export const selectView = (state) => state.search.view
