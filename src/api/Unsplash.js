@@ -43,13 +43,13 @@ export const DefaultUnsplashAPI = () => {
 
 export const UnsplashAPI = () => {
     const dispatch = useDispatch
+    dispatch(setMorePage(1))
     const [data, setData] = useState(dataTemplate)
     const query = useSelector(selectSearch)
     const page = useSelector(selectPage)
     const perPage = useSelector(selectPerPage)
     const orientation = useSelector(selectorientation)
     console.log('main images map', page)
-    dispatch(setMorePage(1))
 
     useEffect(() => {
         unsplash.search.getPhotos({
@@ -68,6 +68,7 @@ export const UnsplashAPI = () => {
             }
         })
     }, [query, page, perPage, orientation])
+    console.log('api', data)
     return data
 }
 
@@ -93,6 +94,7 @@ export const ShowMoreImage = () => {
             }
         })
     }, [page])
+    console.log('more', data)
     return data.results
 }
 

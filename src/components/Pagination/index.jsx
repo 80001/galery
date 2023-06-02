@@ -1,12 +1,13 @@
 import './styles.scss'
 import { useDispatch, useSelector } from "react-redux"
-import { selectPage } from "../../store/search/search.selector"
+import { selectMorePage, selectPage } from "../../store/search/search.selector"
 import { setPage } from "../../store/search/search.action"
 import Button from '../Button'
 
 const Pages = ({ lastPage }) => {
 	const dispatch = useDispatch()
 	const page = useSelector(selectPage)
+	const morePage = useSelector(selectMorePage)
 	const setPages = (num) => dispatch(setPage(num))
 
 	const pageDisabledMin = () => {
@@ -25,10 +26,10 @@ const Pages = ({ lastPage }) => {
 		if (page === lastPage) {
 			setPages(lastPage)
 		}
-		setPages(Number(page) + 1)
+		setPages(Number(page + morePage))
 	}
 	const pageSetMinus = () => {
-		if (page <= 1) {
+		if (page == 1) {
 			return page
 		}
 		setPages(Number(page) - 1)

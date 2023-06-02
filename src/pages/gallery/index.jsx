@@ -9,6 +9,7 @@ import Pages from '../../components/Pagination'
 import { useParams, useNavigate } from 'react-router-dom'
 import { setMorePage, setPage, setSearch } from '../../store/search/search.action'
 import Button from '../../components/Button'
+import ButtonToTop from '../../components/Button/ButtonToTop'
 
 const Gallery = () => {
     const params = useParams()
@@ -17,13 +18,11 @@ const Gallery = () => {
     const page = useSelector(selectPage)
     const morePage = useSelector(selectMorePage)
     const navigate = useNavigate()
-    let dataAPI = UnsplashAPI()
-    let moreDataAPI = ShowMoreImage()
+    const dataAPI = UnsplashAPI()
+    const moreDataAPI = ShowMoreImage()
     const [map, setMap] = useState(dataAPI.results)
 
-    //console.log(dataAPI)
-
-    //Check if URL changes
+    // Check if URL changes
     useEffect(() => {
         if (params.search && params.page) {
             const searchValue = params.search.replaceAll('-', ' ')
@@ -33,17 +32,17 @@ const Gallery = () => {
         }
     }, [params.search, params.page])
 
-    //Replace (%20 to -) for URL
+    // Replace (%20 to -) for URL
     useEffect(() => {
         setMap(dataAPI.results)
         navigate(`/s/${search.replaceAll(' ', '-')}/${page}`, { replace: true })
-    }, [search, page])
+        dispatch(setMorePage(1))
+        console.log(page, morePage)
+    }, [search, page, dataAPI.results])
 
     const showMore = () => {
         setMap([...map, ...moreDataAPI])
         dispatch(setMorePage(morePage + 1))
-        //navigate(`/s/${search.replaceAll(' ', '-')}/${page + 1}`, { replace: false })
-        console.log('map', map)
     }
 
     if (dataAPI.results.length === 0) {
@@ -62,16 +61,12 @@ const Gallery = () => {
                 <h2 className="gallery__title">PS: Make sure to set your access token!</h2>
             </div>
         )
-    } else if (map.length > 0) {
+    } else {
         return (
             <div className="gallery">
                 <h2 className="gallery__title">{search}</h2>
                 <div className="gallery__utils">
                     {/* <ViewChanger /> */}
-
-                    <Button className='gallery__btn gallery__btn-show'
-                        buttonType='dark'
-                        onClick={showMore}>SHOW MORE</Button>
                     <Pages lastPage={dataAPI.total_pages} />
                 </div>
                 <ul className={`gallery__container`}>
@@ -83,34 +78,15 @@ const Gallery = () => {
                         </>
                     )}
                 </ul>
-                <Button className='gallery__btn gallery__btn-show'
+                <Button
+                    className='gallery__btn gallery__btn-show'
                     buttonType='dark'
-                    onClick={showMore}>SHOW MORE</Button>
+                    onClick={showMore}
+                >
+                    SHOW MORE
+                </Button>
                 <Pages lastPage={dataAPI.total_pages} />
-            </div>
-        )
-    } else {
-        setMap([...dataAPI.results])
-        return (
-            <div className="gallery">
-                <h2 className="gallery__title">{search}</h2>
-                <div className="gallery__utils">
-                    {/* <ViewChanger /> */}
-                    <Pages lastPage={dataAPI.total_pages} />
-                </div>
-                <ul className={`gallery__container`}>
-                    {(
-                        <>
-                            {dataAPI.results.map(photo => (
-                                <PhotoComp key={photo.id} photo={photo} />
-                            ))}
-                        </>
-                    )}
-                </ul>
-                <Button className='gallery__btn gallery__btn-show'
-                    buttonType='dark'
-                    onClick={showMore}>SHOW MORE</Button>
-                <Pages lastPage={dataAPI.total_pages} />
+                <ButtonToTop />
             </div>
         )
     }

@@ -6,6 +6,10 @@
     &__utils{
         position: relative;
     }
+    &__btn-show{
+        display: flex;
+        margin: 0 auto;
+    }
     &__title {
         text-align: center;
         font-weight: bold;

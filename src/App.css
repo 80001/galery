@@ -107,7 +107,6 @@ body {
 }
 .content {
   flex: 1;
-  margin: 20px 0;
 }
 .app{
   position: relative;
@@ -118,4 +117,5 @@ body {
 .container{
   max-width: 1080px;
   margin: 0 auto;
+  height: 100%;
 }
