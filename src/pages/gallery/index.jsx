@@ -4,17 +4,19 @@ import PhotoComp from './PhotoComp'
 import './styles.scss'
 import Loader from '../../components/Loading'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectMorePage, selectPage, selectSearch } from '../../store/search/search.selector'
+import { selectClassChange, selectMorePage, selectPage, selectSearch, selectorientation } from '../../store/search/search.selector'
 import Pages from '../../components/Pagination'
 import { useParams, useNavigate } from 'react-router-dom'
 import { setMorePage, setPage, setSearch } from '../../store/search/search.action'
 import Button from '../../components/Button'
-import ButtonToTop from '../../components/Button/ButtonToTop'
+import ViewChanger from '../../components/ViewChanger'
 
 const Gallery = () => {
     const params = useParams()
     const dispatch = useDispatch()
     const search = useSelector(selectSearch)
+    const orientation = useSelector(selectorientation)
+    const classChange = useSelector(selectClassChange)
     const page = useSelector(selectPage)
     const morePage = useSelector(selectMorePage)
     const navigate = useNavigate()
@@ -30,6 +32,7 @@ const Gallery = () => {
             dispatch(setSearch(searchValue))
             dispatch(setPage(pageValue))
         }
+        // eslint-disable-next-line
     }, [params.search, params.page])
 
     // Replace (%20 to -) for URL
@@ -37,9 +40,12 @@ const Gallery = () => {
         setMap(dataAPI.results)
         navigate(`/s/${search.replaceAll(' ', '-')}/${page}`, { replace: true })
         dispatch(setMorePage(1))
-        console.log(page, morePage)
+        // eslint-disable-next-line
     }, [search, page, dataAPI.results])
 
+    useEffect(() => {
+        dispatch(setPage(1))
+    }, [orientation])
     const showMore = () => {
         setMap([...map, ...moreDataAPI])
         dispatch(setMorePage(morePage + 1))
@@ -66,10 +72,10 @@ const Gallery = () => {
             <div className="gallery">
                 <h2 className="gallery__title">{search}</h2>
                 <div className="gallery__utils">
-                    {/* <ViewChanger /> */}
+                    <ViewChanger />
                     <Pages lastPage={dataAPI.total_pages} />
                 </div>
-                <ul className={`gallery__container`}>
+                <ul className={`gallery__container${classChange}`}>
                     {(
                         <>
                             {map.map(photo => (
@@ -86,7 +92,6 @@ const Gallery = () => {
                     SHOW MORE
                 </Button>
                 <Pages lastPage={dataAPI.total_pages} />
-                <ButtonToTop />
             </div>
         )
     }

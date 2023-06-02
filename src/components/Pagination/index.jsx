@@ -29,7 +29,7 @@ const Pages = ({ lastPage }) => {
 		setPages(Number(page + morePage))
 	}
 	const pageSetMinus = () => {
-		if (page == 1) {
+		if (page === 1) {
 			return page
 		}
 		setPages(Number(page) - 1)

@@ -4,9 +4,11 @@ import CreatePost from "../../components/modal/CreatePost"
 import { useDispatch, useSelector } from "react-redux"
 import { selectOpenModal, selectOpenPostModal } from "../../store/gallery/gallery.selector"
 import { setOpenModal, setOpenPostModal } from "../../store/gallery/gallery.action"
+import { selectClassChange } from "../../store/search/search.selector"
 
 const PhotoComp = ({ photo }) => {
     const dispatch = useDispatch()
+    const classChange = useSelector(selectClassChange)
     const { user, urls, width, height, links } = photo
     const dwnld = `Size: ${width}x${height}`
 
@@ -30,7 +32,7 @@ const PhotoComp = ({ photo }) => {
     };
 
     return (
-        <li className={`gallery__item`}>
+        <li className={`gallery__item${classChange}`}>
             <div className="gallery__item-view">
                 {isModalOpen && (
                     <ZoomModal urls={urls.regular}
