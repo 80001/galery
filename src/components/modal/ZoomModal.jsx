@@ -1,18 +1,24 @@
 import React from 'react'
-import { useParams } from "react-router-dom"
 import './styles.scss'
+import { useDispatch } from 'react-redux'
+import { setCreatePostModal, setZoomModal } from '../../store/modals/modals.action'
 
 const ZoomModal = (props) => {
-  const { urls, id, username, user, dwnld, setModal, description, setPostModal, links } = props
+  const dispatch = useDispatch()
+  const { urls, id, username, user, onClose, description, links } = props
   const closeModal = () => {
-    setModal(false)
+    onClose()
+    dispatch(setZoomModal(false))
     console.log('close')
     document.body.style.overflow = '';
     window.history.back()
   };
   const openPostModal = () => {
-    setPostModal(true)
+    dispatch(setCreatePostModal(true))
     window.history.pushState(null, '', `create_post/${id}`)
+  }
+  if (id === 'none') {
+    dispatch(setZoomModal(false))
   }
   return (
     <div className="bg-modal">
@@ -31,7 +37,7 @@ const ZoomModal = (props) => {
         <a
           href={links}
           className="modal__btns modal__download"
-          title={dwnld}
+          title={'dwnld'}
         >Down⌊✓⌋load</a>
         <a
           href={`https://unsplash.com/@${username}`}

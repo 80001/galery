@@ -56,6 +56,7 @@
         &:hover{
             .gallery__btns{
                 display: block;
+                cursor: pointer;
             }
         }
     }
@@ -150,6 +151,18 @@
                 display: block;
             }
         }
+    &__error-code{
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 25px 0;
+    }
+    &__error-title{
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 20px 0;
+    }
     &__btns{
         display: none;
     }

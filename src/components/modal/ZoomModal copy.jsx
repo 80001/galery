@@ -4,7 +4,8 @@ import React from 'react'
 import { Link } from "react-router-dom"
 import './styles.scss'
 import { useDispatch } from 'react-redux'
-import { setOpenModal, setOpenPostModal } from '../../store/gallery/gallery.action'
+import { setOpenModal } from '../../store/gallery/gallery.action'
+import { setCreatePostModal } from '../../store/modals/modals.action'
 
 const ZoomModal = (props) => {
   const { urls, id, username, user, dwnld, description, links } = props
@@ -17,7 +18,7 @@ const ZoomModal = (props) => {
   };
 
   const openPostModal = () => {
-    dispatch(setOpenPostModal(true))
+    dispatch(setCreatePostModal(true))
   }
 
   return (

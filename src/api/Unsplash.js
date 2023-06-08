@@ -97,9 +97,9 @@ export const ShowMoreImage = () => {
     return data.results
 }
 
-export const UnsplashImage = ({ imageId }) => {
+export const UnsplashImage = (imageId) => {
     const [data, setData] = useState(null)
-    console.log('show one image')
+    console.log('show one image', imageId)
     useEffect(() => {
         unsplash.photos.get({ photoId: imageId })
             .then(photo => setData(photo))

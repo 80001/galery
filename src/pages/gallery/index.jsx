@@ -10,6 +10,9 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { setMorePage, setPage, setSearch } from '../../store/search/search.action'
 import Button from '../../components/Button'
 import ViewChanger from '../../components/ViewChanger'
+import { selectCreatePostModal, selectZoomModal } from '../../store/modals/modals.selector'
+import CreatePostModal from '../../components/modal/CreatePostModal'
+import ZoomModal from '../../components/modal/ZoomModal'
 
 const Gallery = () => {
     const params = useParams()
@@ -23,7 +26,12 @@ const Gallery = () => {
     const dataAPI = UnsplashAPI()
     const moreDataAPI = ShowMoreImage()
     const [map, setMap] = useState(dataAPI.results)
+    const isPostModalOpen = useSelector(selectCreatePostModal)
+    const isZoomModalOpen = useSelector(selectZoomModal)
 
+
+    useEffect(() => {
+    }, [isPostModalOpen, isZoomModalOpen])
     // Check if URL changes
     useEffect(() => {
         if (params.search && params.page) {
@@ -51,6 +59,24 @@ const Gallery = () => {
         dispatch(setMorePage(morePage + 1))
     }
 
+    const [selectedPhoto, setSelectedPhoto] = useState({
+        urls: 'none',
+        links: 'none',
+        id: 'none',
+        username: 'none',
+        user: 'none',
+        description: 'Description`s gone!',
+        alt_description: 'Description`s gone!',
+    });
+
+    const handlePhotoClick = (photoData) => {
+        setSelectedPhoto(photoData)
+    };
+
+    const handleCloseModal = () => {
+        setSelectedPhoto(null);
+    };
+    console.log(window.history.length)
     if (dataAPI.results.length === 0) {
         if (dataAPI.total === 0) {
             return (
@@ -79,11 +105,24 @@ const Gallery = () => {
                     {(
                         <>
                             {map.map(photo => (
-                                <PhotoComp key={photo.id} photo={photo} />
+                                <PhotoComp key={photo.id} photo={photo} callBack={handlePhotoClick} />
                             ))}
                         </>
                     )}
                 </ul>
+                {isZoomModalOpen && (
+                    <ZoomModal
+                        onClose={handleCloseModal}
+                        urls={selectedPhoto.urls.regular}
+                        links={selectedPhoto.links.download}
+                        id={selectedPhoto.id}
+                        username={selectedPhoto.user.username}
+                        user={selectedPhoto.user.name}
+                        description={selectedPhoto.description || selectedPhoto.alt_description || 'Description`s gone!'} />
+                )}
+                {isPostModalOpen && (
+                    <CreatePostModal />
+                )}
                 <Button
                     className='gallery__btn gallery__btn-show'
                     buttonType='dark'

@@ -1,36 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles.scss'
 import { setUser, setUserName } from '../../store/user/user.action'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectUser, selectUserName } from '../../store/user/user.selector'
-import { googleSignOut, signInWithGooglePopUp, userInfo } from '../../api/Firebase'
+import { googleSignOut } from '../../api/Firebase'
 import Button from '../Button'
+import AuthorizationModal from '../modal/AuthorizationModal'
+import { setAuthorizationModal } from '../../store/modals/modals.action'
+import { selectAuthorizationModal } from '../../store/modals/modals.selector'
 
 const Authorization = () => {
     const user = useSelector(selectUser)
     const userName = useSelector(selectUserName)
     const dispatch = useDispatch()
-
-    const logGoogleUser = async () => {
-        if (user) {
-            googleSignOut()
-            dispatch(setUser(null))
-            dispatch(setUserName(null))
-        } else {
-            const { user } = await signInWithGooglePopUp();
-            //localStorage.setItem('token', user.accessToken);
-            //localStorage.setItem('user', user);
-            userInfo(user)
-            dispatch(setUser(user))
-            dispatch(setUserName(user.displayName))
-            console.log(user, userName)
-        }
+    const authModal = useSelector(selectAuthorizationModal)
+    const setAuthModal = () => {
+        dispatch(setAuthorizationModal(true))
+        document.body.style.overflow = 'hidden';
+        window.history.pushState(null, '', 'auth')
+    }
+    const logout = async () => {
+        googleSignOut()
+        dispatch(setUser(null))
+        dispatch(setUserName(null))
+    }
+    if (user) {
+        dispatch(setAuthorizationModal(false))
     }
 
     return (
         <div className="auth">
             <h2 className='auth__title'>Hello,{user ? ` ${userName}!` : ' Guest!'}</h2>
-            <Button className='auth__button' onClick={logGoogleUser}>{user ? 'Sign Out' : "Sign In"}</Button>
+            {authModal && <AuthorizationModal setModal={setAuthModal} />}
+            {user
+                ?
+                <Button className='auth__button' onClick={logout}>Sign Out</Button>
+                :
+                <Button className='auth__button' onClick={setAuthModal}>Sign In</Button>
+            }
         </div>
     )
 }

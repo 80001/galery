@@ -2,19 +2,21 @@
 
 import { Link } from "react-router-dom"
 import ZoomModal from "../../components/modal/ZoomModal"
-import CreatePost from "../../components/modal/CreatePost"
+import CreatePostModal from "../../components/modal/CreatePostModal"
 import { useDispatch, useSelector } from "react-redux"
-import { selectOpenModal, selectOpenPostModal } from "../../store/gallery/gallery.selector"
-import { setOpenModal, setOpenPostModal } from "../../store/gallery/gallery.action"
+import { selectOpenModal } from "../../store/gallery/gallery.selector"
+import { setOpenModal } from "../../store/gallery/gallery.action"
+import { selectCreatePostModal } from "../../store/modals/modals.selector"
+import { setCreatePostModal } from "../../store/modals/modals.action"
 
 const PhotoComp = ({ photo }) => {
     const { user, urls, width, height, links } = photo
     const dispatch = useDispatch()
     const dwnld = `Size: ${width}x${height}`
     const isModalOpen = useSelector(selectOpenModal)
-    const isPostModalOpen = useSelector(selectOpenPostModal)
+    const isPostModalOpen = useSelector(selectCreatePostModal)
     const setModalOpen = (bool) => dispatch(setOpenModal(bool))
-    const setPostModalOpen = (bool) => dispatch(setOpenPostModal(bool))
+    const setPostModalOpen = (bool) => dispatch(setCreatePostModal(bool))
 
     const openModal = () => {
         setModalOpen(true)
@@ -22,7 +24,7 @@ const PhotoComp = ({ photo }) => {
         window.history.pushState(null, '', `/image/${photo.id}`)
     };
     const openPostModal = () => {
-        setPostModalOpen(true)
+        setCreatePostModal(true)
         document.body.style.overflow = 'hidden';
     };
 
@@ -41,7 +43,7 @@ const PhotoComp = ({ photo }) => {
                         description={photo.description || photo.alt_description} />
                 )}
                 {isPostModalOpen && (
-                    <CreatePost url={urls.regular} />
+                    <CreatePostModal url={urls.regular} />
                 )}
                 <img
                     src={urls.regular}
