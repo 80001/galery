@@ -1,50 +1,59 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import Button from '../Button'
-//import './styles.scss'
-import { setUser, setUserName } from '../../store/user/user.action'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectUser, selectUserName } from '../../store/user/user.selector'
-import { googleSignOut, signInWithGooglePopUp, userInfo } from '../../api/Firebase'
+import { setUser, setUserImage, setUserName } from '../../store/user/user.action'
+import { useDispatch } from 'react-redux'
+import { createUserDoc, signInWithEmail, signInWithGooglePopUp, userInfo } from '../../api/Firebase'
 import { useState } from 'react'
 import { ReactComponent as Show } from '../../media/show.svg'
 import { ReactComponent as Hide } from '../../media/hide.svg'
-import { setAuthorizationModal } from '../../store/modals/modals.action'
+import { useNavigate } from 'react-router-dom'
 
 const SignInForm = () => {
-    const user = useSelector(selectUser)
-    const userName = useSelector(selectUserName)
-    const dispatch = useDispatch()
-    const [show, setShow] = useState(false)
+    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const [show, setShow] = useState(false);
 
     const logGoogleUser = async () => {
-        if (user) {
-            googleSignOut()
-            dispatch(setUser(null))
-            dispatch(setUserName(null))
-            dispatch(setAuthorizationModal(false))
-        } else {
-            const { user } = await signInWithGooglePopUp();
-            //localStorage.setItem('token', user.accessToken);
-            //localStorage.setItem('user', user);
-            userInfo(user)
-            dispatch(setUser(user))
-            dispatch(setUserName(user.displayName))
-            console.log(user, userName)
-            dispatch(setAuthorizationModal(false))
-        }
-    }
+        const { user } = await signInWithGooglePopUp()
+        createUserDoc(user)
+        dispatch(setUser(user))
+        dispatch(setUserName(user.displayName))
+        dispatch(setUserImage(user.photoURL))
+        localStorage.setItem('user', JSON.stringify(user))
+        navigate(-1)
+    };
     const initialValues = {
         email: '',
         password: '',
-    }
-    const onSubmit = (values) => {
-        console.log(values)
-        values = initialValues
-    }
+    };
+    const onSubmit = async (values, { resetForm }) => {
+        console.log(values);
+        try {
+            const user = await signInWithEmail(values.email, values.password)
+            console.log(user)
+            dispatch(setUser(user.user))
+            dispatch(setUserName(user.user.displayName))
+            dispatch(setUserImage(user.photoURL))
+            localStorage.setItem('user', JSON.stringify(user.user))
+            resetForm()
+            navigate(-1)
+        } catch (error) {
+            switch (error.code) {
+                case 'auth/wrong-password':
+                    alert('Incorrect password for Email');
+                    break;
+                case 'auth/user-not-found':
+                    alert('No user with this Email');
+                    break;
+                default:
+                    console.log(error);
+            }
+        }
+    };
     const showPass = () => {
-        if (show) return 'text'
-        else return 'password'
-    }
+        if (show) return 'text';
+        else return 'password';
+    };
     return (
         <div className='modal-auth__sign-in'>
             <Formik initialValues={initialValues} onSubmit={onSubmit} >
@@ -85,7 +94,7 @@ const SignInForm = () => {
                         <Button type='submit'
                             buttonType='dark'
                             className='sign-in__button-sub'>SIGN IN</Button>
-                        <Button className='auth__button' onClick={logGoogleUser}>{user ? 'Sign Out' : "Sign In with google"}</Button>
+                        <Button type='button' className='auth__button' onClick={logGoogleUser}>Sign In with google</Button>
                     </div>
                 </Form>
             </Formik>

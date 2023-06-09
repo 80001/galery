@@ -4,22 +4,47 @@ import { useState } from 'react'
 import { ReactComponent as Show } from '../../media/show.svg'
 import { ReactComponent as Hide } from '../../media/hide.svg'
 import { useDispatch } from 'react-redux'
-import { setAuthorizationModal } from '../../store/modals/modals.action'
+//import { signsSchema } from './Schemas'
+import { createUserDoc, signUpWithEmail } from '../../api/Firebase'
+import { setUser, setUserImage, setUserName } from '../../store/user/user.action'
+import { useNavigate } from 'react-router-dom'
 
 const SignUpForm = () => {
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
+    const navigate = useNavigate()
     const initialValues = {
         email: '',
         name: '',
         password: '',
         passwordCheck: '',
     }
-    const onSubmit = (values) => {
-        console.log(values)
-        values = initialValues
+    const onSubmit = async (values, { resetForm }) => {
+        const { email, name, password, passwordCheck } = values
+        if (password !== passwordCheck) {
+            alert('Passwords do not match!');
+        }
+        try {
+            const userCredential = await signUpWithEmail(email, password, name)
+            const user = userCredential.user
+            console.log(userCredential)
+            console.log(user)
+            await createUserDoc(user)
+            dispatch(setUser(user))
+            dispatch(setUserName(user.displayName))
+            dispatch(setUserImage(user.photoURL))
+            localStorage.setItem('user', JSON.stringify(user))
+            navigate(-1)
+        } catch (error) {
+            if (error.code === 'auth/email-already-in-use') {
+                alert('This email is already registered!');
+            } else {
+                console.log('User creation encountered an error:', error);
+            }
+        }
+        resetForm();
+    };
 
-    }
     const showPass = () => {
         if (show) return 'text'
         else return 'password'
@@ -27,7 +52,7 @@ const SignUpForm = () => {
 
     return (
         <div className='modal-auth__sign-up'>
-            <Formik initialValues={initialValues} onSubmit={onSubmit} >
+            <Formik initialValues={initialValues} onSubmit={onSubmit}>
                 <Form className="sign-up__form" >
                     <div className="sign-up__form-titles">
                         <label className="sign-up__titles-title title-up">Sign Up</label>
@@ -43,7 +68,7 @@ const SignUpForm = () => {
                             <label htmlFor="email" id='email-l'
                                 className="form-wrap__form-email label"
                             >Email:</label>
-                            <ErrorMessage name='email' component='div' />
+                            <ErrorMessage name='email' component='p' className='errors' />
                         </div>
                         <div className="sign-up__form-wrap">
                             <Field type='text'
@@ -54,7 +79,7 @@ const SignUpForm = () => {
                             <label htmlFor="name" id='name-l'
                                 className="form-wrap__form-name label"
                             >Name:</label>
-                            <ErrorMessage name='name' component='div' />
+                            <ErrorMessage name='name' component='p' className='errors' />
                         </div>
                         <div className="sign-up__form-wrap">
                             <Field type={showPass()}
@@ -65,7 +90,7 @@ const SignUpForm = () => {
                             <label htmlFor="password" id='password-l'
                                 className="form-wrap__form-pass label"
                             >Password:</label>
-                            <ErrorMessage name='password' component='div' />
+                            <ErrorMessage name='password' component='p' className='errors' />
                             <span
                                 onClick={() => { setShow(!show) }}
                                 className='form-wrap__button'
@@ -80,7 +105,7 @@ const SignUpForm = () => {
                             <label htmlFor="passwordCheck" id='passwordCheck-l'
                                 className="form-wrap__form-pass-check label"
                             >Check Password:</label>
-                            <ErrorMessage name='passwordCheck' component='div' />
+                            <ErrorMessage name='passwordCheck' component='p' className='errors' />
                             <span
                                 onClick={() => { setShow(!show) }}
                                 className='form-wrap__button'
@@ -88,10 +113,10 @@ const SignUpForm = () => {
                         </div>
                     </div>
                     <div className="sign-up__form-buttons">
-                        <Button type='submit'
-                            buttonType='dark'
-                            className='sign-up__button-sub'>Submit</Button>
                     </div>
+                    <Button type='submit'
+                        buttonType='dark'
+                        className='sign-up__button-sub'>Submit</Button>
                 </Form>
             </Formik>
         </div>

@@ -3,12 +3,16 @@ import { initializeApp } from "firebase/app";
 import 'firebase/auth';
 import {
     GoogleAuthProvider,
+    updateProfile,
     getAuth,
     signInWithPopup,
     signOut,
-    signInWithRedirect
+    signInWithRedirect,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged
 } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, setDoc } from 'firebase/firestore'
 import { firebaseConfig } from "../configs/FirebaseConfig";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -17,18 +21,22 @@ import { firebaseConfig } from "../configs/FirebaseConfig";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth()
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
     prompt: "select_account"
 })
+export const auth = getAuth()
 export const db = getFirestore(app)
 const usersCollection = collection(db, 'users')
+
 //Google Sign In
 export const signInWithGooglePopUp = () => signInWithPopup(auth, provider)
 export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider)
-
-
+//Mail Sign In
+export const signInWithEmail = async (email, password) => {
+    if (!email || !password) return
+    return await signInWithEmailAndPassword(auth, email, password)
+}
 //Sign Out
 export const googleSignOut = () => {
     try {
@@ -37,16 +45,96 @@ export const googleSignOut = () => {
     }
     catch (error) { console.log(error) }
 }
-//CreateUserInfo
-export const userInfo = async (user) => {
-    const userDocRef = doc(db, 'users', user.uid)
-    const userData = {
-        name: user.displayName,
-        email: user.email,
-        img: user.photoURL,
-        uid: user.uid
+//SignIn with UID
+
+//Mail Sign Up
+export const signUpWithEmail = async (email, password, name) => {
+    if (!email || !password || !name) return;
+
+    try {
+        const result = await createUserWithEmailAndPassword(auth, email, password);
+        const user = result.user;
+
+        await updateProfile(user, {
+            displayName: name,
+            photoURL: `robohash.org/${email}`
+        });
+
+        return result;
+    } catch (error) {
+        throw error;
     }
-    await setDoc(userDocRef, userData)
+};
+
+
+//CreateUserInfo from Sign Up
+export const createUserDoc = async (userAuth) => {
+    const userDocRef = doc(db, 'users', userAuth.uid);
+
+
+    const userSnapshot = await getDoc(userDocRef)
+
+    if (!userSnapshot.exists()) {
+        let { email, displayName, photoURL } = userAuth
+        console.log(userAuth)
+        const createAt = new Date()
+
+        try {
+            await setDoc(userDocRef, {
+                displayName,
+                email,
+                createAt,
+                photoURL
+            })
+            console.log(userSnapshot)
+        } catch (error) {
+            console.log('error creating the user', error.message)
+        }
+    }
+
+    return userDocRef
+}
+//CreateUserInfo
+/* export const userInfo = async (user) => {
+    const userDocRef = doc(db, 'users', user.uid);
+
+    try {
+        const docSnapshot = await getDoc(userDocRef);
+        if (!docSnapshot.exists()) {
+            const userData = {
+                name: user.displayName,
+                email: user.email,
+                img: user.photoURL,
+                uid: user.uid
+            };
+
+            await setDoc(userDocRef, userData);
+        }
+    } catch (error) {
+        throw error;
+    }
+}; */
+
+
+export const addUser = async (email, name, password) => {
+    try {
+        const date = new Date()
+        const docRef = await addDoc(usersCollection, {
+            email,
+            name,
+            password,
+            date,
+            id: docRef.id,
+        })
+        console.log('Doc', docRef.id)
+    } catch (e) {
+        console.error('Error: ', e)
+    }
+}
+
+
+export const onAuthStateChangedListner = (callback) => {
+    onAuthStateChanged(auth, callback)
 }
 
 //addPost

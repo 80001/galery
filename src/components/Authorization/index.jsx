@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import './styles.scss'
 import { setUser, setUserName } from '../../store/user/user.action'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,16 +17,19 @@ const Authorization = () => {
     const setAuthModal = () => {
         dispatch(setAuthorizationModal(true))
         document.body.style.overflow = 'hidden';
-        window.history.pushState(null, '', 'auth')
+        window.history.pushState(null, '', `${window.location.pathname}/auth`)
     }
     const logout = async () => {
         googleSignOut()
         dispatch(setUser(null))
         dispatch(setUserName(null))
+        localStorage.removeItem('user')
     }
-    if (user) {
-        dispatch(setAuthorizationModal(false))
-    }
+    useEffect(() => {
+        if (user) {
+            dispatch(setAuthorizationModal(false))
+        }
+    }, [user, dispatch])
 
     return (
         <div className="auth">

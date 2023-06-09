@@ -285,6 +285,13 @@
                     width: 85%;
                 }
             }
+            .errors{
+                position: absolute;
+                bottom: -20px;
+                right:  5px;
+                transition: bottom 0.3s;
+                background-color: #ffffff76;
+            }
             .input:not(:placeholder-shown) + .label,
             .input:focus +.label{
                 transition: top 0.2s bottom 0.3s;
