@@ -27,6 +27,7 @@ provider.setCustomParameters({
 })
 export const auth = getAuth()
 export const db = getFirestore(app)
+const postsCollection = collection(db, "posts");
 
 //Google Sign In
 export const signInWithGooglePopUp = () => signInWithPopup(auth, provider)
@@ -93,31 +94,39 @@ export const createUserDoc = async (userAuth) => {
 
     return userDocRef
 }
-
 //Check Log changes ??
 export const onAuthStateChangedListner = (callback) => {
     onAuthStateChanged(auth, callback)
 }
 
 //addPost
-export const addPosts = async (title, subtitle, img, text, id) => {
-    if (title === '' || subtitle === '' || img === '' || text === '') return
+export const addPosts = async (title, subtitle, image, text, author) => {
+    if (title === '' || subtitle === '' || image === '' || text === '') {
+        alert('Fill all lines!')
+        return
+    }
     try {
-        const docRef = await addDoc(collection(db, 'posts', 'myhaEGaAMS9fY3q4nT'), {
+        const querySnapshot = await getDocs(postsCollection)
+        const docCount = querySnapshot.size
+
+        await addDoc(postsCollection, {
+            id: docCount + 1,
             title,
             subtitle,
-            img,
+            image,
             text,
-            id
-        })
-        console.log('Doc', docRef.id)
+            author,
+            date: new Date(),
+        });
+
     } catch (e) {
         console.error('Error: ', e)
     }
 }
+
 export const getPosts = async () => {
-    const postsCollection = collection(db, "posts");
     const postsSnapshot = await getDocs(postsCollection);
+    //console.log(postsSnapshot);
     const posts = [];
 
     postsSnapshot.forEach((postDoc) => {
@@ -128,6 +137,7 @@ export const getPosts = async () => {
 
     return posts;
 };
+
 //deletePost
 export const deletePosts = async (postId) => {
     try {

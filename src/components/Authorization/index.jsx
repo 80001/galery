@@ -28,6 +28,7 @@ const Authorization = () => {
     useEffect(() => {
         if (user) {
             dispatch(setAuthorizationModal(false))
+            document.body.style.overflow = '';
         }
     }, [user, dispatch])
 

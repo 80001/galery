@@ -24,7 +24,7 @@ Main Page:
 - Enable filters for Image
 - Enable sorting for image
 - Enable pages for image(by 10 per page) and "Show more" Image
-- Enable create post with image
+- Enable create post with image only Auth user
 - Enable preview with post/show in Blog
 - Enable download image
 - Enable link with author of Image
@@ -40,9 +40,11 @@ Blog Page:
 - Enable sorting for posts
 - Enable pages for image(by 10 per page) and "Show more" Image
 - Enable create post with image/title/subtitle/text
-- Enable to "delete" posts
+- Enable to "delete" posts by author
 
 Auth Page:
-- Create Authorithation with Google
+- Auto log in
+- Disabled if not auth user
+- Create Authorithation with Google/Mail
 - Show posts created by author
-- Show comments for posts
+- Show comments for my posts
