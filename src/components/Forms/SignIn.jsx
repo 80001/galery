@@ -1,8 +1,9 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
+import './styles.scss'
 import Button from '../Button'
 import { setUser, setUserImage, setUserName } from '../../store/user/user.action'
 import { useDispatch } from 'react-redux'
-import { createUserDoc, signInWithEmail, signInWithGooglePopUp, userInfo } from '../../api/Firebase'
+import { createUserDoc, signInWithEmail, signInWithGooglePopUp } from '../../api/Firebase'
 import { useState } from 'react'
 import { ReactComponent as Show } from '../../media/show.svg'
 import { ReactComponent as Hide } from '../../media/hide.svg'
@@ -55,7 +56,7 @@ const SignInForm = () => {
         else return 'password';
     };
     return (
-        <div className='modal-auth__sign-in'>
+        <>
             <Formik initialValues={initialValues} onSubmit={onSubmit} >
                 <Form className="sign-in__form" >
                     <div className="sign-in__form-titles">
@@ -98,7 +99,7 @@ const SignInForm = () => {
                     </div>
                 </Form>
             </Formik>
-        </div>
+        </>
     )
 }
 

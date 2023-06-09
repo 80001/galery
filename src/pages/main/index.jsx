@@ -13,7 +13,7 @@ const MainPage = () => {
                 <Route path='/' element={<Gallery />} />
                 <Route path='/s/:search/:page' element={<Gallery />} />
                 <Route path='/s/:search/:page/:id' element={<GalleryImage />} />
-                <Route path='/s/:search/:page/create_post/:id' element={<GalleryImage showModal={true} />} />
+                <Route path='/s/:search/:page/:create/:id' element={<GalleryImage />} />
                 <Route path='blog/*' element={<Blog />} />
                 <Route path='account' element={<Account />}>
                 </Route>

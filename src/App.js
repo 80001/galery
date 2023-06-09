@@ -20,6 +20,7 @@ function App() {
     } else {
       console.log('There is no log')
     }
+    // eslint-disable-next-line
   }, [])
   return (
     <div className="app">

@@ -27,7 +27,6 @@ provider.setCustomParameters({
 })
 export const auth = getAuth()
 export const db = getFirestore(app)
-const usersCollection = collection(db, 'users')
 
 //Google Sign In
 export const signInWithGooglePopUp = () => signInWithPopup(auth, provider)
@@ -94,51 +93,14 @@ export const createUserDoc = async (userAuth) => {
 
     return userDocRef
 }
-//CreateUserInfo
-/* export const userInfo = async (user) => {
-    const userDocRef = doc(db, 'users', user.uid);
 
-    try {
-        const docSnapshot = await getDoc(userDocRef);
-        if (!docSnapshot.exists()) {
-            const userData = {
-                name: user.displayName,
-                email: user.email,
-                img: user.photoURL,
-                uid: user.uid
-            };
-
-            await setDoc(userDocRef, userData);
-        }
-    } catch (error) {
-        throw error;
-    }
-}; */
-
-
-export const addUser = async (email, name, password) => {
-    try {
-        const date = new Date()
-        const docRef = await addDoc(usersCollection, {
-            email,
-            name,
-            password,
-            date,
-            id: docRef.id,
-        })
-        console.log('Doc', docRef.id)
-    } catch (e) {
-        console.error('Error: ', e)
-    }
-}
-
-
+//Check Log changes ??
 export const onAuthStateChangedListner = (callback) => {
     onAuthStateChanged(auth, callback)
 }
 
 //addPost
-/* export const addPosts = async (title, subtitle, img, text, id) => {
+export const addPosts = async (title, subtitle, img, text, id) => {
     if (title === '' || subtitle === '' || img === '' || text === '') return
     try {
         const docRef = await addDoc(collection(db, 'posts', 'myhaEGaAMS9fY3q4nT'), {
@@ -152,7 +114,7 @@ export const onAuthStateChangedListner = (callback) => {
     } catch (e) {
         console.error('Error: ', e)
     }
-} */
+}
 export const getPosts = async () => {
     const postsCollection = collection(db, "posts");
     const postsSnapshot = await getDocs(postsCollection);

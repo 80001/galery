@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UnsplashImage } from '../../api/Unsplash'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,23 +7,22 @@ import CreatePostModal from '../../components/modal/CreatePostModal'
 import { selectCreatePostModal } from '../../store/modals/modals.selector'
 import { setCreatePostModal } from '../../store/modals/modals.action'
 
-const GalleryImage = (props) => {
-    const { id: imageId } = useParams()
+const GalleryImage = () => {
+    const { id: imageId, create: createPost } = useParams()
     const data = UnsplashImage(imageId)
-    console.log(imageId)
     const dispatch = useDispatch()
-    if (props.showModal) {
-        dispatch(setCreatePostModal(true))
-    }
+    useEffect(() => {
+        if (createPost) dispatch(setCreatePostModal(true))
+        // eslint-disable-next-line
+    }, [createPost])
     const isPostModalOpen = useSelector(selectCreatePostModal)
 
     const openPostModal = () => {
         dispatch(setCreatePostModal(true))
         document.body.style.overflow = 'hidden';
         window.history.pushState(null, '', `create_post/${imageId}`)
-    };
+    }
     if (data) {
-        console.log(data)
         if (data.type === 'error') {
             return (
                 <div className="image-page">

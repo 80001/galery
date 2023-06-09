@@ -53,6 +53,7 @@ const Gallery = () => {
 
     useEffect(() => {
         dispatch(setPage(1))
+        // eslint-disable-next-line
     }, [orientation])
     const showMore = () => {
         setMap([...map, ...moreDataAPI])
@@ -75,8 +76,7 @@ const Gallery = () => {
 
     const handleCloseModal = () => {
         setSelectedPhoto(null);
-    };
-    console.log(window.history.length)
+    }
     if (dataAPI.results.length === 0) {
         if (dataAPI.total === 0) {
             return (

@@ -17,8 +17,8 @@ const AuthorizationModal = () => {
 
   return (
     <div className='bg-modal' onClick={closeModal}>
-      <div className="modal-post" onClick={e => e.stopPropagation()}>
-        <Button className="modal-post__button-close"
+      <div className="modal-form" onClick={e => e.stopPropagation()}>
+        <Button className="modal-form__button-close"
           buttonType='white'
           onClick={closeModal}>Close</Button>
         <div className="modal-auth">

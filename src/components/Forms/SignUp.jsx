@@ -1,5 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import Button from '../Button'
+import './styles.scss'
 import { useState } from 'react'
 import { ReactComponent as Show } from '../../media/show.svg'
 import { ReactComponent as Hide } from '../../media/hide.svg'
@@ -51,7 +52,7 @@ const SignUpForm = () => {
     }
 
     return (
-        <div className='modal-auth__sign-up'>
+        <>
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
                 <Form className="sign-up__form" >
                     <div className="sign-up__form-titles">
@@ -113,13 +114,13 @@ const SignUpForm = () => {
                         </div>
                     </div>
                     <div className="sign-up__form-buttons">
+                        <Button type='submit'
+                            buttonType='dark'
+                            className='sign-up__button-sub'>Submit</Button>
                     </div>
-                    <Button type='submit'
-                        buttonType='dark'
-                        className='sign-up__button-sub'>Submit</Button>
                 </Form>
             </Formik>
-        </div>
+        </>
     )
 }
 
