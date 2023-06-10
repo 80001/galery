@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux"
-import { setCreatePostModal, setFullPost, setPhoto, setZoomModal } from "../../store/modals/modals.action"
+import { useDispatch } from "react-redux"
+import { setCreatePostModal, setFullPost, setPhoto } from "../../store/modals/modals.action"
 import Loader from "../../components/Loading"
 import { useState } from "react"
 
@@ -56,8 +56,8 @@ const BlogComponent = ({ photo }) => {
                     onLoad={handleLoadImage}
                 />
                 <div className="blog__item-view-bottom">
-                    <h4 className="blog__item-view-titles">Descriptions:</h4>
-                    <h4 className="blog__item-view-titles">Author:</h4>
+                    <h4 className="blog__item-view-titles" >Descriptions:</h4>
+                    <h4 className="blog__item-view-titles" onClick={openPostModal}>Author:</h4>
                     <p className="blog__item-view-text">{shortText}{text.length > shortText.length ? "..." : ''}</p>
                     <span className="blog__item-view-author buttons">{author}</span>
                 </div>

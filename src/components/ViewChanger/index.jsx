@@ -18,7 +18,7 @@ const ViewChanger = () => {
             //document.querySelector('.gallery__container').classList.remove('gallery__container-small')
 
         }
-    }, [view])
+    }, [view, dispatch])
     return (
         <div className="filter">
             <div className="filter__orientation">
