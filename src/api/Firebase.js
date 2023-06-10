@@ -76,7 +76,6 @@ export const createUserDoc = async (userAuth) => {
 
     if (!userSnapshot.exists()) {
         let { email, displayName, photoURL } = userAuth
-        console.log(userAuth)
         const createAt = new Date()
 
         try {
@@ -86,7 +85,6 @@ export const createUserDoc = async (userAuth) => {
                 createAt,
                 photoURL
             })
-            console.log(userSnapshot)
         } catch (error) {
             console.log('error creating the user', error.message)
         }
@@ -137,6 +135,20 @@ export const getPosts = async () => {
 
     return posts;
 };
+export const getPostById = async (id) => {
+    try {
+        const docRef = doc(db, 'posts', id)
+        const docSnapshot = await getDoc(docRef)
+        if (docSnapshot.exists()) {
+            const documentData = docSnapshot.data()
+            return documentData
+        } else {
+            console.log('wrong ID')
+        }
+    } catch (error) {
+        console.error('Error', error)
+    }
+}
 
 //deletePost
 export const deletePosts = async (postId) => {

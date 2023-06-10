@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { UnsplashImage } from '../../api/Unsplash'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,6 +22,10 @@ const GalleryImage = () => {
         document.body.style.overflow = 'hidden';
         window.history.pushState(null, '', `create_post/${imageId}`)
     }
+    const [isLoad, setIsLoad] = useState(true)
+    const handleLoadImage = () => {
+        setIsLoad(false)
+    }
     if (data) {
         if (data.type === 'error') {
             return (
@@ -32,7 +36,8 @@ const GalleryImage = () => {
             )
         } else {
             return (
-                <div className='image-page'>
+                <div className='image-page' onLoad={handleLoadImage}>
+                    {isLoad && <Loader />}
                     {isPostModalOpen && (
                         <CreatePostModal />
                     )}

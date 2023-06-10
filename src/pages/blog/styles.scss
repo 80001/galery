@@ -4,16 +4,31 @@
     margin          : 0 auto;
     background-color: #6e6b6b;
 
+    &__modal {
+        position: fixed;
+        left    : 50%;
+        top     : 50%;
+    }
+
     &__utils {
-        position: relative;
-        margin  : 15px 0;
+        position  : relative;
+        min-height: 60px;
+    }
+
+    &__subtitle {
+        text-align    : center;
+        font-weight   : 500;
+        text-transform: uppercase;
+        text-shadow   : 1px 1px 2px wheat;
     }
 
     &__title {
+        font-size     : 25px;
         text-align    : center;
         font-weight   : bold;
         text-transform: uppercase;
         margin        : 20px 0;
+        text-shadow   : 2px 2px 4px wheat;
     }
 
     &__container {
@@ -41,36 +56,16 @@
     }
 
     &__item-view {
-        position: relative;
-        width   : 100%;
-        height  : 100%;
-
-        &:hover {
-            .buttons {
-                display: block;
-                cursor : pointer;
-            }
-        }
-
-        &-date {
-            position        : absolute;
-            top             : 0;
-            right           : 0;
-            padding         : 5px;
-            border          : 3px solid salmon;
-            background-color: rgba(223, 163, 156, 0.61);
-        }
-
-        &-author {
-            position        : absolute;
-            bottom          : 0;
-            right           : 0;
-            padding         : 5px;
-            border          : 3px solid salmon;
-            background-color: rgba(223, 163, 156, 0.61);
-        }
+        position   : relative;
+        width      : 100%;
+        height     : 100%;
+        line-height: 22px;
+        border     : 1px dotted #000;
+        box-shadow : 2px 2px 4px rosybrown;
 
         &-img {
+            box-shadow: 1px 1px 2px rosybrown;
+
             &:hover {
                 cursor: pointer;
             }
@@ -81,37 +76,36 @@
             height     : 100%;
         }
 
-        &-title {
-            position        : absolute;
-            top             : 0;
-            left            : 0;
-            margin          : auto;
-            border          : 1px solid#6e6b6b;
-            padding         : 5px;
-            border          : 3px solid salmon;
-            background-color: rgba(223, 163, 156, 0.61);
+        &-bottom {
+            display              : grid;
+            grid-template-rows   : repeat(2, 1fr);
+            /* Два рядки з однаковою висотою */
+            grid-template-columns: 2fr 1fr;
+            /* Перший стовпець займає 2/3 ширини, другий - 1/3 */
+            grid-gap             : 10px;
+            background-color     : #fff;
         }
 
-        &-subtitle {
-            position        : absolute;
-            bottom          : 0px;
-            left            : 50%;
-            transform       : translate(-50%);
-            padding         : 5px;
-            border          : 3px solid salmon;
-            background-color: rgba(223, 163, 156, 0.61);
+        &-top {
+            display              : grid;
+            grid-template-rows   : repeat(2, 1fr);
+            /* Два рядки з однаковою висотою */
+            grid-template-columns: repeat(3, 1fr);
+            /* Три колонки з однаковою шириною */
+            background-color     : #a59898;
+            grid-gap             : 10px;
         }
 
-        &-text {
-            position : absolute;
-            left     : 50%;
-            transform: translate(-50%);
+        &-titles {
+            font-size  : 15px;
+            font-weight: 500;
         }
+
 
 
         .buttons {
-            cursor : none;
-            display: none;
+            font-family: 'Times New Roman', Times, serif;
+            font-style : oblique;
         }
     }
 
@@ -124,6 +118,82 @@
             width     : 100%;
             height    : 100%;
             object-fit: cover;
+        }
+    }
+}
+
+.post-page {
+    width : 100%;
+    height: 100%;
+
+    &__view {
+        margin    : 0 auto;
+        text-align: center;
+
+        &-top {
+            display              : grid;
+            grid-template-rows   : repeat(2, 1fr);
+            /* Два рядки з однаковою висотою */
+            grid-template-columns: repeat(3, 1fr);
+            /* Три колонки з однаковою шириною */
+            background-color     : #a59898;
+            grid-gap             : 10px;
+
+            span {
+                width : 100%;
+                margin: 5px;
+            }
+        }
+
+        &-img {
+            box-shadow: 1px 1px 2px rosybrown;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            display    : flex;
+            align-items: center;
+            width      : 100%;
+            height     : 100%;
+        }
+
+        &-bottom {
+            display              : grid;
+            grid-template-rows   : 1fr;
+            /* Два рядки з однаковою висотою */
+            grid-template-columns: 2fr 1fr;
+            /* Перший стовпець займає 2/3 ширини, другий - 1/3 */
+            grid-gap             : 10px;
+
+            span {
+                width : 100%;
+                margin: 15px;
+            }
+
+        }
+
+        &-titles {
+            margin-top : 15px;
+            font-size  : 15px;
+            font-weight: 500;
+        }
+
+        &-text {
+            width    : 50%;
+            word-wrap: break-word;
+        }
+
+        &-author {
+            width: 30%;
+        }
+
+
+
+        .buttons {
+            font-family: 'Times New Roman', Times, serif;
+            font-style : oblique;
+            text-align : center;
         }
     }
 }

@@ -69,13 +69,9 @@ const Gallery = () => {
         description: 'Description`s gone!',
         alt_description: 'Description`s gone!',
     });
-
-    const handlePhotoClick = (photoData) => {
-        setSelectedPhoto(photoData)
-    };
-
-    const handleCloseModal = () => {
-        setSelectedPhoto(null);
+    const [isLoad, setIsLoad] = useState(true)
+    const handleLoadImage = () => {
+        setIsLoad(false)
     }
     if (dataAPI.results.length === 0) {
         if (dataAPI.total === 0) {
@@ -95,30 +91,24 @@ const Gallery = () => {
         )
     } else {
         return (
-            <div className="gallery">
+            <div className="gallery" onLoad={handleLoadImage}>
+                {isLoad && <Loader />}
                 <h2 className="gallery__title">{search}</h2>
                 <div className="gallery__utils">
                     <ViewChanger />
                     <Pages lastPage={dataAPI.total_pages} />
                 </div>
-                <ul className={`gallery__container${classChange}`}>
+                <ul className={`gallery__container${classChange}`} >
                     {(
                         <>
                             {map.map(photo => (
-                                <PhotoComp key={photo.id} photo={photo} callBack={handlePhotoClick} />
+                                <PhotoComp key={photo.id} photo={photo} />
                             ))}
                         </>
                     )}
                 </ul>
                 {isZoomModalOpen && (
-                    <ZoomModal
-                        onClose={handleCloseModal}
-                        urls={selectedPhoto.urls.regular}
-                        links={selectedPhoto.links.download}
-                        id={selectedPhoto.id}
-                        username={selectedPhoto.user.username}
-                        user={selectedPhoto.user.name}
-                        description={selectedPhoto.description || selectedPhoto.alt_description || 'Description`s gone!'} />
+                    <ZoomModal />
                 )}
                 {isPostModalOpen && (
                     <CreatePostModal />

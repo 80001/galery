@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectClassChange } from "../../store/search/search.selector"
-import { setCreatePostModal, setZoomModal } from "../../store/modals/modals.action"
+import { setCreatePostModal, setPhoto, setZoomModal } from "../../store/modals/modals.action"
+import Loader from "../../components/Loading"
+import { useState } from "react"
 
 const PhotoComp = ({ photo, callBack }) => {
     const dispatch = useDispatch()
@@ -9,7 +11,7 @@ const PhotoComp = ({ photo, callBack }) => {
     const dwnld = `Size: ${width}x${height}`
 
     const openModal = () => {
-        callBack(photo)
+        dispatch(setPhoto(photo))
         dispatch(setZoomModal(true))
         document.body.style.overflow = 'hidden';
         window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
@@ -19,9 +21,14 @@ const PhotoComp = ({ photo, callBack }) => {
         document.body.style.overflow = 'hidden'
         window.history.pushState(null, '', `${window.location.pathname}/create_post/${photo.id}`)
     };
-
+    const [isLoad, setIsLoad] = useState(true)
+    const handleLoadImage = () => {
+        setIsLoad(false)
+    }
     return (
-        <li className={`gallery__item${classChange}`}>
+        <li className={`gallery__item${classChange}`}
+            onLoad={handleLoadImage}>
+            {isLoad && <Loader />}
             <div className="gallery__item-view">
                 <img
                     src={urls.regular}
