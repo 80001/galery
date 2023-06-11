@@ -5,9 +5,11 @@ import { addPosts } from '../../api/Firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAuthorizationModal, setCreatePostModal } from '../../store/modals/modals.action'
 import { selectUser } from '../../store/user/user.selector'
+import { selectPhoto } from '../../store/modals/modals.selector'
 
 const CreatePostForm = () => {
     const dispatch = useDispatch()
+    const imageUrl = useSelector(selectPhoto)
 
     const author = useSelector(selectUser)
     const initialValues = {
@@ -16,9 +18,13 @@ const CreatePostForm = () => {
         image: '',
         text: '',
     }
+    if (imageUrl) {
+        initialValues.image = imageUrl
+    }
     const onSubmit = (values, { resetForm }) => {
         const { title, subtitle, image, text } = values
         addPosts(title, subtitle, image, text, author.email)
+        initialValues.image = ''
         resetForm()
         document.body.style.overflow = '';
         dispatch(setCreatePostModal(false))
@@ -37,6 +43,7 @@ const CreatePostForm = () => {
     if (!author) {
         ask()
     } else {
+        console.log(imageUrl)
         return (
             <div className="create-post">
                 <Formik initialValues={initialValues} onSubmit={onSubmit} >

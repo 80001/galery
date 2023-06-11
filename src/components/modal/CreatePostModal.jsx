@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '../Button'
 import './styles.scss'
 import { useDispatch } from 'react-redux'
-import { setCreatePostModal } from '../../store/modals/modals.action'
+import { setCreatePostModal, setPhoto } from '../../store/modals/modals.action'
 import CreatePostForm from '../Forms/CreatePost'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,9 +12,9 @@ const CreatePostModal = () => {
 
   const closeModal = () => {
     document.body.style.overflow = '';
-    //let x = window.history.back()
     let x = navigate(-1)
     dispatch(setCreatePostModal(false))
+    dispatch(setPhoto(null))
     window.history.replaceState(null, '', x)
   }
 

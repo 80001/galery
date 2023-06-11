@@ -8,12 +8,10 @@ import Loader from '../Loading'
 const ZoomModal = () => {
   const dispatch = useDispatch()
   const photo = useSelector(selectPhoto)
-  console.log(photo)
   const { urls, id, user, description, alt_description, links } = photo
   const closeModal = () => {
     dispatch(setPhoto(null))
     dispatch(setZoomModal(false))
-    console.log('close')
     document.body.style.overflow = '';
     window.history.back()
   };
