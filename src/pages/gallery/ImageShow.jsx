@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../components/Loading'
 import CreatePostModal from '../../components/modal/CreatePostModal'
 import { selectCreatePostModal } from '../../store/modals/modals.selector'
-import { setCreatePostModal } from '../../store/modals/modals.action'
+import { setCreatePostModal, setPhoto } from '../../store/modals/modals.action'
 
 const GalleryImage = () => {
     const { id: imageId, create: createPost } = useParams()
@@ -19,6 +19,7 @@ const GalleryImage = () => {
 
     const openPostModal = () => {
         dispatch(setCreatePostModal(true))
+        dispatch(setPhoto(data.response.urls.full))
         document.body.style.overflow = 'hidden';
         window.history.pushState(null, '', `create_post/${imageId}`)
     }
