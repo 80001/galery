@@ -1,3 +1,4 @@
+//Background modal 100%x100%
 .bg-modal {
     position        : fixed;
     top             : 0;
@@ -8,6 +9,7 @@
     height          : 100%;
 }
 
+//Middle modal
 .modal {
     position: absolute;
     left    : 0;
@@ -18,55 +20,82 @@
     width   : 61%;
     height  : 80%;
 
-    &__description {
-        position        : absolute;
-        bottom          : 05%;
-        left            : 0;
-        right           : 0;
-        font-size       : 18px;
-        font-family     : 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        font-style      : italic;
-        letter-spacing  : 1px;
-        background-color: #ffffff90;
-        width           : fit-content;
-        margin          : 0 auto;
-        padding         : 5px;
-        text-transform  : uppercase;
-    }
+    //Modal descriptions
 
-    &__zoom {
-        position        : absolute;
-        top             : 0;
-        right           : 0;
-        padding         : 5px;
-        border          : 3px solid salmon;
-        background-color: rgba(223, 163, 156, 0.61);
-    }
+    //Zoom modal styles
+    &-zoom {
+        position: relative;
+        width   : 100%;
+        height  : 100%;
+        border  : 3px solid salmon;
 
-    &__post {
-        position        : absolute;
-        bottom          : 0;
-        right           : 0;
-        padding         : 5px;
-        border          : 3px solid salmon;
-        background-color: rgba(223, 163, 156, 0.61);
-    }
-
-    &__img {
-        &:hover {
-            cursor: pointer;
+        &__description {
+            position        : absolute;
+            bottom          : 05%;
+            left            : 0;
+            right           : 0;
+            font-size       : 18px;
+            font-family     : 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-style      : italic;
+            letter-spacing  : 1px;
+            background-color: #ffffff90;
+            width           : fit-content;
+            margin          : 0 auto;
+            padding         : 5px;
+            text-transform  : uppercase;
         }
 
-        display        : flex;
-        align-items    : center;
-        justify-content: center;
-        width          : 100%;
-        height         : 100%;
+        &__post {
+            position        : absolute;
+            bottom          : 0;
+            right           : 0;
+            padding         : 5px;
+            border          : 3px solid salmon;
+            background-color: rgba(223, 163, 156, 0.61);
+        }
 
-        img {
+        .click {
+            padding: 30px;
+            cursor : pointer;
+            stroke : white;
+
+            &:hover {
+                svg {
+                    transform: scale(1.2);
+                }
+            }
+        }
+
+        &__prew-image {
+            position : absolute;
+            left     : -100px;
+            top      : 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        &__next-image {
+            position : absolute;
+            right    : -100px;
+            top      : 50%;
+            transform: translate(50%, -50%);
+        }
+
+        &__img {
+            &:hover {
+                cursor: pointer;
+            }
+
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+            width          : 100%;
+            height         : 100%;
+
             img {
-                width : 100%;
-                height: 100%;
+                img {
+                    width : 100%;
+                    height: 100%;
+                }
             }
         }
 
@@ -83,39 +112,41 @@
             background-color: rgba(223, 163, 156, 0.61);
             text-transform  : uppercase;
         }
+
+        &__download {
+            position        : absolute;
+            top             : 0;
+            left            : 0;
+            padding         : 5px;
+            border          : 3px solid salmon;
+            background-color: rgba(223, 163, 156, 0.61);
+        }
+
+        &__credit {
+            position        : absolute;
+            bottom          : 0px;
+            left            : 0px;
+            padding         : 5px;
+            border          : 3px solid salmon;
+            background-color: rgba(223, 163, 156, 0.61);
+        }
+
+        &__subtitle {
+            position        : absolute;
+            bottom          : 0px;
+            right           : 0px;
+            padding         : 5px;
+            border          : 3px solid salmon;
+            background-color: rgba(223, 163, 156, 0.61);
+            display         : inline-block;
+            white-space     : nowrap;
+            overflow        : hidden;
+            text-overflow   : ellipsis;
+            max-width       : 40ch;
+        }
     }
 
-    &__download {
-        position        : absolute;
-        top             : 0;
-        left            : 0;
-        padding         : 5px;
-        border          : 3px solid salmon;
-        background-color: rgba(223, 163, 156, 0.61);
-    }
 
-    &__credit {
-        position        : absolute;
-        bottom          : 0px;
-        left            : 0px;
-        padding         : 5px;
-        border          : 3px solid salmon;
-        background-color: rgba(223, 163, 156, 0.61);
-    }
-
-    &__subtitle {
-        position        : absolute;
-        bottom          : 0px;
-        right           : 0px;
-        padding         : 5px;
-        border          : 3px solid salmon;
-        background-color: rgba(223, 163, 156, 0.61);
-        display         : inline-block;
-        white-space     : nowrap;
-        overflow        : hidden;
-        text-overflow   : ellipsis;
-        max-width       : 40ch;
-    }
 }
 
 .modal-form {

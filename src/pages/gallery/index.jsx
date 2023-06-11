@@ -13,6 +13,7 @@ import ViewChanger from '../../components/ViewChanger'
 import { selectCreatePostModal, selectZoomModal } from '../../store/modals/modals.selector'
 import CreatePostModal from '../../components/modal/CreatePostModal'
 import ZoomModal from '../../components/modal/ZoomModal'
+import { setPhotoMap } from '../../store/modals/modals.action'
 
 const Gallery = () => {
     const params = useParams()
@@ -46,10 +47,10 @@ const Gallery = () => {
     // Replace (%20 to -) for URL
     useEffect(() => {
         setMap(dataAPI.results)
-        navigate(`/s/${search.replaceAll(' ', '-')}/${page}`, { replace: true })
+        navigate(`/s/${search.replaceAll(' ', '-')}/${page}`, { replace: false })
         dispatch(setMorePage(1))
         // eslint-disable-next-line
-    }, [search, page, dataAPI.results])
+    }, [dataAPI.results])
 
     useEffect(() => {
         dispatch(setPage(1))
@@ -59,16 +60,6 @@ const Gallery = () => {
         setMap([...map, ...moreDataAPI])
         dispatch(setMorePage(morePage + 1))
     }
-
-    const [selectedPhoto, setSelectedPhoto] = useState({
-        urls: 'none',
-        links: 'none',
-        id: 'none',
-        username: 'none',
-        user: 'none',
-        description: 'Description`s gone!',
-        alt_description: 'Description`s gone!',
-    });
     const [isLoad, setIsLoad] = useState(true)
     const handleLoadImage = () => {
         setIsLoad(false)
@@ -90,6 +81,9 @@ const Gallery = () => {
             </div>
         )
     } else {
+        if (map) {
+            dispatch(setPhotoMap(map))
+        }
         return (
             <div className="gallery" onLoad={handleLoadImage}>
                 {isLoad && <Loader />}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Gallery from '../gallery'
 import Blog from '../blog'
@@ -7,7 +7,9 @@ import GalleryImage from '../gallery/ImageShow'
 import FullPost from '../blog/FullPost'
 
 const MainPage = () => {
-
+    useEffect(() => {
+        console.log(window.history.length)
+    }, [window.history.length])
     return (
         <div className='container'>
             <Routes>

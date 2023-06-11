@@ -1,16 +1,17 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectClassChange } from "../../store/search/search.selector"
-import { setCreatePostModal, setPhoto, setZoomModal } from "../../store/modals/modals.action"
+import { setCreatePostModal, setPhoto, setPhotoId, setZoomModal } from "../../store/modals/modals.action"
 import Loader from "../../components/Loading"
 import { useState } from "react"
 
-const PhotoComp = ({ photo, callBack }) => {
+const PhotoComp = ({ photo }) => {
     const dispatch = useDispatch()
     const classChange = useSelector(selectClassChange)
-    const { user, urls, width, height, links } = photo
+    const { user, urls, width, height, links, id } = photo
     const dwnld = `Size: ${width}x${height}`
 
     const openModal = () => {
+        dispatch(setPhotoId(id))
         dispatch(setPhoto(photo))
         dispatch(setZoomModal(true))
         document.body.style.overflow = 'hidden';

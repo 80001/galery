@@ -64,15 +64,13 @@ const GalleryImage = () => {
                         rel="noreferrer"
                         className="image-page__btns image-page__credit">{data.response.user.name}
                     </a>
-                    <span className='modal__description'>{data.response.description || data.response.alt_description || 'Description`s gone!'}</span>
+                    <span className='image-page__description'>{data.response.description || data.response.alt_description || 'Description`s gone!'}</span>
                 </div>
             )
         }
     } else {
         return (
             <div className="image-page">
-                <h2 className="image-page__error-code">DUMB-CODE!</h2>
-                <h3 className="image-page__error-title">SHIT! It`s happend aGaiN! Call 9-1-1</h3>
                 <Loader />
             </div>
         )

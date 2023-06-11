@@ -102,6 +102,14 @@ export const UnsplashImage = (imageId) => {
     }, [imageId])
     return data
 }
+export const UnsplashImageRelated = (imageId) => {
+    const [data, setData] = useState(null)
+    useEffect(() => {
+        unsplash.collections.getRelated({ collectionId: imageId })
+            .then(photo => setData(photo))
+    }, [imageId])
+    return data
+}
 
 export const ShowRandomImages = () => {
     const [data, setData] = useState(null);

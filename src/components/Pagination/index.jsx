@@ -23,18 +23,21 @@ const Pages = ({ lastPage }) => {
 		return false
 	}
 	const pageSetPlus = () => {
+		//window.history.pushState(null, '', `${window.location.pathname}`)
 		if (page === lastPage) {
 			setPages(lastPage)
 		}
 		setPages(Number(page + morePage))
 	}
 	const pageSetMinus = () => {
+		//window.history.pushState(null, '', `${window.location.pathname}`)
 		if (page === 1) {
 			return page
 		}
 		setPages(Number(page) - 1)
 	}
 	const pageEnter = (e) => {
+		//window.history.pushState(null, '', `${window.location.pathname}`)
 		setPages(e.target.value)
 	}
 

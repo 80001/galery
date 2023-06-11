@@ -2,6 +2,8 @@ import { MODALS_ACTION_TYPES } from "./modals.types"
 
 const INITIAL_STATE = {
     photo: null,
+    photoId: null,
+    photoMap: null,
     authorization: false,
     createPost: false,
     zoom: false,
@@ -15,6 +17,16 @@ export const ModalReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 photo: payload
+            }
+        case MODALS_ACTION_TYPES.SET_PHOTO_ID:
+            return {
+                ...state,
+                photoId: payload
+            }
+        case MODALS_ACTION_TYPES.SET_PHOTO_MAP:
+            return {
+                ...state,
+                photoMap: payload
             }
         case MODALS_ACTION_TYPES.SET_AUTHORIZATION:
             return {

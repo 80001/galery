@@ -1,13 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './styles.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCreatePostModal, setPhoto, setZoomModal } from '../../store/modals/modals.action'
-import { selectPhoto } from '../../store/modals/modals.selector'
+import { selectPhoto, selectPhotoId, selectPhotoMap } from '../../store/modals/modals.selector'
 import Loader from '../Loading'
 
 const ZoomModal = () => {
   const dispatch = useDispatch()
+  const photoId = useSelector(selectPhotoId)
   const photo = useSelector(selectPhoto)
+  const photoMap = useSelector(selectPhotoMap)
+  const [findPhoto, setFindPhoto] = useState(null)
+  const [isLoad, setIsLoad] = useState(true)
+  useEffect(() => {
+    if (photoMap) {
+      const x = photoMap.findIndex((obj) => obj.id === photoId)
+      dispatch(setPhoto(photoMap[x]))
+      setFindPhoto(x)
+
+    }
+  }, [photoMap, photoId, dispatch])
   const { urls, id, user, description, alt_description, links } = photo
   const closeModal = () => {
     dispatch(setPhoto(null))
@@ -19,44 +31,90 @@ const ZoomModal = () => {
     dispatch(setCreatePostModal(true))
     window.history.pushState(null, '', `create_post/${id}`)
   }
+  const nextImage = () => {
+    if (findPhoto === photoMap.length - 1) {
+      dispatch(setPhoto(photoMap[0]))
+      setFindPhoto(0)
+    } else {
+      const nextPhoto = photoMap[findPhoto + 1]
+      if (nextPhoto) {
+        dispatch(setPhoto(photoMap[findPhoto + 1]))
+        setFindPhoto(findPhoto + 1)
+      }
+    }
+  }
+  const prewImage = () => {
+    if (findPhoto === 0) {
+      dispatch(setPhoto(photoMap[photoMap.length - 1]))
+      setFindPhoto(photoMap.length - 1)
+    } else {
+      const prewPhoto = photoMap[findPhoto - 1]
+      if (prewPhoto) {
+        dispatch(setPhoto(photoMap[findPhoto - 1]))
+        setFindPhoto(findPhoto - 1)
+      }
+    }
+  }
   if (id === 'none') {
     dispatch(setZoomModal(false))
   }
-  const [isLoad, setIsLoad] = useState(true)
   const handleLoadImage = () => {
     setIsLoad(false)
   }
-  return (
-    <div className="bg-modal" >
-      {isLoad && <Loader />}
-      <div className="modal" onLoad={handleLoadImage}>
-        <img
-          onClick={closeModal}
-          src={urls.full}
-          alt="img"
-          title='CLICK ON IMAGE TO ZOOM OUT'
-          className="modal__img" />
-        <div className="modal__btns modal__post"
-          to={`create_post/${id}`}
-          onClick={openPostModal}>
-          <p>Create Post</p>
-        </div>
-        <a
-          href={links.download}
-          className="modal__btns modal__download"
-          title={'dwnld'}
-        >Down⌊✓⌋load</a>
-        <a
-          href={`https://unsplash.com/@${user.username}`}
-          target='_blank'
-          title="Author"
-          rel="noreferrer"
-          className="modal__btns modal__credit">{user.username}
-        </a>
-        <span className='modal__description'>{description || alt_description || 'Description`s gone!'}</span>
+  if (photo) {
+    return (
+      <div className="bg-modal" >
+        {isLoad && <Loader />}
+        <div className="modal" >
+          <div className="modal-zoom" >
+            <span className='modal-zoom__prew-image click' placeholder='previous' onClick={prewImage} disabled>
+              <svg width="32" height="32"
+                viewBox="0 0 24 24" version="1.1" aria-hidden="false">
+                <desc lang="en-US">Chevron left</desc>
+                <path d="M15.5 18.5 14 20l-8-8 8-8 1.5 1.5L9 12l6.5 6.5Z">
+                </path>
+              </svg>
+            </span>
+            <img
+              onClick={closeModal}
+              onLoad={handleLoadImage}
+              src={urls.full}
+              alt="img"
+              title='CLICK ON IMAGE TO ZOOM OUT'
+              className="modal-zoom__img" />
+            <div className='modal-zoom__next-image click' placeholder='next' onClick={nextImage}>
+              <svg width="32" height="32"
+                viewBox="0 0 24 24" version="1.1" aria-hidden="false">
+                <desc lang="en-US">Chevron right</desc>
+                <path d="M8.5 5.5 10 4l8 8-8 8-1.5-1.5L15 12 8.5 5.5Z">
+                </path>
+              </svg>
+            </div>
+            <div className="modal-zoom__btns modal-zoom__post"
+              to={`create_post/${id}`}
+              onClick={openPostModal}>
+              <p>Create Post</p>
+            </div>
+            <a
+              href={links.download}
+              className="modal-zoom__btns modal-zoom__download"
+              title={'dwnld'}
+            >Down⌊✓⌋load</a>
+            <a
+              href={`https://unsplash.com/@${user.username}`}
+              target='_blank'
+              title="Author"
+              rel="noreferrer"
+              className="modal-zoom__btns modal-zoom__credit">{user.username}
+            </a>
+            <span className='modal-zoom__description'>
+              {description || alt_description || 'Description`s gone!'}
+            </span>
+          </div>
+        </div >
       </div>
-    </div >
-  )
+    )
+  }
 }
 
 export default ZoomModal
