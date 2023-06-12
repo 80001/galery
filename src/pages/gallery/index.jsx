@@ -31,8 +31,6 @@ const Gallery = () => {
     const isZoomModalOpen = useSelector(selectZoomModal)
 
 
-    useEffect(() => {
-    }, [isPostModalOpen, isZoomModalOpen])
     // Check if URL changes
     useEffect(() => {
         if (params.search && params.page) {
@@ -40,6 +38,7 @@ const Gallery = () => {
             const pageValue = parseInt(params.page, 10)
             dispatch(setSearch(searchValue))
             dispatch(setPage(pageValue))
+
         }
         // eslint-disable-next-line
     }, [params.search, params.page])
@@ -49,8 +48,11 @@ const Gallery = () => {
         setMap(dataAPI.results)
         navigate(`/s/${search.replaceAll(' ', '-')}/${page}`, { replace: false })
         dispatch(setMorePage(1))
+        document.title = `Gallery: ${search}`;
+        console.log('x')
+
         // eslint-disable-next-line
-    }, [dataAPI.results])
+    }, [dataAPI.results, search])
 
     useEffect(() => {
         dispatch(setPage(1))

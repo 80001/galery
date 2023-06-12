@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Gallery from '../gallery'
 import Blog from '../blog'
@@ -7,9 +7,6 @@ import GalleryImage from '../gallery/ImageShow'
 import FullPost from '../blog/FullPost'
 
 const MainPage = () => {
-    useEffect(() => {
-        console.log(window.history.length)
-    }, [window.history.length])
     return (
         <div className='container'>
             <Routes>
@@ -19,8 +16,8 @@ const MainPage = () => {
                 <Route path='/s/:search/:page/:create/:id' element={<GalleryImage />} />
                 <Route path='blog/' element={<Blog />} />
                 <Route path='blog/:id' element={<FullPost />} />
-                <Route path='account' element={<Account />}>
-                </Route>
+                <Route path='account' element={<Account />} />
+                <Route path='account/:auth' element={<Account />} />
             </Routes>
         </div>
     )

@@ -1,0 +1,80 @@
+.account {
+    width : 100%;
+    height: 100%;
+
+    &-main {
+        width         : 100%;
+        position      : relative;
+        display       : flex;
+        flex-direction: column;
+
+        &__title,
+        &__email {
+            text-align : center;
+            font-weight: 600;
+            font-style : oblique;
+            margin     : 10px 0;
+
+            span {
+                font-weight: 700;
+            }
+        }
+
+        &__created {
+            position : absolute;
+            transform: translate(50%);
+            left     : 0;
+            top      : 0;
+        }
+
+        &__login {
+            position : absolute;
+            transform: translate(-50%);
+            right    : 0;
+            top      : 0;
+        }
+
+        &__avatar {
+            margin: 5px auto;
+            width : 100px;
+            height: 100px;
+            margin: 0 auto;
+            cursor: pointer;
+
+        }
+
+    }
+
+    &-child {
+        width : 100%;
+        height: 100%;
+
+        &__my {
+            margin: 15px auto;
+
+            &-title {
+                font-weight: 600;
+            }
+
+            &-switch {
+                display        : flex;
+                flex-direction : row;
+                justify-content: space-evenly;
+            }
+
+            &-work {
+                width : 100%;
+                height: 100%;
+                margin: 0 auto;
+
+                .show-my {
+                    width          : 100%;
+                    height         : 100%;
+                    display        : flex;
+                    align-items    : center;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}

@@ -26,11 +26,11 @@ const Authorization = () => {
         localStorage.removeItem('user')
     }
     useEffect(() => {
-        if (user) {
+        if (user && authModal) {
             dispatch(setAuthorizationModal(false))
             document.body.style.overflow = '';
         }
-    }, [user, dispatch])
+    }, [user, dispatch, authModal])
 
     return (
         <div className="auth">

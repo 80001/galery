@@ -13,6 +13,7 @@ const Blog = () => {
     const [map, setMap] = useState()
     console.log(new Date())
     useEffect(() => {
+        document.title = 'Blog';
         const fetchData = async () => {
             const posts = await getPosts()
             setMap(posts)

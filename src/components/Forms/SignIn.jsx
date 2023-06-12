@@ -37,6 +37,7 @@ const SignInForm = () => {
             dispatch(setUserImage(user.photoURL))
             localStorage.setItem('user', JSON.stringify(user.user))
             resetForm()
+            console.log('x')
             navigate(-1)
         } catch (error) {
             switch (error.code) {
