@@ -263,18 +263,28 @@
 }
 
 .modal-blog {
-    width : 80%;
-    height: 80%;
-    margin: auto;
+    position        : fixed;
+    top             : 0;
+    left            : 0;
+    width           : 100%;
+    height          : 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Фон з напівпрозорістю */
+    z-index         : 9;
+    /* Забезпечує, що модальне вікно буде над іншим вмістом */
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    overflow-y      : auto;
 
     &__view {
-        z-index   : 5;
-        width     : 70%;
-        margin    : 0 auto;
-        text-align: center;
+        margin       : auto;
+        max-width    : 70%;
+        padding      : 20px;
+        border-radius: 5px;
 
         &-top {
-            margin               : 0 auto;
+            margin               : auto 0;
             display              : grid;
             grid-template-rows   : repeat(2, 1fr);
             /* Два рядки з однаковою висотою */
@@ -289,6 +299,44 @@
                 text-align: center;
             }
         }
+
+        &-image {
+
+            &-prew {
+                padding: 30px;
+                cursor : pointer;
+                stroke : white;
+                z-index: 10;
+
+                &:hover {
+                    svg {
+                        transform: scale(1.2);
+                    }
+                }
+
+                position: fixed;
+                left    : 150px;
+                top     : 50%;
+            }
+
+            &-next {
+                padding: 30px;
+                cursor : pointer;
+                stroke : white;
+                z-index: 10;
+
+                &:hover {
+                    svg {
+                        transform: scale(1.2);
+                    }
+                }
+
+                position: fixed;
+                right   : 150px;
+                top     : 50%;
+            }
+        }
+
 
         &-img {
             box-shadow: 1px 1px 2px rosybrown;
@@ -311,6 +359,7 @@
             /* Перший стовпець займає 2/3 ширини, другий - 1/3 */
             grid-gap             : 10px;
             background-color     : #a59898;
+            padding-bottom       : 20px;
 
             span {
                 width     : 100%;

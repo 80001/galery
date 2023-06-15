@@ -1,12 +1,12 @@
 import './styles.scss'
 import { useDispatch, useSelector } from "react-redux"
 import { selectMorePage, selectPage } from "../../store/search/search.selector"
-import { setPage } from "../../store/search/search.action"
+import { setMorePage, setPage } from "../../store/search/search.action"
 import Button from '../Button'
 import { useParams } from 'react-router-dom'
 import { selectBlogMorePage, selectBlogPage } from '../../store/blog/blog.selector'
 import { useEffect, useState } from 'react'
-import { setBlogPage } from '../../store/blog/blog.action'
+import { setBlogMorePage, setBlogPage } from '../../store/blog/blog.action'
 
 const Pages = ({ lastPage }) => {
 	const params = useParams()
@@ -31,8 +31,10 @@ const Pages = ({ lastPage }) => {
 	const setPageS = (num) => {
 		if (params.blog) {
 			dispatch(setBlogPage(num))
+			dispatch(setBlogMorePage(1))
 		} else {
 			dispatch(setPage(num))
+			dispatch(setMorePage(1))
 		}
 	}
 

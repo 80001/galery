@@ -83,14 +83,14 @@ const ZoomModal = () => {
               alt="img"
               title='CLICK ON IMAGE TO ZOOM OUT'
               className="modal-zoom__img" />
-            <div className='modal-zoom__next-image click' placeholder='next' onClick={nextImage}>
+            <span className='modal-zoom__next-image click' placeholder='next' onClick={nextImage}>
               <svg width="32" height="32"
                 viewBox="0 0 24 24" version="1.1" aria-hidden="false">
                 <desc lang="en-US">Chevron right</desc>
                 <path d="M8.5 5.5 10 4l8 8-8 8-1.5-1.5L15 12 8.5 5.5Z">
                 </path>
               </svg>
-            </div>
+            </span>
             <div className="modal-zoom__btns modal-zoom__post"
               to={`create_post/${id}`}
               onClick={openPostModal}>

@@ -1,20 +1,21 @@
 import { useDispatch } from "react-redux"
-import { setCreatePostModal, setFullPost, setPhoto } from "../../store/modals/modals.action"
+import { setCreatePostModal, setFullPost, setPost, setPostId, setPostMap } from "../../store/modals/modals.action"
 import Loader from "../../components/Loading"
 import { useState } from "react"
 import { timeChanger } from "../../utils/utils"
 
 const BlogComponent = ({ photo }) => {
-    const { title, subtitle, image, text, date, author } = photo
+    const { title, subtitle, image, text, date, author, id } = photo
     const dispatch = useDispatch()
     const shortText = text.slice(0, 100)
     //const classChange = useSelector(selectClassChange)
     const formattedDate = timeChanger(date)
 
     const openModal = () => {
-        dispatch(setPhoto(photo))
+        dispatch(setPost(photo))
+        dispatch(setPostId(id))
         dispatch(setFullPost(true))
-        //document.body.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
         window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
     };
     const openPostModal = () => {
