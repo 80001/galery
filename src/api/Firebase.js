@@ -121,10 +121,9 @@ export const addPosts = async (title, subtitle, image, text, author) => {
         console.error('Error: ', e)
     }
 }
-
+//Get all posts
 export const getPosts = async () => {
     const postsSnapshot = await getDocs(postsCollection);
-    //console.log(postsSnapshot);
     const posts = [];
 
     postsSnapshot.forEach((postDoc) => {
@@ -135,6 +134,8 @@ export const getPosts = async () => {
 
     return posts;
 };
+
+//Get post by ID
 export const getPostById = async (id) => {
     try {
         const docRef = doc(db, 'posts', id)

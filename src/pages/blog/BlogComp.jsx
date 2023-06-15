@@ -1,18 +1,19 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { setCreatePostModal, setFullPost, setPost, setPostId } from "../../store/modals/modals.action"
 import Loader from "../../components/Loading"
 import { useState } from "react"
 import { timeChanger } from "../../utils/utils"
+import { selectClassChange } from "../../store/search/search.selector"
 
 const BlogComponent = ({ photo }) => {
     const { title, subtitle, image, text, date, author, id } = photo
     const dispatch = useDispatch()
+    const classChange = useSelector(selectClassChange)
     const shortText = text.slice(0, 100)
     //const classChange = useSelector(selectClassChange)
     const formattedDate = timeChanger(date)
 
     const openModal = () => {
-        console.log('xy')
         dispatch(setPost(photo))
         dispatch(setPostId(id))
         dispatch(setFullPost(true))
@@ -29,9 +30,9 @@ const BlogComponent = ({ photo }) => {
         setIsLoad(false)
     }
     return (
-        <li className={`blog__item`} >
+        <li className={`blog__item${classChange}`} >
             {isLoad && <Loader />}
-            <div className="blog__item-view">
+            <div className={`blog__item-view${classChange}`}>
                 <div className="blog__item-view-top">
                     <h4 className="blog__item-view-titles">Subtitle:</h4>
                     <h4 className="blog__item-view-titles">Title:</h4>

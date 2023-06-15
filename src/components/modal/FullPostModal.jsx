@@ -30,14 +30,12 @@ const FullPostModal = () => {
             const x = postMap.findIndex((obj) => obj.id === postId)
             dispatch(setPost(postMap[x]))
             setFindPost(x)
-            console.log('find', findPost)
-            console.log(postMap)
         }
     }, [postMap, postId, dispatch])
     //check if we change ID
     useEffect(() => {
         window.history.replaceState(null, '', `${post.id}`)
-    }, [findPost])
+    }, [findPost, post.id])
 
     const { title, subtitle, image, text, date, author } = post
 

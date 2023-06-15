@@ -8,3 +8,4 @@ export const selectId = state => state.blog.id
 export const selectModal = state => state.blog.modal
 export const selectBlogPage = state => state.blog.blogPage
 export const selectBlogMorePage = state => state.blog.blogMorePage
+export const selectBlogSorted = state => state.blog.blogSorted

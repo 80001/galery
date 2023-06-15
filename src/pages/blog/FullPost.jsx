@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom'
 import { getPostById, getPosts } from '../../api/Firebase'
 import Loader from '../../components/Loading'
 import { timeChanger } from '../../utils/utils'
+import { useSelector } from 'react-redux'
+import { selectBlogSorted } from '../../store/blog/blog.selector'
 
 const FullPost = () => {
     const { id: postId } = useParams()
@@ -10,15 +12,17 @@ const FullPost = () => {
     const [findPost, setFindPost] = useState(null)
     const [map, setMap] = useState()
     const [isLoad, setIsLoad] = useState(true)
+    const sorted = useSelector(selectBlogSorted)
 
     useEffect(() => {
         const fetchData = async () => {
             const post = await getPostById(postId)
-            const posts = await getPosts()
+            const posts = await getPosts(sorted)
             setPost(post)
             setMap(posts)
         }
         fetchData()
+        // eslint-disable-next-line
     }, [])
     useEffect(() => {
         if (map) {
@@ -27,15 +31,12 @@ const FullPost = () => {
             setFindPost(x)
         }
 
-    }, [map])
+    }, [map, postId])
     useEffect(() => {
         if (findPost) {
             window.history.replaceState(null, '', `${post.id}`)
         }
-    }, [findPost])
-    console.log(post)
-    console.log(findPost)
-    console.log(map)
+    }, [findPost, post.id])
 
     const nextPost = () => {
         if (findPost === map.length - 1) {

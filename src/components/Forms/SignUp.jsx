@@ -28,8 +28,6 @@ const SignUpForm = () => {
         try {
             const userCredential = await signUpWithEmail(email, password, name)
             const user = userCredential.user
-            console.log(userCredential)
-            console.log(user)
             await createUserDoc(user)
             dispatch(setUser(user))
             dispatch(setUserName(user.displayName))

@@ -14,7 +14,6 @@ function App() {
   useEffect(() => {
     if (savedUser) {
       const user = JSON.parse(savedUser)
-      console.log(user)
       dispatch(setUser(user))
       dispatch(setUserName(user.displayName))
     } else {

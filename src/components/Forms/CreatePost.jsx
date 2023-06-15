@@ -20,7 +20,6 @@ const CreatePostForm = () => {
     }
     if (imageUrl) {
         initialValues.image = imageUrl.urls.full
-        console.log('val')
     }
     const onSubmit = (values, { resetForm }) => {
         const { title, subtitle, image, text } = values
@@ -44,7 +43,6 @@ const CreatePostForm = () => {
     if (!author) {
         ask()
     } else {
-        console.log(imageUrl)
         return (
             <div className="create-post">
                 <Formik initialValues={initialValues} onSubmit={onSubmit} >

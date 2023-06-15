@@ -53,7 +53,6 @@ const Pages = ({ lastPage }) => {
 	const pageSetPlus = () => {
 		//window.history.pushState(null, '', `${window.location.pathname}`)
 		if (page === lastPage) {
-			console.log('if', page, morePage)
 			return
 		} else if ((page + morePage) > lastPage) {
 			setPageS(lastPage)

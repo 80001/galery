@@ -49,7 +49,6 @@ const Gallery = () => {
         navigate(`/s/${search.replaceAll(' ', '-')}/${page}`, { replace: false })
         dispatch(setMorePage(1))
         document.title = `Gallery: ${search}`;
-        console.log('x')
 
         // eslint-disable-next-line
     }, [dataAPI.results, search])

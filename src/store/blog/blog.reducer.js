@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     modal: false,
     blogPage: 1,
     blogMorePage: 1,
+    blogSorted: 'mixed',
 }
 
 export const BlogReducer = (state = INITIAL_STATE, action) => {
@@ -66,6 +67,11 @@ export const BlogReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 blogMorePage: payload
+            }
+        case BLOG_ACTION_TYPES.SET_BLOG_SORTED:
+            return {
+                ...state,
+                blogSorted: payload
             }
         default:
             return state

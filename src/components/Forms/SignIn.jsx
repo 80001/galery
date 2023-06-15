@@ -28,16 +28,13 @@ const SignInForm = () => {
         password: '',
     };
     const onSubmit = async (values, { resetForm }) => {
-        console.log(values);
         try {
             const user = await signInWithEmail(values.email, values.password)
-            console.log(user)
             dispatch(setUser(user.user))
             dispatch(setUserName(user.user.displayName))
             dispatch(setUserImage(user.photoURL))
             localStorage.setItem('user', JSON.stringify(user.user))
             resetForm()
-            console.log('x')
             navigate(-1)
         } catch (error) {
             switch (error.code) {
@@ -48,7 +45,6 @@ const SignInForm = () => {
                     alert('No user with this Email');
                     break;
                 default:
-                    console.log(error);
             }
         }
     };
