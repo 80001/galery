@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import { setCreatePostModal, setFullPost, setPost, setPostId, setPostMap } from "../../store/modals/modals.action"
+import { setCreatePostModal, setFullPost, setPost, setPostId } from "../../store/modals/modals.action"
 import Loader from "../../components/Loading"
 import { useState } from "react"
 import { timeChanger } from "../../utils/utils"
@@ -12,6 +12,7 @@ const BlogComponent = ({ photo }) => {
     const formattedDate = timeChanger(date)
 
     const openModal = () => {
+        console.log('xy')
         dispatch(setPost(photo))
         dispatch(setPostId(id))
         dispatch(setFullPost(true))

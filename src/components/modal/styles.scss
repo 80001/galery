@@ -314,6 +314,12 @@
                     }
                 }
 
+                &:active {
+                    svg {
+                        transform: scale(1.5);
+                    }
+                }
+
                 position: fixed;
                 left    : 150px;
                 top     : 50%;
@@ -328,6 +334,12 @@
                 &:hover {
                     svg {
                         transform: scale(1.2);
+                    }
+                }
+
+                &:active {
+                    svg {
+                        transform: scale(1.5);
                     }
                 }
 

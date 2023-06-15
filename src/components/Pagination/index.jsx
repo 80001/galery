@@ -25,7 +25,7 @@ const Pages = ({ lastPage }) => {
 			setPages(galleryP)
 			setMorePages(moreGallery)
 		}
-	}, [blogP, moreP, galleryP, moreGallery])
+	}, [blogP, moreP, galleryP, moreGallery, params.blog])
 	//const page = useSelector(selectPage)
 	//const morePage = useSelector(selectMorePage)
 	const setPageS = (num) => {

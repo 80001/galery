@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { setFullPost, setPhoto } from '../../store/modals/modals.action';
+import { setFullPost, setPhoto, setPost } from '../../store/modals/modals.action';
 import { useNavigate } from 'react-router-dom';
 import { selectPost, selectPostId, selectPostMap } from '../../store/modals/modals.selector';
 import Loader from '../Loading';
@@ -10,48 +10,63 @@ const FullPostModal = () => {
     const post = useSelector(selectPost)
     const postId = useSelector(selectPostId)
     const postMap = useSelector(selectPostMap)
-    const { title, subtitle, image, text, date, author } = post
-    console.log(postId)
-    console.log(postMap)
-    const formattedDate = timeChanger(date)
+    const [isLoad, setIsLoad] = useState(true)
+    const [findPost, setFindPost] = useState(null)
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const closeModal = () => {
-        document.body.style.overflow = '';
-        //let x = window.history.back()
+        document.body.style.overflow = ''
         let x = navigate(-1)
         dispatch(setFullPost(false))
         dispatch(setPhoto(null))
         window.history.replaceState(null, '', x)
     }
-    const [isLoad, setIsLoad] = useState(true)
     const handleLoadImage = () => {
         setIsLoad(false)
     }
+    useEffect(() => {
+        if (postMap) {
+            const x = postMap.findIndex((obj) => obj.id === postId)
+            dispatch(setPost(postMap[x]))
+            setFindPost(x)
+            console.log('find', findPost)
+            console.log(postMap)
+        }
+    }, [postMap, postId, dispatch])
+    //check if we change ID
+    useEffect(() => {
+        window.history.replaceState(null, '', `${post.id}`)
+    }, [findPost])
 
-    const nextImage = () => {
-        /*         if (findPhoto === photoMap.length - 1) {
-                    dispatch(setPhoto(photoMap[0]))
-                    setFindPhoto(0)
-                } else {
-                    const nextPhoto = photoMap[findPhoto + 1]
-                    if (nextPhoto) {
-                        dispatch(setPhoto(photoMap[findPhoto + 1]))
-                        setFindPhoto(findPhoto + 1)
-                    }
-                } */
+    const { title, subtitle, image, text, date, author } = post
+
+    const formattedDate = timeChanger(date)
+
+    const nextPost = () => {
+        if (findPost === postMap.length - 1) {
+            dispatch(setPost(postMap[0]))
+            setFindPost(0)
+        } else {
+            const nextPost = postMap[findPost + 1]
+            if (nextPost) {
+                dispatch(setPost(postMap[findPost + 1]))
+                setFindPost(findPost + 1)
+            }
+        }
     }
-    const prewImage = () => {
-        /*         if (findPhoto === 0) {
-                    dispatch(setPhoto(photoMap[photoMap.length - 1]))
-                    setFindPhoto(photoMap.length - 1)
-                } else {
-                    const prewPhoto = photoMap[findPhoto - 1]
-                    if (prewPhoto) {
-                        dispatch(setPhoto(photoMap[findPhoto - 1]))
-                        setFindPhoto(findPhoto - 1)
-                    }
-                } */
+
+    const prewPost = () => {
+        if (findPost === 0) {
+            dispatch(setPost(postMap[postMap.length - 1]))
+            setFindPost(postMap.length - 1)
+        } else {
+            const prewPost = postMap[findPost - 1]
+            if (prewPost) {
+                dispatch(setPost(postMap[findPost - 1]))
+                setFindPost(findPost - 1)
+            }
+        }
     }
     return (
         <div className="bg-modal">
@@ -66,7 +81,9 @@ const FullPostModal = () => {
                         <span className="modal-blog__view-title buttons">{title}</span>
                         <span className="modal-blog__view-date buttons">{formattedDate}</span>
                     </div>
-                    <span className='modal-blog__view-image-prew' placeholder='previous' onClick={prewImage} disabled>
+                    <span className='modal-blog__view-image-prew'
+                        placeholder='previous'
+                        onClick={prewPost} disabled>
                         <svg width="32" height="32"
                             viewBox="0 0 24 24" version="1.1" aria-hidden="false">
                             <desc lang="en-US">Chevron left</desc>
@@ -80,7 +97,8 @@ const FullPostModal = () => {
                         alt="img"
                         title='CLICK ON IMAGE TO ZOOM OUT'
                         className="modal-blog__view-img" />
-                    <span className='modal-blog__view-image-next' placeholder='next' onClick={() => { alert('Yo') }}>
+                    <span className='modal-blog__view-image-next'
+                        placeholder='next' onClick={nextPost}>
                         <svg width="32" height="32"
                             viewBox="0 0 24 24" version="1.1" aria-hidden="false">
                             <desc lang="en-US">Chevron right</desc>
