@@ -9,6 +9,8 @@ const INITIAL_STATE = {
     text: '',
     id: '',
     modal: false,
+    blogPage: 1,
+    blogMorePage: 1,
 }
 
 export const BlogReducer = (state = INITIAL_STATE, action) => {
@@ -54,6 +56,16 @@ export const BlogReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 modal: payload
+            }
+        case BLOG_ACTION_TYPES.SET_BLOG_PAGE:
+            return {
+                ...state,
+                blogPage: payload
+            }
+        case BLOG_ACTION_TYPES.SET_BLOG_MORE_PAGE:
+            return {
+                ...state,
+                blogMorePage: payload
             }
         default:
             return state

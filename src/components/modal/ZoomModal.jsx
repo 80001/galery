@@ -28,6 +28,7 @@ const ZoomModal = () => {
     window.history.back()
   };
   const openPostModal = () => {
+    dispatch(setPhoto(photo))
     dispatch(setCreatePostModal(true))
     window.history.pushState(null, '', `create_post/${id}`)
   }

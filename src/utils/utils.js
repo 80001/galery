@@ -21,6 +21,7 @@ export const dayOnSite = (date) => {
     const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
     return daysDiff;
 };
+//get hours from registered till now
 export const lastLogin = (date) => {
     const toDay = new Date()
     const startDate = new Date(Number(date))

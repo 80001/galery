@@ -19,7 +19,7 @@ const GalleryImage = () => {
 
     const openPostModal = () => {
         dispatch(setCreatePostModal(true))
-        dispatch(setPhoto(data.response.urls.full))
+        dispatch(setPhoto(data.response))
         document.body.style.overflow = 'hidden';
         window.history.pushState(null, '', `create_post/${imageId}`)
     }

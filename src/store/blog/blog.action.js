@@ -9,3 +9,5 @@ export const setImg = (img) => createAction(BLOG_ACTION_TYPES.SET_POSTS_IMG, img
 export const setText = (text) => createAction(BLOG_ACTION_TYPES.SET_POSTS_TEXT, text)
 export const setId = (id) => createAction(BLOG_ACTION_TYPES.SET_POSTS_ID, id)
 export const setModal = (modal) => createAction(BLOG_ACTION_TYPES.SET_MODAL, modal)
+export const setBlogPage = (blogPage) => createAction(BLOG_ACTION_TYPES.SET_BLOG_PAGE, blogPage)
+export const setBlogMorePage = (moreBlogPage) => createAction(BLOG_ACTION_TYPES.SET_BLOG_MORE_PAGE, moreBlogPage)

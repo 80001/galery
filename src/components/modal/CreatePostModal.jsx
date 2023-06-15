@@ -12,10 +12,10 @@ const CreatePostModal = () => {
 
   const closeModal = () => {
     document.body.style.overflow = '';
-    let x = navigate(-1)
     dispatch(setCreatePostModal(false))
     dispatch(setPhoto(null))
-    window.history.replaceState(null, '', x)
+    //window.history.replaceState(null, '', x)
+    navigate(-1)
   }
 
 

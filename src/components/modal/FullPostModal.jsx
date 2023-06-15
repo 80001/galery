@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setFullPost, setPhoto } from '../../store/modals/modals.action';
 import { useNavigate } from 'react-router-dom';
 import { selectPhoto } from '../../store/modals/modals.selector';
 import Loader from '../Loading';
+import { timeChanger } from '../../utils/utils';
 
 const FullPostModal = () => {
     const photo = useSelector(selectPhoto)
     const { title, subtitle, image, text, date, author } = photo
-    const timestamp = date.seconds * 1000;
-    const datx = new Date(timestamp);
-    const formattedDate = datx.toLocaleString('uk-UK', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        timeZone: 'UTC',
-    });
+    const formattedDate = timeChanger(date)
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const closeModal = () => {
@@ -33,7 +25,6 @@ const FullPostModal = () => {
     const handleLoadImage = () => {
         setIsLoad(false)
     }
-    const x = 'style = "overflow: "";"'
     return (
         <div className="bg-modal">
             {isLoad && <Loader />}

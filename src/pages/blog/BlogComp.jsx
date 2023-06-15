@@ -2,23 +2,14 @@ import { useDispatch } from "react-redux"
 import { setCreatePostModal, setFullPost, setPhoto } from "../../store/modals/modals.action"
 import Loader from "../../components/Loading"
 import { useState } from "react"
+import { timeChanger } from "../../utils/utils"
 
 const BlogComponent = ({ photo }) => {
     const { title, subtitle, image, text, date, author } = photo
     const dispatch = useDispatch()
     const shortText = text.slice(0, 100)
     //const classChange = useSelector(selectClassChange)
-    const timestamp = date.seconds * 1000;
-    const datx = new Date(timestamp);
-    const formattedDate = datx.toLocaleString('uk-UK', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        timeZone: 'UTC',
-    });
+    const formattedDate = timeChanger(date)
 
     const openModal = () => {
         dispatch(setPhoto(photo))

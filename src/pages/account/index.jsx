@@ -5,7 +5,7 @@ import { setAuthorizationModal } from '../../store/modals/modals.action';
 import Loader from '../../components/Loading';
 import './styles.scss';
 import Button from '../../components/Button'
-import { dayOnSite, lastLogin, timeChanger } from '../../utils/utils';
+import { dayOnSite, lastLogin } from '../../utils/utils';
 
 const Account = () => {
     const dispatch = useDispatch();

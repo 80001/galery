@@ -14,8 +14,9 @@ const MainPage = () => {
                 <Route path='/s/:search/:page' element={<Gallery />} />
                 <Route path='/s/:search/:page/:id' element={<GalleryImage />} />
                 <Route path='/s/:search/:page/:create/:id' element={<GalleryImage />} />
-                <Route path='blog/' element={<Blog />} />
-                <Route path='blog/:id' element={<FullPost />} />
+                <Route path=':blog/*' element={<Blog />} />
+                <Route path=':blog/:page' element={<Blog />} />
+                <Route path='blog/:page/:id' element={<FullPost />} />
                 <Route path='account' element={<Account />} />
                 <Route path='account/:auth' element={<Account />} />
             </Routes>

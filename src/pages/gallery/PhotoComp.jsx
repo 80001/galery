@@ -18,7 +18,7 @@ const PhotoComp = ({ photo }) => {
         window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
     };
     const openPostModal = () => {
-        dispatch(setPhoto(photo.urls.full))
+        dispatch(setPhoto(photo))
         dispatch(setCreatePostModal(true))
         document.body.style.overflow = 'hidden'
         window.history.pushState(null, '', `${window.location.pathname}/create_post/${photo.id}`)

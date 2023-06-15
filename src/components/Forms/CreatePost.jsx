@@ -19,7 +19,8 @@ const CreatePostForm = () => {
         text: '',
     }
     if (imageUrl) {
-        initialValues.image = imageUrl
+        initialValues.image = imageUrl.urls.full
+        console.log('val')
     }
     const onSubmit = (values, { resetForm }) => {
         const { title, subtitle, image, text } = values

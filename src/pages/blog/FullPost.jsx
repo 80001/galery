@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getPostById } from '../../api/Firebase'
 import Loader from '../../components/Loading'
+import { timeChanger } from '../../utils/utils'
 
 const FullPost = () => {
     const { id: postId } = useParams()
@@ -17,17 +18,7 @@ const FullPost = () => {
     console.log(img)
     if (img) {
         const { title, subtitle, image, text, date, author } = img
-        const timestamp = date.seconds * 1000
-        const datx = new Date(timestamp)
-        const formattedDate = datx.toLocaleString('uk-UK', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            timeZone: 'UTC',
-        })
+        const formattedDate = timeChanger(date)
         const handleLoadImage = () => {
             setIsLoad(false)
         }

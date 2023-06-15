@@ -3,12 +3,38 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectMorePage, selectPage } from "../../store/search/search.selector"
 import { setPage } from "../../store/search/search.action"
 import Button from '../Button'
+import { useParams } from 'react-router-dom'
+import { selectBlogMorePage, selectBlogPage } from '../../store/blog/blog.selector'
+import { useEffect, useState } from 'react'
+import { setBlogPage } from '../../store/blog/blog.action'
 
 const Pages = ({ lastPage }) => {
+	const params = useParams()
 	const dispatch = useDispatch()
-	const page = useSelector(selectPage)
-	const morePage = useSelector(selectMorePage)
-	const setPages = (num) => dispatch(setPage(num))
+	const [page, setPages] = useState(1)
+	const [morePage, setMorePages] = useState(1)
+	const blogP = useSelector(selectBlogPage)
+	const moreP = useSelector(selectBlogMorePage)
+	const galleryP = useSelector(selectPage)
+	const moreGallery = useSelector(selectMorePage)
+	useEffect(() => {
+		if (params.blog) {
+			setPages(blogP)
+			setMorePages(moreP)
+		} else {
+			setPages(galleryP)
+			setMorePages(moreGallery)
+		}
+	}, [blogP, moreP, galleryP, moreGallery])
+	//const page = useSelector(selectPage)
+	//const morePage = useSelector(selectMorePage)
+	const setPageS = (num) => {
+		if (params.blog) {
+			dispatch(setBlogPage(num))
+		} else {
+			dispatch(setPage(num))
+		}
+	}
 
 	const pageDisabledMin = () => {
 		if (page === 1) {
@@ -25,22 +51,29 @@ const Pages = ({ lastPage }) => {
 	const pageSetPlus = () => {
 		//window.history.pushState(null, '', `${window.location.pathname}`)
 		if (page === lastPage) {
-			setPages(lastPage)
+			console.log('if', page, morePage)
+			return
+		} else if ((page + morePage) > lastPage) {
+			setPageS(lastPage)
+			return
+		} else {
+			setPageS(Number(page + morePage))
 		}
-		setPages(Number(page + morePage))
 	}
 	const pageSetMinus = () => {
 		//window.history.pushState(null, '', `${window.location.pathname}`)
 		if (page === 1) {
 			return page
 		}
-		setPages(Number(page) - 1)
+		setPageS(Number(page) - 1)
 	}
 	const pageEnter = (e) => {
 		//window.history.pushState(null, '', `${window.location.pathname}`)
-		setPages(e.target.value)
+		setPageS(Number(e.target.value))
 	}
-
+	const setLastPage = () => {
+		setPageS(lastPage)
+	}
 	return (
 		<div className="galery__pages">
 			<Button className="galery__page"
@@ -60,7 +93,8 @@ const Pages = ({ lastPage }) => {
 				disabled={pageDisabledMax()}
 				onClick={pageSetPlus}>Next</Button>
 			<Button className="galery__page"
-				buttonType="white">{lastPage}</Button>
+				buttonType="white"
+				onClick={setLastPage}>{lastPage}</Button>
 		</div>
 	)
 }
