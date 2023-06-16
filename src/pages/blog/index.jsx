@@ -35,8 +35,9 @@ const Blog = () => {
 
 
     const showMore = () => {
-        dispatch(setPostMap([...posts, ...addMorePage]))
         dispatch(setBlogMorePage(morePage + 1))
+        dispatch(setPostMap([...posts, ...addMorePage]))
+        console.log(morePage)
     };
     //change title
     //get all posts

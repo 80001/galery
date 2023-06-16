@@ -6,16 +6,22 @@ import Loader from '../../components/Loading';
 import './styles.scss';
 import Button from '../../components/Button'
 import { dayOnSite, lastLogin } from '../../utils/utils';
+import { getPostsByEmail } from '../../api/Firebase';
+import AccountPost from './Post';
+import { selectFullPostModal } from '../../store/modals/modals.selector';
+import FullPostModal from '../../components/modal/FullPostModal';
+import ChangePostModal from '../../components/modal/ChangePostModal';
 
 const Account = () => {
     const dispatch = useDispatch();
+    const modal = useSelector(selectFullPostModal)
     const author = useSelector(selectUser);
     const [authorPhoto, setAuthorPhoto] = useState('https://otkritkis.com/wp-content/uploads/2022/06/ra8je.jpg');
     const [showMy, setShowMy] = useState(true)
+    const [posts, setPosts] = useState(null)
 
     useEffect(() => {
         document.title = 'Account';
-
         if (!author && !window.location.pathname.includes('auth')) {
             dispatch(setAuthorizationModal(true));
         } else if (author && !window.location.pathname.includes('auth')) {
@@ -27,11 +33,23 @@ const Account = () => {
         }
     }, [author, dispatch]);
 
+    const { createdAt, displayName, email, lastLoginAt } = author || {};
+
+    useEffect(() => {
+        if (author) {
+            const fetchPosts = async () => {
+                const myPosts = await getPostsByEmail(email)
+                console.log(myPosts)
+                setPosts(myPosts)
+            }
+            fetchPosts()
+        }
+    }, [email, author])
+
     if (!author) {
-        return <Loader />;
+        return <Loader />
     }
 
-    const { createdAt, displayName, email, lastLoginAt } = author;
 
     const daysReg = dayOnSite(createdAt)
     const lastTime = lastLogin(lastLoginAt)
@@ -70,9 +88,19 @@ const Account = () => {
                     </div>
                     <div className="account-child__my-work">
                         {showMy
-                            ? <div className="show-my">X</div>
-                            : <div className="show-my">Y</div>
+                            ? <div className="show-my">
+                                <h3 className="show-my__title">My posts</h3>
+                                <ul className="show-my__body">
+                                    {posts && posts.map(post => (
+                                        <AccountPost post={post} id={post.id} />
+                                    ))}
+                                </ul>
+                            </div>
+                            : <div className="show-my">Немає поки коментарів!
+                                <ChangePostModal />
+                            </div>
                         }
+                        {modal && <FullPostModal />}
                     </div>
                 </div>
 

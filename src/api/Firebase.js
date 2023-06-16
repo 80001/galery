@@ -12,7 +12,7 @@ import {
     signInWithEmailAndPassword,
     onAuthStateChanged
 } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, setDoc } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, setDoc, updateDoc } from 'firebase/firestore'
 import { firebaseConfig } from "../configs/FirebaseConfig";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -150,7 +150,29 @@ export const getPostById = async (id) => {
         console.error('Error', error)
     }
 }
-
+//Get posts by author
+export const getPostsByEmail = async (email) => {
+    const postsSnapshot = await getDocs(postsCollection)
+    const posts = []
+    postsSnapshot.forEach((doc) => {
+        const postData = doc.data()
+        const postId = doc.id
+        if (postData.author === email) {
+            posts.push({ ...postData, id: postId })
+        }
+    })
+    return posts
+}
+//Edit post
+export const changePost = async (id, newData) => {
+    const postRef = doc(db, 'posts', id)
+    try {
+        await updateDoc(postRef, newData)
+        console.log('Doc is update')
+    } catch (error) {
+        console.error('Error', error)
+    }
+}
 //deletePost
 export const deletePosts = async (postId) => {
     try {

@@ -3,9 +3,10 @@ import './styles.scss'
 const BUTTON_TYPES = {
     default: 'default',
     dark: 'dark',
-    white: 'white'
+    white: 'white',
+    anime: 'anime'
 }
-const Button = ({children, buttonType = 'default',className='', ...otherProps}) => {
+const Button = ({ children, buttonType = 'default', className = '', ...otherProps }) => {
     return (
         <button className={`${className} button button--${BUTTON_TYPES[buttonType]}`}{...otherProps}>
             <p>{children}</p>
