@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Button from '.';
 
-const ButtonToTop = () => {
+const ButtonToTop = ({ reffer }) => {
     useEffect(() => {
         const handleScroll = () => {
             const button = document.querySelector('.button__to-top');
@@ -15,9 +15,13 @@ const ButtonToTop = () => {
         };
     }, []);
 
+    const toTop = () => {
+        reffer.current.scrollIntoView({ top: 0, behavior: 'smooth' })
+    }
+
     return (
         <Button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={toTop}
             className="button__to-top"
             buttonType="white"
         >
