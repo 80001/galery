@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { setFullPost, setPost, setPostId } from '../../store/modals/modals.action';
+import { setEditPost, setFullPost, setPost, setPostId } from '../../store/modals/modals.action';
 import { timeChanger } from '../../utils/utils';
 import Loader from '../../components/Loading';
 import Button from '../../components/Button';
-import { changePost } from '../../api/Firebase';
 
 const AccountPost = ({ post }) => {
     const { title, subtitle, image, date, id } = post
@@ -17,20 +16,21 @@ const AccountPost = ({ post }) => {
         window.history.pushState(null, '', `${window.location.pathname}/${id}`)
     };
     const editPost = () => {
-        changePost(id, {
-            title: 'Blue Sky'
-        })
+        dispatch(setEditPost(true))
     }
-
+    const deletePost = () => {
+        let ask = prompt('Enter right answer to delete post! WHO IS REALY YOUR MOM?!')
+        alert(`${ask} is wrong answer! Trast me, i know it!`)
+    }
     const [isLoad, setIsLoad] = useState(true)
     const handleLoadImage = () => {
         setIsLoad(false)
     }
 
     return (
-        <li className='show-my__body-post' onClick={openModal} onLoad={handleLoadImage}>
+        <li className='show-my__body-post' onLoad={handleLoadImage}>
             {isLoad && <Loader />}
-            <img src={image} alt={title} className="show-my__body-img" />
+            <img src={image} alt={title} onClick={openModal} className="show-my__body-img" />
             <div className="show-my__body-text">
                 <p >Title:</p>
                 <p >{title.slice(0, 20)}</p>
@@ -47,7 +47,9 @@ const AccountPost = ({ post }) => {
             <Button buttonType='dark'
                 onClick={editPost}
                 className="show-my__body-btn edit">Edit</Button>
-            <Button buttonType='dark' className="show-my__body-btn delete">Delete</Button>
+            <Button buttonType='dark'
+                onClick={deletePost}
+                className="show-my__body-btn delete">Delete</Button>
         </li>
     )
 }

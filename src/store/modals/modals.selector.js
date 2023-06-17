@@ -8,3 +8,4 @@ export const selectAuthorizationModal = (state) => state.modal.authorization
 export const selectCreatePostModal = (state) => state.modal.createPost
 export const selectZoomModal = (state) => state.modal.zoom
 export const selectFullPostModal = (state) => state.modal.fullPost
+export const selectEditPostModal = (state) => state.modal.editPost

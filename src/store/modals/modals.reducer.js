@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     createPost: false,
     zoom: false,
     fullPost: false,
+    editPost: false,
 }
 export const ModalReducer = (state = INITIAL_STATE, action) => {
     const { type, payload } = action
@@ -65,6 +66,11 @@ export const ModalReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 fullPost: payload
+            }
+        case MODALS_ACTION_TYPES.SET_EDIT_POST:
+            return {
+                ...state,
+                editPost: payload
             }
         default:
             return state

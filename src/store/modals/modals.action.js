@@ -11,3 +11,4 @@ export const setAuthorizationModal = (auth) => createAction(MODALS_ACTION_TYPES.
 export const setCreatePostModal = (create) => createAction(MODALS_ACTION_TYPES.SET_CREATE_POST, create)
 export const setZoomModal = (zoom) => createAction(MODALS_ACTION_TYPES.SET_ZOOM, zoom)
 export const setFullPost = (full) => createAction(MODALS_ACTION_TYPES.SET_FULL_POST, full)
+export const setEditPost = (edit) => createAction(MODALS_ACTION_TYPES.SET_EDIT_POST, edit)

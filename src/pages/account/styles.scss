@@ -75,6 +75,22 @@
                     align-items    : center;
                     justify-content: center;
 
+                    &__search {
+                        margin: 10px auto;
+
+                        &-label {
+                            font-size   : 24px;
+                            margin-right: 20px;
+                        }
+
+                        &-input {
+                            font-size       : 24px;
+                            background-color: #000;
+                            color           : #fff;
+                            padding         : 3px;
+                        }
+                    }
+
                     &__title {
                         font-size: 24px;
                         margin   : 10px 0;
@@ -90,10 +106,10 @@
                             grid-template-columns: 3fr 1fr 1fr 1fr;
                             gap                  : 10px;
                             margin               : 20px 0;
-                            cursor               : pointer;
                             text-align           : center;
                             align-items          : center;
                             box-shadow           : 10px 5px 5px red;
+                            z-index              : 1;
 
                             &:hover {
                                 .show-my__body-btn {
@@ -104,7 +120,8 @@
                         }
 
                         &-img {
-                            width: 100%;
+                            cursor: pointer;
+                            width : 100%;
                         }
 
                         &-text {
@@ -115,9 +132,11 @@
 
                         &-btn {
                             display: none;
+                            cursor : pointer;
                         }
 
                         .delete {
+                            z-index : 2;
                             position: absolute;
                             top     : 20px;
                             right   : 20px;
