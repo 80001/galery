@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import './styles.scss'
 import Button from '../Button'
-import { setUser, setUserImage, setUserName } from '../../store/user/user.action'
+import { setAuthIn } from '../../store/user/user.action'
 import { useDispatch } from 'react-redux'
 import { createUserDoc, signInWithEmail, signInWithGooglePopUp } from '../../api/Firebase'
 import { useState } from 'react'
@@ -17,9 +17,7 @@ const SignInForm = () => {
     const logGoogleUser = async () => {
         const { user } = await signInWithGooglePopUp()
         createUserDoc(user)
-        dispatch(setUser(user))
-        dispatch(setUserName(user.displayName))
-        dispatch(setUserImage(user.photoURL))
+        dispatch(setAuthIn(user))
         localStorage.setItem('user', JSON.stringify(user))
         navigate(-1)
     };
@@ -30,9 +28,7 @@ const SignInForm = () => {
     const onSubmit = async (values, { resetForm }) => {
         try {
             const user = await signInWithEmail(values.email, values.password)
-            dispatch(setUser(user.user))
-            dispatch(setUserName(user.user.displayName))
-            dispatch(setUserImage(user.photoURL))
+            dispatch(setAuthIn(user.user))
             localStorage.setItem('user', JSON.stringify(user.user))
             resetForm()
             navigate(-1)

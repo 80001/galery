@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../store/user/user.selector';
-import { setAuthorizationModal } from '../../store/modals/modals.action';
+import { setModal, setPostMap } from '../../store/modals/modals.action';
 import Loader from '../../components/Loading';
 import './styles.scss';
 import Button from '../../components/Button';
 import { dayOnSite, lastLogin } from '../../utils/utils';
 import { getPostsByEmail } from '../../api/Firebase';
 import AccountPost from './Post';
-import { selectFullPostModal } from '../../store/modals/modals.selector';
-import FullPostModal from '../../components/modal/FullPostModal';
 
 const Account = () => {
     const dispatch = useDispatch();
-    const modal = useSelector(selectFullPostModal);
     const author = useSelector(selectUser);
     const [authorPhoto, setAuthorPhoto] = useState('https://otkritkis.com/wp-content/uploads/2022/06/ra8je.jpg');
     const [showMy, setShowMy] = useState(true);
@@ -23,13 +20,11 @@ const Account = () => {
     useEffect(() => {
         document.title = 'Account';
         if (!author && !window.location.pathname.includes('auth')) {
-            dispatch(setAuthorizationModal(true));
+            dispatch(setModal(true));
         } else if (author && !window.location.pathname.includes('auth')) {
-            dispatch(setAuthorizationModal(false));
+            dispatch(setModal(false));
         } else if (author && author.photoURL.startsWith('https://')) {
             setAuthorPhoto(author.photoURL);
-        } else {
-            window.history.pushState(null, '', '/account');
         }
     }, [author, dispatch]);
 
@@ -37,9 +32,11 @@ const Account = () => {
 
     useEffect(() => {
         if (author) {
+            console.log(author)
             const fetchPosts = async () => {
                 const myPosts = await getPostsByEmail(email)
                 setPosts(myPosts)
+                dispatch(setPostMap(myPosts))
             };
             fetchPosts();
         }
@@ -126,7 +123,6 @@ const Account = () => {
                                     Немає поки коментарів!
                                 </div>
                             )}
-                            {modal && <FullPostModal />}
                         </div>
                     </div>
                 </div>

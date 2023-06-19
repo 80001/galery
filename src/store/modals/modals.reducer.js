@@ -1,17 +1,18 @@
 import { MODALS_ACTION_TYPES } from "./modals.types"
 
 const INITIAL_STATE = {
+    modal: false,
     photo: null,
     post: null,
     postId: null,
     postMap: null,
     photoId: null,
     photoMap: null,
-    authorization: false,
-    createPost: false,
-    zoom: false,
-    fullPost: false,
-    editPost: false,
+    modalAuth: false,
+    modalCreatePost: false,
+    modalZoom: false,
+    modalFullPost: false,
+    modalEditPost: false,
 }
 export const ModalReducer = (state = INITIAL_STATE, action) => {
     const { type, payload } = action
@@ -47,30 +48,55 @@ export const ModalReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 photoMap: payload
             }
-        case MODALS_ACTION_TYPES.SET_AUTHORIZATION:
+        case MODALS_ACTION_TYPES.SET_AUTH_MODAL:
             return {
                 ...state,
-                authorization: payload
+                modal: true,
+                modalAuth: true
             }
-        case MODALS_ACTION_TYPES.SET_CREATE_POST:
+        case MODALS_ACTION_TYPES.SET_CREATE_POST_MODAL:
             return {
                 ...state,
-                createPost: payload
+                modal: true,
+                modalCreatePost: true
             }
-        case MODALS_ACTION_TYPES.SET_ZOOM:
+        case MODALS_ACTION_TYPES.SET_ZOOM_MODAL:
             return {
                 ...state,
-                zoom: payload
+                modal: true,
+                modalZoom: true,
+                photo: payload,
+                photoId: payload.id
             }
-        case MODALS_ACTION_TYPES.SET_FULL_POST:
+        case MODALS_ACTION_TYPES.SET_FULL_POST_MODAL:
             return {
                 ...state,
-                fullPost: payload
+                modal: true,
+                modalFullPost: true,
+                post: payload,
+                postId: payload.id
             }
-        case MODALS_ACTION_TYPES.SET_EDIT_POST:
+        case MODALS_ACTION_TYPES.SET_EDIT_POST_MODAL:
             return {
                 ...state,
-                editPost: payload
+                modal: true,
+                modalEditPost: true,
+                post: payload,
+                postId: payload.id
+            }
+        case MODALS_ACTION_TYPES.SET_MODAL:
+            return {
+                ...state,
+                modal: false,
+                modalAuth: false,
+                modalCreatePost: false,
+                modalZoom: false,
+                modalFullPost: false,
+                modalEditPost: false,
+                photo: null,
+                photoId: null,
+                postId: null,
+                post: null
             }
         default:
             return state

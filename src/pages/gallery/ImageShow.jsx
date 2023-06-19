@@ -13,7 +13,6 @@ const GalleryImage = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         if (createPost) dispatch(setCreatePostModal(true))
-        // eslint-disable-next-line
     }, [createPost])
     const isPostModalOpen = useSelector(selectCreatePostModal)
 
@@ -21,7 +20,7 @@ const GalleryImage = () => {
         dispatch(setCreatePostModal(true))
         dispatch(setPhoto(data.response))
         document.body.style.overflow = 'hidden';
-        window.history.pushState(null, '', `create_post/${imageId}`)
+        //window.history.pushState(null, '', `create_post/${imageId}`)
     }
     const [isLoad, setIsLoad] = useState(true)
     const handleLoadImage = () => {

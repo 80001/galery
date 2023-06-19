@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { setEditPost, setFullPost, setPost, setPostId } from '../../store/modals/modals.action';
+import { setEditPost, setFullPost } from '../../store/modals/modals.action';
 import { timeChanger } from '../../utils/utils';
 import Loader from '../../components/Loading';
 import Button from '../../components/Button';
@@ -9,14 +9,12 @@ const AccountPost = ({ post }) => {
     const { title, subtitle, image, date, id } = post
     const dispatch = useDispatch()
     const openModal = () => {
-        dispatch(setPost(post))
-        dispatch(setPostId(id))
-        dispatch(setFullPost(true))
+        dispatch(setFullPost(post))
         document.body.style.overflow = 'hidden';
         window.history.pushState(null, '', `${window.location.pathname}/${id}`)
     };
     const editPost = () => {
-        dispatch(setEditPost(true))
+        dispatch(setEditPost(post))
     }
     const deletePost = () => {
         let ask = prompt('Enter right answer to delete post! WHO IS REALY YOUR MOM?!')

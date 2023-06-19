@@ -4,8 +4,7 @@ import ViewChanger from '../../components/ViewChanger';
 import { getPosts } from '../../api/Firebase';
 import BlogComponent from './BlogComp';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFullPostModal, selectPostMap } from '../../store/modals/modals.selector';
-import FullPostModal from '../../components/modal/FullPostModal';
+import { selectPostMap } from '../../store/modals/modals.selector';
 import Loader from '../../components/Loading';
 import Pages from '../../components/Pagination';
 import Button from '../../components/Button';
@@ -20,7 +19,6 @@ const Blog = () => {
     const params = useParams()
     const navigate = useNavigate()
     const sorted = useSelector(selectBlogSorted)
-    const fullPost = useSelector(selectFullPostModal)
     const posts = useSelector(selectPostMap)
     const [map, setMap] = useState()
     const [mapPerPages, setMapPerPages] = useState([])
@@ -33,16 +31,11 @@ const Blog = () => {
     const [addMorePage, setAddMorePage] = useState(null)
     const classChange = useSelector(selectClassChange)
 
-
     const showMore = () => {
         dispatch(setBlogMorePage(morePage + 1))
         dispatch(setPostMap([...posts, ...addMorePage]))
         console.log(morePage)
     };
-    //change title
-    //get all posts
-    //if page in params - setPage
-    //else redirect to default page:1
     useEffect(() => {
         document.title = 'Blog'
         const fetchData = async () => {
@@ -68,12 +61,8 @@ const Blog = () => {
                 navigate(`/blog/${page}`)
             }
         }
-        // eslint-disable-next-line
     }, [sorted])
-    //sort posts
 
-    //change url if page changes
-    //change maps if posts.length changes from 0
     useEffect(() => {
         navigate(`/blog/${page}`)
         if (map) {
@@ -88,7 +77,6 @@ const Blog = () => {
             }
         } else {
         }
-        // eslint-disable-next-line
     }, [map, page])
 
     useEffect(() => {
@@ -103,7 +91,6 @@ const Blog = () => {
             setAddMorePage(map.filter((_, index) => index >= middleIndex && index < (middleIndex + 10)))
         } else {
         }
-        // eslint-disable-next-line
     }, [morePage, page, map])
 
     if (map) {
@@ -135,7 +122,6 @@ const Blog = () => {
                         </Button>
                     )}
                 {map.length >= 10 && <Pages lastPage={lastPage} />}
-                {fullPost && <FullPostModal />}
             </div>
         );
     } else {

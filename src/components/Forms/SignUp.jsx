@@ -7,7 +7,7 @@ import { ReactComponent as Hide } from '../../media/hide.svg'
 import { useDispatch } from 'react-redux'
 //import { signsSchema } from './Schemas'
 import { createUserDoc, signUpWithEmail } from '../../api/Firebase'
-import { setUser, setUserImage, setUserName } from '../../store/user/user.action'
+import { setAuthIn } from '../../store/user/user.action'
 import { useNavigate } from 'react-router-dom'
 
 const SignUpForm = () => {
@@ -29,9 +29,7 @@ const SignUpForm = () => {
             const userCredential = await signUpWithEmail(email, password, name)
             const user = userCredential.user
             await createUserDoc(user)
-            dispatch(setUser(user))
-            dispatch(setUserName(user.displayName))
-            dispatch(setUserImage(user.photoURL))
+            dispatch(setAuthIn(user))
             localStorage.setItem('user', JSON.stringify(user))
             navigate(-1)
         } catch (error) {

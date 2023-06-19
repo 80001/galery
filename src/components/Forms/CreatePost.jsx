@@ -3,7 +3,7 @@ import './styles.scss'
 import Button from '../Button'
 import { addPosts } from '../../api/Firebase'
 import { useDispatch, useSelector } from 'react-redux'
-import { setAuthorizationModal, setCreatePostModal } from '../../store/modals/modals.action'
+import { setAuthModal, setCreatePostModal } from '../../store/modals/modals.action'
 import { selectUser } from '../../store/user/user.selector'
 import { selectPhoto } from '../../store/modals/modals.selector'
 
@@ -33,10 +33,10 @@ const CreatePostForm = () => {
         const confirmed = window.confirm('You need to authorization to create post!')
         if (confirmed) {
             dispatch(setCreatePostModal(false))
-            dispatch(setAuthorizationModal(true))
+            dispatch(setAuthModal(true))
         } else {
             document.body.style.overflow = '';
-            window.history.back()
+            //window.history.back()
             dispatch(setCreatePostModal(false))
         }
     };

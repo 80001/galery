@@ -2,9 +2,9 @@ import React from 'react'
 import Button from '../Button'
 import './styles.scss'
 import { useDispatch } from 'react-redux'
-import { setCreatePostModal, setPhoto } from '../../store/modals/modals.action'
 import CreatePostForm from '../Forms/CreatePost'
 import { useNavigate } from 'react-router-dom'
+import { setModal } from '../../store/blog/blog.action'
 
 const CreatePostModal = () => {
   const dispatch = useDispatch()
@@ -12,9 +12,7 @@ const CreatePostModal = () => {
 
   const closeModal = () => {
     document.body.style.overflow = '';
-    dispatch(setCreatePostModal(false))
-    dispatch(setPhoto(null))
-    //window.history.replaceState(null, '', x)
+    dispatch(setModal(false))
     navigate(-1)
   }
 
@@ -22,13 +20,11 @@ const CreatePostModal = () => {
 
 
   return (
-    <div className='bg-modal' onClick={closeModal}>
-      <div className="modal-form modal-form-post" onClick={e => e.stopPropagation()}>
-        <Button className="modal-form__button-close"
-          buttonType='white'
-          onClick={closeModal}>Close</Button>
-        <CreatePostForm />
-      </div>
+    <div className="modal-form modal-form-post" onClick={e => e.stopPropagation()}>
+      <Button className="modal-form__button-close"
+        buttonType='white'
+        onClick={closeModal}>Close</Button>
+      <CreatePostForm />
     </div>
   )
 }

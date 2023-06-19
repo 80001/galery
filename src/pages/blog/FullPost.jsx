@@ -22,7 +22,6 @@ const FullPost = () => {
             setMap(posts)
         }
         fetchData()
-        // eslint-disable-next-line
     }, [])
     useEffect(() => {
         if (map) {
@@ -34,7 +33,7 @@ const FullPost = () => {
     }, [map, postId])
     useEffect(() => {
         if (findPost) {
-            window.history.replaceState(null, '', `${post.id}`)
+            //window.history.replaceState(null, '', `${post.id}`)
         }
     }, [findPost, post.id])
 

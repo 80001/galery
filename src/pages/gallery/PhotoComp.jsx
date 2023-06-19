@@ -1,27 +1,25 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectClassChange } from "../../store/search/search.selector"
-import { setCreatePostModal, setPhoto, setPhotoId, setZoomModal } from "../../store/modals/modals.action"
+import { setCreatePostModal, setZoomModal } from "../../store/modals/modals.action"
 import Loader from "../../components/Loading"
 import { useState } from "react"
 
 const PhotoComp = ({ photo }) => {
     const dispatch = useDispatch()
     const classChange = useSelector(selectClassChange)
-    const { user, urls, width, height, links, id } = photo
+    const { user, urls, width, height, links } = photo
     const dwnld = `Size: ${width}x${height}`
 
     const openModal = () => {
-        dispatch(setPhotoId(id))
-        dispatch(setPhoto(photo))
-        dispatch(setZoomModal(true))
+        dispatch(setZoomModal(photo))
+        console.log('zoom')
         document.body.style.overflow = 'hidden';
-        window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
+        //window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
     };
     const openPostModal = () => {
-        dispatch(setPhoto(photo))
         dispatch(setCreatePostModal(true))
         document.body.style.overflow = 'hidden'
-        window.history.pushState(null, '', `${window.location.pathname}/create_post/${photo.id}`)
+        //window.history.pushState(null, '', `${window.location.pathname}/create_post/${photo.id}`)
     };
     const [isLoad, setIsLoad] = useState(true)
     const handleLoadImage = () => {

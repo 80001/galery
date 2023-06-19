@@ -10,9 +10,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { setMorePage, setPage, setSearch } from '../../store/search/search.action'
 import Button from '../../components/Button'
 import ViewChanger from '../../components/ViewChanger'
-import { selectCreatePostModal, selectZoomModal } from '../../store/modals/modals.selector'
-import CreatePostModal from '../../components/modal/CreatePostModal'
-import ZoomModal from '../../components/modal/ZoomModal'
 import { setPhotoMap } from '../../store/modals/modals.action'
 
 const Gallery = () => {
@@ -27,8 +24,6 @@ const Gallery = () => {
     const dataAPI = UnsplashAPI()
     const moreDataAPI = ShowMoreImage()
     const [map, setMap] = useState(dataAPI.results)
-    const isPostModalOpen = useSelector(selectCreatePostModal)
-    const isZoomModalOpen = useSelector(selectZoomModal)
 
 
     // Check if URL changes
@@ -40,7 +35,6 @@ const Gallery = () => {
             dispatch(setPage(pageValue))
 
         }
-        // eslint-disable-next-line
     }, [params.search, params.page])
 
     // Replace (%20 to -) for URL
@@ -50,12 +44,10 @@ const Gallery = () => {
         dispatch(setMorePage(1))
         document.title = `Gallery: ${search}`;
 
-        // eslint-disable-next-line
     }, [dataAPI.results, search])
 
     useEffect(() => {
         dispatch(setPage(1))
-        // eslint-disable-next-line
     }, [orientation])
     const showMore = () => {
         setMap([...map, ...moreDataAPI])
@@ -102,12 +94,6 @@ const Gallery = () => {
                         </>
                     )}
                 </ul>
-                {isZoomModalOpen && (
-                    <ZoomModal />
-                )}
-                {isPostModalOpen && (
-                    <CreatePostModal />
-                )}
                 <Button
                     className='gallery__btn gallery__btn-show'
                     buttonType='dark'

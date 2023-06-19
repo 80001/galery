@@ -1,29 +1,26 @@
 import { useDispatch, useSelector } from "react-redux"
-import { setCreatePostModal, setFullPost, setPost, setPostId } from "../../store/modals/modals.action"
+import { setCreatePostModal, setFullPost } from "../../store/modals/modals.action"
 import Loader from "../../components/Loading"
 import { useState } from "react"
 import { timeChanger } from "../../utils/utils"
 import { selectClassChange } from "../../store/search/search.selector"
 
 const BlogComponent = ({ photo }) => {
-    const { title, subtitle, image, text, date, author, id } = photo
+    const { title, subtitle, image, text, date, author } = photo
     const dispatch = useDispatch()
     const classChange = useSelector(selectClassChange)
     const shortText = text.slice(0, 100)
-    //const classChange = useSelector(selectClassChange)
     const formattedDate = timeChanger(date)
 
     const openModal = () => {
-        dispatch(setPost(photo))
-        dispatch(setPostId(id))
-        dispatch(setFullPost(true))
+        dispatch(setFullPost(photo))
         document.body.style.overflow = 'hidden';
-        window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
+        //window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
     };
     const openPostModal = () => {
         dispatch(setCreatePostModal(true))
         document.body.style.overflow = 'hidden'
-        window.history.pushState(null, '', `${window.location.pathname}/create_post/${photo.id}`)
+        //window.history.pushState(null, '', `${window.location.pathname}/create_post/${photo.id}`)
     };
     const [isLoad, setIsLoad] = useState(true)
     const handleLoadImage = () => {
