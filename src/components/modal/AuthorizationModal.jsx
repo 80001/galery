@@ -5,7 +5,6 @@ import SignInForm from '../Forms/SignIn';
 import Button from '../Button';
 import { useNavigate } from 'react-router-dom';
 import { closeModal } from '../../store/modals/modals.action'
-import { names } from '../../store/modals/names';
 
 const AuthorizationModal = () => {
   const dispatch = useDispatch()
@@ -13,7 +12,7 @@ const AuthorizationModal = () => {
 
 
   const closeModals = () => {
-    dispatch(closeModal(names.auth, 'auth'))
+    dispatch(closeModal('auth'))
     document.body.style.overflow = '';
   }
 
