@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectClassChange } from "../../store/search/search.selector"
-import { setCreatePostModal, setZoomModal } from "../../store/modals/modals.action"
 import Loader from "../../components/Loading"
 import { useState } from "react"
+import { openModal } from "../../store/modals/modals.action"
 
 const PhotoComp = ({ photo }) => {
     const dispatch = useDispatch()
@@ -10,14 +10,14 @@ const PhotoComp = ({ photo }) => {
     const { user, urls, width, height, links } = photo
     const dwnld = `Size: ${width}x${height}`
 
-    const openModal = () => {
-        dispatch(setZoomModal(photo))
+    const openModals = () => {
+        dispatch(openModal('zoom', photo))
         console.log('zoom')
         document.body.style.overflow = 'hidden';
         //window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
     };
     const openPostModal = () => {
-        dispatch(setCreatePostModal(true))
+        dispatch(openModal('create', urls.full))
         document.body.style.overflow = 'hidden'
         //window.history.pushState(null, '', `${window.location.pathname}/create_post/${photo.id}`)
     };
@@ -32,7 +32,7 @@ const PhotoComp = ({ photo }) => {
             <div className="gallery__item-view">
                 <img
                     src={urls.regular}
-                    onClick={openModal}
+                    onClick={openModals}
                     alt="img"
                     className="gallery__img"
                     title="CLICK ON IMAGE TO ZOOM IN"

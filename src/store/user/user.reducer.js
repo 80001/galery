@@ -1,22 +1,19 @@
 import { USER_ACTION_TYPES } from "./user.types"
 
 const INITIAL_STATE = {
-    user: null,
-    auth: false,
+    auth: {}
 }
 export const UserReducer = (state = INITIAL_STATE, action) => {
     const { type, payload } = action
 
     switch (type) {
-        case USER_ACTION_TYPES.SET_AUTH_IN:
+        case USER_ACTION_TYPES.LOG_IN:
             return {
-                auth: true,
-                user: payload
+                auth: payload
             }
-        case USER_ACTION_TYPES.SET_AUTH_OUT:
+        case USER_ACTION_TYPES.LOG_OUT:
             return {
-                auth: false,
-                user: null
+                auth: null
             }
         default:
             return state

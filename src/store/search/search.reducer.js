@@ -1,18 +1,24 @@
 import { SEARCH_ACTION_TYPES } from "./search.types"
 
 const INITIAL_STATE = {
+    //пошук за запитом
     search: 'star wars',
-    history: [],
-    showComments: true,
-    writeComments: false,
+    //масив для модалки
+    searchMap: [],
+    //альбом, портрет, квадрат
     orientation: 'landscape',
+    //page for images
     page: 1,
+    //додаткові сторінки при додавані фт на сторінку
     morePage: 1,
+    //фт на сторінці
     perPage: 10,
+    //
     isLoading: false,
+    //перемикач вигляду зображень: великі чи малі
     view: 'big',
+    //клас для зміни вигляду
     classChange: '',
-    searchBoolean: false,
 }
 
 export const SearchReducer = (state = INITIAL_STATE, action) => {
@@ -24,20 +30,10 @@ export const SearchReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 search: payload
             }
-        case SEARCH_ACTION_TYPES.SET_HISTORY:
+        case SEARCH_ACTION_TYPES.SET_SEARCH_MAP:
             return {
                 ...state,
-                history: payload
-            }
-        case SEARCH_ACTION_TYPES.SET_SHOW_COMMENTS:
-            return {
-                ...state,
-                showComments: payload
-            }
-        case SEARCH_ACTION_TYPES.SET_WRITE_COMMENTS:
-            return {
-                ...state,
-                writeComments: payload
+                searchMap: payload
             }
         case SEARCH_ACTION_TYPES.SET_ORIENTATION:
             return {
@@ -73,11 +69,6 @@ export const SearchReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 classChange: payload
-            }
-        case SEARCH_ACTION_TYPES.SET_SEARCH_BOOLEAN:
-            return {
-                ...state,
-                searchBoolean: payload
             }
         default:
             return state

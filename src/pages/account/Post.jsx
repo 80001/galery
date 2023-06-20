@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { setEditPost, setFullPost } from '../../store/modals/modals.action';
 import { timeChanger } from '../../utils/utils';
 import Loader from '../../components/Loading';
 import Button from '../../components/Button';
+import { openModal } from '../../store/modals/modals.action';
 
 const AccountPost = ({ post }) => {
-    const { title, subtitle, image, date, id } = post
+    const { title, subtitle, image, date } = post
     const dispatch = useDispatch()
-    const openModal = () => {
-        dispatch(setFullPost(post))
+    const openModals = () => {
+        dispatch(openModal('full', post))
         document.body.style.overflow = 'hidden';
-        window.history.pushState(null, '', `${window.location.pathname}/${id}`)
+        //window.history.pushState(null, '', `${window.location.pathname}/${id}`)
     };
     const editPost = () => {
-        dispatch(setEditPost(post))
+        dispatch(openModal('edit', { ...post, isEdit: true }))
+        document.body.style.overflow = 'hidden';
     }
     const deletePost = () => {
         let ask = prompt('Enter right answer to delete post! WHO IS REALY YOUR MOM?!')
@@ -28,7 +29,7 @@ const AccountPost = ({ post }) => {
     return (
         <li className='show-my__body-post' onLoad={handleLoadImage}>
             {isLoad && <Loader />}
-            <img src={image} alt={title} onClick={openModal} className="show-my__body-img" />
+            <img src={image} alt={title} onClick={openModals} className="show-my__body-img" />
             <div className="show-my__body-text">
                 <p >Title:</p>
                 <p >{title.slice(0, 20)}</p>

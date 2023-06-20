@@ -4,14 +4,12 @@ import ViewChanger from '../../components/ViewChanger';
 import { getPosts } from '../../api/Firebase';
 import BlogComponent from './BlogComp';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectPostMap } from '../../store/modals/modals.selector';
 import Loader from '../../components/Loading';
 import Pages from '../../components/Pagination';
 import Button from '../../components/Button';
-import { selectBlogMorePage, selectBlogPage, selectBlogSorted } from '../../store/blog/blog.selector';
+import { selectBlogMorePage, selectBlogPage, selectBlogSorted, selectPostsMap } from '../../store/blog/blog.selector';
 import { useNavigate, useParams } from 'react-router-dom';
-import { setBlogMorePage, setBlogPage } from '../../store/blog/blog.action';
-import { setPostMap } from '../../store/modals/modals.action';
+import { setBlogMorePage, setBlogPage, setPostsMap } from '../../store/blog/blog.action';
 import { selectClassChange } from '../../store/search/search.selector';
 
 const Blog = () => {
@@ -19,7 +17,7 @@ const Blog = () => {
     const params = useParams()
     const navigate = useNavigate()
     const sorted = useSelector(selectBlogSorted)
-    const posts = useSelector(selectPostMap)
+    const posts = useSelector(selectPostsMap)
     const [map, setMap] = useState()
     const [mapPerPages, setMapPerPages] = useState([])
     const [lastPage, setLastPage] = useState(null)
@@ -33,7 +31,7 @@ const Blog = () => {
 
     const showMore = () => {
         dispatch(setBlogMorePage(morePage + 1))
-        dispatch(setPostMap([...posts, ...addMorePage]))
+        dispatch(setPostsMap([...posts, ...addMorePage]))
         console.log(morePage)
     };
     useEffect(() => {
@@ -67,12 +65,11 @@ const Blog = () => {
         navigate(`/blog/${page}`)
         if (map) {
             if (map.length >= 10) {
-
                 setLastPage(Math.ceil(map.length / 10))
                 setMapPerPages(map.filter((_, index) => index >= startIndex && index < endIndex));
                 setAddMorePage(map.filter((_, index) => index >= middleIndex && index < (middleIndex + 10)))
                 if (mapPerPages.length > 0) {
-                    dispatch(setPostMap(mapPerPages))
+                    dispatch(setPostsMap(mapPerPages))
                 }
             }
         } else {
@@ -82,7 +79,7 @@ const Blog = () => {
     useEffect(() => {
         if (mapPerPages) {
             if (mapPerPages.length > 0) {
-                dispatch(setPostMap(mapPerPages))
+                dispatch(setPostsMap(mapPerPages))
             }
         }
     }, [mapPerPages, dispatch])

@@ -4,19 +4,17 @@ import PhotoComp from './PhotoComp'
 import './styles.scss'
 import Loader from '../../components/Loading'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectClassChange, selectMorePage, selectPage, selectSearch, selectorientation } from '../../store/search/search.selector'
+import { selectClassChange, selectMorePage, selectPage, selectSearch } from '../../store/search/search.selector'
 import Pages from '../../components/Pagination'
 import { useParams, useNavigate } from 'react-router-dom'
-import { setMorePage, setPage, setSearch } from '../../store/search/search.action'
+import { setMorePage, setPage, setSearch, setSearchMap } from '../../store/search/search.action'
 import Button from '../../components/Button'
 import ViewChanger from '../../components/ViewChanger'
-import { setPhotoMap } from '../../store/modals/modals.action'
 
 const Gallery = () => {
     const params = useParams()
     const dispatch = useDispatch()
     const search = useSelector(selectSearch)
-    const orientation = useSelector(selectorientation)
     const classChange = useSelector(selectClassChange)
     const page = useSelector(selectPage)
     const morePage = useSelector(selectMorePage)
@@ -35,7 +33,7 @@ const Gallery = () => {
             dispatch(setPage(pageValue))
 
         }
-    }, [params.search, params.page])
+    }, [params.search, params.page, dispatch])
 
     // Replace (%20 to -) for URL
     useEffect(() => {
@@ -44,13 +42,14 @@ const Gallery = () => {
         dispatch(setMorePage(1))
         document.title = `Gallery: ${search}`;
 
-    }, [dataAPI.results, search])
+    }, [dataAPI.results, search, dispatch])
 
-    useEffect(() => {
-        dispatch(setPage(1))
-    }, [orientation])
+    if (map) {
+        dispatch(setSearchMap(map))
+    }
     const showMore = () => {
         setMap([...map, ...moreDataAPI])
+        dispatch(setSearchMap(map))
         dispatch(setMorePage(morePage + 1))
     }
     const [isLoad, setIsLoad] = useState(true)
@@ -75,7 +74,7 @@ const Gallery = () => {
         )
     } else {
         if (map) {
-            dispatch(setPhotoMap(map))
+            //dispatch(setPhotoMap(map))
         }
         return (
             <div className="gallery" onLoad={handleLoadImage}>

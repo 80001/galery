@@ -3,12 +3,9 @@ import { Route, Routes } from 'react-router-dom'
 import Gallery from '../gallery'
 import Blog from '../blog'
 import Account from '../account'
-import { useSelector } from 'react-redux'
-import { selectModal } from '../../store/modals/modals.selector'
 import Modal from '../../components/modal'
 
 const MainPage = () => {
-    const modal = useSelector(selectModal)
     return (
         <div className='container'>
             <Routes>
@@ -22,7 +19,7 @@ const MainPage = () => {
                 <Route path='account' element={<Account />} />
                 <Route path='account/:auth' element={<Account />} />
             </Routes>
-            {modal && <Modal />}
+            <Modal />
         </div>
     )
 }

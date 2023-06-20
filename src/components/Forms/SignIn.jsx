@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { ReactComponent as Show } from '../../media/show.svg'
 import { ReactComponent as Hide } from '../../media/hide.svg'
 import { useNavigate } from 'react-router-dom'
+import { closeModal } from '../../store/modals/modals.action'
 
 const SignInForm = () => {
     const navigate = useNavigate()
@@ -18,6 +19,7 @@ const SignInForm = () => {
         const { user } = await signInWithGooglePopUp()
         createUserDoc(user)
         dispatch(setAuthIn(user))
+        dispatch(closeModal('auth'))
         localStorage.setItem('user', JSON.stringify(user))
         navigate(-1)
     };
@@ -25,12 +27,12 @@ const SignInForm = () => {
         email: '',
         password: '',
     };
-    const onSubmit = async (values, { resetForm }) => {
+    const onSubmit = async (values) => {
         try {
             const user = await signInWithEmail(values.email, values.password)
             dispatch(setAuthIn(user.user))
+            dispatch(closeModal('auth'))
             localStorage.setItem('user', JSON.stringify(user.user))
-            resetForm()
             navigate(-1)
         } catch (error) {
             switch (error.code) {
@@ -41,6 +43,7 @@ const SignInForm = () => {
                     alert('No user with this Email');
                     break;
                 default:
+                    alert(error)
             }
         }
     };

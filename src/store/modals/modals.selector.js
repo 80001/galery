@@ -1,12 +1,5 @@
-export const selectPhoto = (state) => state.modal.photo
-export const selectPhotoId = (state) => state.modal.photoId
-export const selectPost = (state) => state.modal.post
-export const selectPostId = (state) => state.modal.postId
-export const selectPostMap = (state) => state.modal.postMap
-export const selectPhotoMap = (state) => state.modal.photoMap
-export const selectAuthModal = (state) => state.modal.modalAuth
-export const selectCreatePostModal = (state) => state.modal.modalCreatePost
-export const selectZoomModal = (state) => state.modal.modalZoom
-export const selectFullPostModal = (state) => state.modal.modalFullPost
-export const selectEditPostModal = (state) => state.modal.modalEditPost
-export const selectModal = (state) => state.modal.modal
+export const authModal = (state) => state.modal.auth
+export const createModal = (state) => state.modal.create
+export const zoomModal = (state) => state.modal.zoom
+export const fullModal = (state) => state.modal.full
+export const editModal = (state) => state.modal.edit

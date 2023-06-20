@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from '../../store/user/user.selector';
-import { setModal, setPostMap } from '../../store/modals/modals.action';
+import { selectAuth } from '../../store/user/user.selector';
 import Loader from '../../components/Loading';
 import './styles.scss';
 import Button from '../../components/Button';
 import { dayOnSite, lastLogin } from '../../utils/utils';
 import { getPostsByEmail } from '../../api/Firebase';
 import AccountPost from './Post';
+import { setPostsMap } from '../../store/blog/blog.action';
 
 const Account = () => {
     const dispatch = useDispatch();
-    const author = useSelector(selectUser);
-    const [authorPhoto, setAuthorPhoto] = useState('https://otkritkis.com/wp-content/uploads/2022/06/ra8je.jpg');
+    const author = useSelector(selectAuth);
+    const authorPhoto = 'https://otkritkis.com/wp-content/uploads/2022/06/ra8je.jpg'
     const [showMy, setShowMy] = useState(true);
     const [posts, setPosts] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -20,11 +20,11 @@ const Account = () => {
     useEffect(() => {
         document.title = 'Account';
         if (!author && !window.location.pathname.includes('auth')) {
-            dispatch(setModal(true));
+            //dispatch(setModal(true));
         } else if (author && !window.location.pathname.includes('auth')) {
-            dispatch(setModal(false));
+            //dispatch(setModal(false));
         } else if (author && author.photoURL.startsWith('https://')) {
-            setAuthorPhoto(author.photoURL);
+            //setAuthorPhoto(author.photoURL);
         }
     }, [author, dispatch]);
 
@@ -32,15 +32,14 @@ const Account = () => {
 
     useEffect(() => {
         if (author) {
-            console.log(author)
             const fetchPosts = async () => {
                 const myPosts = await getPostsByEmail(email)
                 setPosts(myPosts)
-                dispatch(setPostMap(myPosts))
+                dispatch(setPostsMap(myPosts))
             };
             fetchPosts();
         }
-    }, [author, email]);
+    }, [author, email, dispatch]);
 
     if (!author) {
         return <Loader />;

@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { createUserDoc, signUpWithEmail } from '../../api/Firebase'
 import { setAuthIn } from '../../store/user/user.action'
 import { useNavigate } from 'react-router-dom'
+import { closeModal } from '../../store/modals/modals.action'
 
 const SignUpForm = () => {
     const dispatch = useDispatch()
@@ -20,7 +21,7 @@ const SignUpForm = () => {
         password: '',
         passwordCheck: '',
     }
-    const onSubmit = async (values, { resetForm }) => {
+    const onSubmit = async (values) => {
         const { email, name, password, passwordCheck } = values
         if (password !== passwordCheck) {
             alert('Passwords do not match!');
@@ -30,6 +31,7 @@ const SignUpForm = () => {
             const user = userCredential.user
             await createUserDoc(user)
             dispatch(setAuthIn(user))
+            dispatch(closeModal('auth'))
             localStorage.setItem('user', JSON.stringify(user))
             navigate(-1)
         } catch (error) {
@@ -39,7 +41,6 @@ const SignUpForm = () => {
                 console.log('User creation encountered an error:', error);
             }
         }
-        resetForm();
     };
 
     const showPass = () => {

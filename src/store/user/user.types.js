@@ -1,4 +1,4 @@
 export const USER_ACTION_TYPES = {
-    SET_AUTH_IN: 'SET_AUTH_IN',
-    SET_AUTH_OUT: 'SET_AUTH_OUT',
+    LOG_IN: 'LOG_IN',
+    LOG_OUT: 'LOG_OUT',
 }
