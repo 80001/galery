@@ -3,6 +3,7 @@ import { selectClassChange } from "../../store/search/search.selector"
 import Loader from "../../components/Loading"
 import { useState } from "react"
 import { openModal } from "../../store/modals/modals.action"
+import { Link } from "react-router-dom"
 
 const PhotoComp = ({ photo }) => {
     const dispatch = useDispatch()
@@ -12,7 +13,6 @@ const PhotoComp = ({ photo }) => {
 
     const openModals = () => {
         dispatch(openModal('zoom', photo))
-        console.log('zoom')
         document.body.style.overflow = 'hidden';
         //window.history.pushState(null, '', `${window.location.pathname}/${photo.id}`)
     };
@@ -42,18 +42,18 @@ const PhotoComp = ({ photo }) => {
                     onClick={openPostModal}>
                     <p>Create Post</p>
                 </div>
-                <a
+                <Link
                     href={links.download}
                     className="gallery__btns gallery__download"
                     title={dwnld}
-                >Down⌊✓⌋load</a>
-                <a
+                >Down⌊✓⌋load</Link>
+                <Link
                     href={`https://unsplash.com/@${user.username}`}
                     target='_blank'
                     title="Author"
                     rel="noreferrer"
                     className="gallery__btns gallery__credit">{user.name}
-                </a>
+                </Link>
             </div>
         </li>
     )

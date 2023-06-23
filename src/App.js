@@ -1,7 +1,6 @@
 import './App.css';
 import Footer from './pages/footer';
 import Header from './pages/header';
-import Aside from './pages/aside';
 import MainPage from './pages/main';
 import ButtonToTop from './components/Button/ButtonToTop';
 import { useEffect, useRef } from 'react';
@@ -22,7 +21,6 @@ function App() {
   return (
     <div className="app" ref={ref}>
       <Header />
-      <Aside />
       <div className='content'>
         <MainPage />
         <ButtonToTop reffer={ref} />

@@ -6,12 +6,14 @@ import { timeChanger } from '../../utils/utils';
 import Button from '../Button';
 import { changePost } from '../../api/Firebase';
 import { closeModal } from '../../store/modals/modals.action';
-import { selectPostsMap } from '../../store/blog/blog.selector';
+import { selectPostsAuthMap, selectPostsMap } from '../../store/blog/blog.selector';
 
 const FullPostModal = ({ params }) => {
-    const [post, setPosts] = useState(params)
+    const [post, setPost] = useState(params)
     const postId = params.id
     const postMap = useSelector(selectPostsMap)
+    const postAuthMap = useSelector(selectPostsAuthMap)
+    const [posts, setPosts] = useState(postMap || postAuthMap)
     const [isLoad, setIsLoad] = useState(true);
     const isEdit = params.isEdit || false
     const [findPost, setFindPost] = useState(null);
@@ -37,10 +39,10 @@ const FullPostModal = ({ params }) => {
     };
 
     useEffect(() => {
-        if (postMap) {
-            const x = postMap.findIndex((obj) => obj.id === postId);
-            setPosts(postMap[x])
-            setFindPost(x);
+        if (postMap.length !== 0) {
+            setPosts(postMap)
+        } else if (postAuthMap !== 0) {
+            setPosts(postAuthMap)
         }
     }, [postMap, postId, dispatch]);
 
@@ -64,13 +66,13 @@ const FullPostModal = ({ params }) => {
     };
 
     const nextPost = () => {
-        if (findPost === postMap.length - 1) {
-            setPosts(postMap[0])
+        if (findPost === posts.length - 1) {
+            setPost(posts[0])
             setFindPost(0);
         } else {
-            const nextPost = postMap[findPost + 1];
+            const nextPost = posts[findPost + 1];
             if (nextPost) {
-                setPosts(postMap[findPost + 1])
+                setPost(posts[findPost + 1])
                 setFindPost(findPost + 1);
             }
         }
@@ -78,12 +80,12 @@ const FullPostModal = ({ params }) => {
 
     const prewPost = () => {
         if (findPost === 0) {
-            setPosts(postMap[postMap.length - 1])
-            setFindPost(postMap.length - 1);
+            setPost(posts[posts.length - 1])
+            setFindPost(posts.length - 1);
         } else {
-            const prewPost = postMap[findPost - 1];
+            const prewPost = posts[findPost - 1];
             if (prewPost) {
-                setPosts(postMap[findPost - 1])
+                setPost(posts[findPost - 1])
                 setFindPost(findPost - 1);
             }
         }

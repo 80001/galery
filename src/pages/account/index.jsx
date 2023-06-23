@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 import { dayOnSite, lastLogin } from '../../utils/utils';
 import { getPostsByEmail } from '../../api/Firebase';
 import AccountPost from './Post';
-import { setPostsMap } from '../../store/blog/blog.action';
+import { setPostsAuthMap } from '../../store/blog/blog.action';
 
 const Account = () => {
     const dispatch = useDispatch();
@@ -17,16 +17,7 @@ const Account = () => {
     const [posts, setPosts] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    useEffect(() => {
-        document.title = 'Account';
-        if (!author && !window.location.pathname.includes('auth')) {
-            //dispatch(setModal(true));
-        } else if (author && !window.location.pathname.includes('auth')) {
-            //dispatch(setModal(false));
-        } else if (author && author.photoURL.startsWith('https://')) {
-            //setAuthorPhoto(author.photoURL);
-        }
-    }, [author, dispatch]);
+    document.title = 'Account';
 
     const { createdAt, displayName, email, lastLoginAt } = author || {};
 
@@ -35,11 +26,17 @@ const Account = () => {
             const fetchPosts = async () => {
                 const myPosts = await getPostsByEmail(email)
                 setPosts(myPosts)
-                dispatch(setPostsMap(myPosts))
-            };
+            }
             fetchPosts();
         }
+
     }, [author, email, dispatch]);
+
+    useEffect(() => {
+        if (posts !== null) {
+            dispatch(setPostsAuthMap(posts))
+        }
+    }, [posts])
 
     if (!author) {
         return <Loader />;

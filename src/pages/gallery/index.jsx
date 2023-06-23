@@ -23,30 +23,35 @@ const Gallery = () => {
     const moreDataAPI = ShowMoreImage()
     const [map, setMap] = useState(dataAPI.results)
 
-
     // Check if URL changes
     useEffect(() => {
         if (params.search && params.page) {
             const searchValue = params.search.replaceAll('-', ' ')
             const pageValue = parseInt(params.page, 10)
-            dispatch(setSearch(searchValue))
-            dispatch(setPage(pageValue))
-
+            if (searchValue !== search) {
+                dispatch(setSearch(searchValue))
+            }
+            if (page !== Number(params.page)) {
+                dispatch(setPage(pageValue))
+            }
         }
-    }, [params.search, params.page, dispatch])
+    }, [])
 
     // Replace (%20 to -) for URL
     useEffect(() => {
+        document.title = `Gallery: ${search}`;
         setMap(dataAPI.results)
         navigate(`/s/${search.replaceAll(' ', '-')}/${page}`, { replace: false })
-        dispatch(setMorePage(1))
-        document.title = `Gallery: ${search}`;
+        if (morePage !== 1) {
+            dispatch(setMorePage(1))
+        }
+    }, [dataAPI.results])
+    useEffect(() => {
+        if (map.length !== 0) {
+            dispatch(setSearchMap(map))
+        }
+    }, [map])
 
-    }, [dataAPI.results, search, dispatch])
-
-    if (map) {
-        dispatch(setSearchMap(map))
-    }
     const showMore = () => {
         setMap([...map, ...moreDataAPI])
         dispatch(setSearchMap(map))

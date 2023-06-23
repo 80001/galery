@@ -4,24 +4,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../Loading'
 import { closeModal, openModal } from '../../store/modals/modals.action'
 import { selectSearchMap } from '../../store/search/search.selector'
+import { Link } from 'react-router-dom'
 
 const ZoomModal = ({ params }) => {
   const dispatch = useDispatch()
-  const photoId = params.id
   const [photo, setPhoto] = useState(params)
   const photoMap = useSelector(selectSearchMap)
   const [findPhoto, setFindPhoto] = useState(null)
   const [isLoad, setIsLoad] = useState(true)
-
-  console.log(photoMap)
-  useEffect(() => {
-    if (photoMap) {
-      const x = photoMap.findIndex((obj) => obj.id === photoId)
-      setPhoto(photoMap[x])
-      setFindPhoto(x)
-
-    }
-  }, [])
 
   const { urls, id, user, description, alt_description, links } = photo ?? {}
   const closeModals = () => {
@@ -93,18 +83,18 @@ const ZoomModal = ({ params }) => {
             onClick={openPostModal}>
             <p>Create Post</p>
           </div>
-          <a
-            href={links?.download}
+          <Link
+            to={links?.download}
             className="modal-zoom__btns modal-zoom__download"
             title={'dwnld'}
-          >Down⌊✓⌋load</a>
-          <a
-            href={`https://unsplash.com/@${user?.username}`}
+          >Down⌊✓⌋load</Link>
+          <Link
+            to={`https://unsplash.com/@${user?.username}`}
             target='_blank'
             title="Author"
             rel="noreferrer"
             className="modal-zoom__btns modal-zoom__credit">{user?.username}
-          </a>
+          </Link>
           <span className='modal-zoom__description'>
             {description || alt_description || 'Description`s gone!'}
           </span>

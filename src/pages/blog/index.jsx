@@ -29,11 +29,7 @@ const Blog = () => {
     const [addMorePage, setAddMorePage] = useState(null)
     const classChange = useSelector(selectClassChange)
 
-    const showMore = () => {
-        dispatch(setBlogMorePage(morePage + 1))
-        dispatch(setPostsMap([...posts, ...addMorePage]))
-        console.log(morePage)
-    };
+    //get data from API/sort data/if was on page - go to page
     useEffect(() => {
         document.title = 'Blog'
         const fetchData = async () => {
@@ -49,18 +45,19 @@ const Blog = () => {
             }
         }
         fetchData()
-        dispatch(setBlogMorePage(1))
 
         if (params.blog) {
-            if (params.blog && params.page) {
+            if (params.blog && params.page !== '1') {
                 const pageValue = parseInt(params.page, 10)
+                console.log(typeof (pageValue))
+                console.log(pageValue)
+                console.log(page)
                 dispatch(setBlogPage(pageValue))
-            } else {
-                navigate(`/blog/${page}`)
             }
         }
     }, [sorted])
 
+    //
     useEffect(() => {
         navigate(`/blog/${page}`)
         if (map) {
@@ -89,6 +86,11 @@ const Blog = () => {
         } else {
         }
     }, [morePage, page, map])
+
+    const showMore = () => {
+        dispatch(setBlogMorePage(morePage + 1))
+        dispatch(setPostsMap([...posts, ...addMorePage]))
+    };
 
     if (map) {
         const showHideButtons = () => {
