@@ -7,8 +7,9 @@ import { ReactComponent as Hide } from '../../media/hide.svg'
 import { useDispatch } from 'react-redux'
 //import { signsSchema } from './Schemas'
 import { createUserDoc, signUpWithEmail } from '../../api/Firebase'
-import { setUser, setUserImage, setUserName } from '../../store/user/user.action'
+import { setAuthIn } from '../../store/user/user.action'
 import { useNavigate } from 'react-router-dom'
+import { closeModal } from '../../store/modals/modals.action'
 
 const SignUpForm = () => {
     const dispatch = useDispatch()
@@ -20,7 +21,7 @@ const SignUpForm = () => {
         password: '',
         passwordCheck: '',
     }
-    const onSubmit = async (values, { resetForm }) => {
+    const onSubmit = async (values) => {
         const { email, name, password, passwordCheck } = values
         if (password !== passwordCheck) {
             alert('Passwords do not match!');
@@ -29,9 +30,8 @@ const SignUpForm = () => {
             const userCredential = await signUpWithEmail(email, password, name)
             const user = userCredential.user
             await createUserDoc(user)
-            dispatch(setUser(user))
-            dispatch(setUserName(user.displayName))
-            dispatch(setUserImage(user.photoURL))
+            dispatch(setAuthIn(user))
+            dispatch(closeModal('auth'))
             localStorage.setItem('user', JSON.stringify(user))
             navigate(-1)
         } catch (error) {
@@ -41,7 +41,6 @@ const SignUpForm = () => {
                 console.log('User creation encountered an error:', error);
             }
         }
-        resetForm();
     };
 
     const showPass = () => {
@@ -114,7 +113,7 @@ const SignUpForm = () => {
                     <div className="sign-up__form-buttons">
                         <Button type='submit'
                             buttonType='dark'
-                            className='sign-up__button-sub'>Submit</Button>
+                            className='sign-up__button-sub'>Register</Button>
                     </div>
                 </Form>
             </Formik>

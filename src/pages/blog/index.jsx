@@ -4,15 +4,12 @@ import ViewChanger from '../../components/ViewChanger';
 import { getPosts } from '../../api/Firebase';
 import BlogComponent from './BlogComp';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectFullPostModal, selectPostMap } from '../../store/modals/modals.selector';
-import FullPostModal from '../../components/modal/FullPostModal';
 import Loader from '../../components/Loading';
 import Pages from '../../components/Pagination';
 import Button from '../../components/Button';
-import { selectBlogMorePage, selectBlogPage, selectBlogSorted } from '../../store/blog/blog.selector';
+import { selectBlogMorePage, selectBlogPage, selectBlogSorted, selectPostsMap } from '../../store/blog/blog.selector';
 import { useNavigate, useParams } from 'react-router-dom';
-import { setBlogMorePage, setBlogPage } from '../../store/blog/blog.action';
-import { setPostMap } from '../../store/modals/modals.action';
+import { setBlogMorePage, setBlogPage, setPostsMap } from '../../store/blog/blog.action';
 import { selectClassChange } from '../../store/search/search.selector';
 
 const Blog = () => {
@@ -20,8 +17,7 @@ const Blog = () => {
     const params = useParams()
     const navigate = useNavigate()
     const sorted = useSelector(selectBlogSorted)
-    const fullPost = useSelector(selectFullPostModal)
-    const posts = useSelector(selectPostMap)
+    const posts = useSelector(selectPostsMap)
     const [map, setMap] = useState()
     const [mapPerPages, setMapPerPages] = useState([])
     const [lastPage, setLastPage] = useState(null)
@@ -33,16 +29,7 @@ const Blog = () => {
     const [addMorePage, setAddMorePage] = useState(null)
     const classChange = useSelector(selectClassChange)
 
-
-    const showMore = () => {
-        dispatch(setBlogMorePage(morePage + 1))
-        dispatch(setPostMap([...posts, ...addMorePage]))
-        console.log(morePage)
-    };
-    //change title
-    //get all posts
-    //if page in params - setPage
-    //else redirect to default page:1
+    //get data from API/sort data/if was on page - go to page
     useEffect(() => {
         document.title = 'Blog'
         const fetchData = async () => {
@@ -58,43 +45,38 @@ const Blog = () => {
             }
         }
         fetchData()
-        dispatch(setBlogMorePage(1))
 
         if (params.blog) {
-            if (params.blog && params.page) {
-                const pageValue = parseInt(params.page, 10)
+            if (params.page === undefined) {
+                dispatch(setBlogPage(1))
+            } else if (params.page !== '1') {
+                //const pageValue = parseInt(params.page, 10)
+                const pageValue = Number(params.page)
                 dispatch(setBlogPage(pageValue))
-            } else {
-                navigate(`/blog/${page}`)
             }
         }
-        // eslint-disable-next-line
     }, [sorted])
-    //sort posts
 
-    //change url if page changes
-    //change maps if posts.length changes from 0
+    //
     useEffect(() => {
         navigate(`/blog/${page}`)
         if (map) {
             if (map.length >= 10) {
-
                 setLastPage(Math.ceil(map.length / 10))
                 setMapPerPages(map.filter((_, index) => index >= startIndex && index < endIndex));
                 setAddMorePage(map.filter((_, index) => index >= middleIndex && index < (middleIndex + 10)))
                 if (mapPerPages.length > 0) {
-                    dispatch(setPostMap(mapPerPages))
+                    dispatch(setPostsMap(mapPerPages))
                 }
             }
         } else {
         }
-        // eslint-disable-next-line
     }, [map, page])
 
     useEffect(() => {
         if (mapPerPages) {
             if (mapPerPages.length > 0) {
-                dispatch(setPostMap(mapPerPages))
+                dispatch(setPostsMap(mapPerPages))
             }
         }
     }, [mapPerPages, dispatch])
@@ -103,8 +85,12 @@ const Blog = () => {
             setAddMorePage(map.filter((_, index) => index >= middleIndex && index < (middleIndex + 10)))
         } else {
         }
-        // eslint-disable-next-line
     }, [morePage, page, map])
+
+    const showMore = () => {
+        dispatch(setBlogMorePage(morePage + 1))
+        dispatch(setPostsMap([...posts, ...addMorePage]))
+    };
 
     if (map) {
         const showHideButtons = () => {
@@ -135,7 +121,6 @@ const Blog = () => {
                         </Button>
                     )}
                 {map.length >= 10 && <Pages lastPage={lastPage} />}
-                {fullPost && <FullPostModal />}
             </div>
         );
     } else {

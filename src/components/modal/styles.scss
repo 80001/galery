@@ -31,7 +31,7 @@
 
         &__description {
             position        : absolute;
-            bottom          : 05%;
+            bottom          : 15%;
             left            : 0;
             right           : 0;
             font-size       : 18px;
@@ -58,6 +58,7 @@
             padding: 30px;
             cursor : pointer;
             stroke : white;
+            z-index: 5;
 
             &:hover {
                 svg {
@@ -143,6 +144,10 @@
             overflow        : hidden;
             text-overflow   : ellipsis;
             max-width       : 40ch;
+        }
+
+        &__btns {
+            z-index: 3;
         }
     }
 
@@ -406,4 +411,148 @@
             text-align : center;
         }
     }
+}
+
+@media only screen and (max-width: 666px) and (min-width: 350px) {
+    .modal {
+        width: 100%;
+
+        &-zoom {
+            position : relative;
+            width    : 100%;
+            height   : 100%;
+            height   : fit-content;
+            position : absolute;
+            left     : 0;
+            top      : 50%;
+            transform: translate(0, -50%);
+
+            &__prew-image {
+                left     : 0;
+                top      : 50%;
+                transform: translate(0, -50%);
+                padding  : 20px 0;
+            }
+
+            &__next-image {
+                right    : 0;
+                top      : 50%;
+                transform: translate(0, -50%);
+                padding  : 20px 0;
+            }
+
+            &__img {
+                height: auto;
+                width : 100%;
+            }
+
+            &__btns {
+                z-index: 3;
+            }
+        }
+
+        &-blog {
+            width : 100%;
+            height: 100%;
+
+            &__view {
+                max-width: none;
+                width    : 100%;
+                height   : 100%;
+                padding  : 0 20px;
+
+                &-buttons {
+                    width          : 100%;
+                    display        : flex;
+                    justify-content: center;
+                }
+
+                .click {
+                    padding: 30px;
+                    cursor : pointer;
+                    stroke : white;
+                    z-index: 5;
+
+                    &:hover {
+                        svg {
+                            transform: scale(1.2);
+                        }
+                    }
+                }
+
+                &-image-prew {
+                    position: absolute;
+                    left    : 15%;
+                    top     : 30%;
+                    padding : 20px 0;
+                }
+
+                &-image-next {
+                    position: absolute;
+                    right   : 15%;
+                    top     : 30%;
+                    padding : 20px 0;
+                }
+
+                &-bottom {
+                    display       : flex;
+                    flex-direction: column;
+                    padding       : 20px;
+
+                    h4 {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        &-form {
+            width : 100%;
+            height: 100%;
+
+
+
+            &__button-close {
+                top  : 2px;
+                right: 2px;
+            }
+        }
+
+        &-auth {
+            display       : flex;
+            flex-direction: column;
+            width         : 100%;
+            height        : 100%;
+
+            &__button-change {
+                position: absolute;
+                bottom  : 0;
+                width   : 100%;
+            }
+
+            .sign-up__form,
+            .sign-in__form {
+                display        : flex;
+                flex-direction : column;
+                justify-content: space-evenly;
+
+                &-titles {
+                    flex: 0 0;
+                }
+
+                &-inputs {
+                    flex: 0 0;
+                }
+
+                &-buttons {
+                    flex          : 0 0;
+                    display       : flex;
+                    gap           : 20px;
+                    flex-direction: column;
+                    margin-bottom : 30px;
+                }
+            }
+        }
+    }
+
 }

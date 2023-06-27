@@ -1,25 +1,28 @@
-.galery__pages{
-    margin: 20px auto;
-    display: flex;
-    justify-content: center;
+.pages {
+  margin         : 20px auto;
+  display        : flex;
+  justify-content: center;
 }
-.galery__page{
-    margin: 0 5px;
-    padding: 5px;
+
+.page {
+  margin : 0 5px;
+  padding: 5px;
 }
-.galery__page-input{
-    background-color: #fff;
-    width:60px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #343a40;
-    text-align: center;
-    border-radius: 5px;
+
+.page-input {
+  background-color: #fff;
+  width           : 60px;
+  font-size       : 16px;
+  font-weight     : bold;
+  color           : #343a40;
+  text-align      : center;
+  border-radius   : 5px;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
-  margin: 0;
+  margin            : 0;
 }
 
 /* Firefox */

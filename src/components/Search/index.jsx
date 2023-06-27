@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './styles.scss'
-import { setHistory, setPage, setSearch } from '../../store/search/search.action'
-import { selectHistory, selectSearch } from '../../store/search/search.selector'
+import { setPage, setSearch } from '../../store/search/search.action'
+import { selectSearch } from '../../store/search/search.selector'
 import { useDispatch, useSelector } from 'react-redux'
 
 const SearchImage = () => {
@@ -9,14 +9,12 @@ const SearchImage = () => {
     const [value, setValue] = useState('')
     const [searchValue, setSearchValue] = useState('')
     const search = useSelector(selectSearch)
-    const history = useSelector(selectHistory)
     const dispatch = useDispatch()
 
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(setPage(1))
         dispatch(setSearch(searchValue))
-        handleHistory()
         setSearchValue('')
     }
     const handleChange = (e) => {
@@ -28,15 +26,6 @@ const SearchImage = () => {
             setDisabled(false)
             setValue('-value')
         }
-    }
-    const handleHistory = () => {
-        const maxLenght = 5
-        if (history.length < maxLenght) {
-            return dispatch(setHistory([...history, search]))
-        }
-
-        /* const slicedHistory = history.filter((item, index) => index !== 0)
-        setHistory([...slicedHistory, search]) */
     }
 
     return (

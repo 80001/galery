@@ -1,16 +1,14 @@
 import { BLOG_ACTION_TYPES } from "./blog.types"
 
 const INITIAL_STATE = {
-    posts: [],
+    //postsMap для зберігання масиву постів, які можна перемикати в модалці
     postsMap: [],
-    title: '',
-    subtitle: '',
-    img: '',
-    text: '',
-    id: '',
-    modal: false,
+    postsAuthMap: [],
+    // сторінки в blog
     blogPage: 1,
+    //додаткові сторінки в blog(коли додаєш фт на сторінку)
     blogMorePage: 1,
+    // зміна подачі постів - сортування
     blogSorted: 'mixed',
 }
 
@@ -18,45 +16,15 @@ export const BlogReducer = (state = INITIAL_STATE, action) => {
     const { type, payload } = action
 
     switch (type) {
-        case BLOG_ACTION_TYPES.SET_POSTS:
-            return {
-                ...state,
-                posts: payload
-            }
         case BLOG_ACTION_TYPES.SET_POSTS_MAP:
             return {
                 ...state,
                 postsMap: payload
             }
-        case BLOG_ACTION_TYPES.SET_POSTS_TITLE:
+        case BLOG_ACTION_TYPES.SET_POSTS_AUTH_MAP:
             return {
                 ...state,
-                title: payload
-            }
-        case BLOG_ACTION_TYPES.SET_POSTS_SUBTITLE:
-            return {
-                ...state,
-                subtitle: payload
-            }
-        case BLOG_ACTION_TYPES.SET_POSTS_IMG:
-            return {
-                ...state,
-                img: payload
-            }
-        case BLOG_ACTION_TYPES.SET_POSTS_TEXT:
-            return {
-                ...state,
-                text: payload
-            }
-        case BLOG_ACTION_TYPES.SET_POSTS_ID:
-            return {
-                ...state,
-                id: payload
-            }
-        case BLOG_ACTION_TYPES.SET_MODAL:
-            return {
-                ...state,
-                modal: payload
+                postsMap: payload
             }
         case BLOG_ACTION_TYPES.SET_BLOG_PAGE:
             return {
@@ -71,7 +39,9 @@ export const BlogReducer = (state = INITIAL_STATE, action) => {
         case BLOG_ACTION_TYPES.SET_BLOG_SORTED:
             return {
                 ...state,
-                blogSorted: payload
+                blogSorted: payload,
+                blogPage: 1,
+                blogMorePage: 1
             }
         default:
             return state

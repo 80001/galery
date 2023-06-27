@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import './styles.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectView } from '../../store/search/search.selector'
+import { selectClassChange, selectView } from '../../store/search/search.selector'
 import { setClassChange, setOrientation, setView } from '../../store/search/search.action'
 import { useParams } from 'react-router-dom'
 import { setBlogSorted } from '../../store/blog/blog.action'
@@ -10,15 +10,15 @@ const ViewChanger = () => {
     const dispatch = useDispatch()
     const { blog } = useParams()
     const view = useSelector(selectView)
+    const classChange = useSelector(selectClassChange)
 
     useEffect(() => {
         if (view === 'small') {
             dispatch(setClassChange('-small'))
-            //document.querySelector('.gallery__container').classList.add('gallery__container-small')
         } else {
-            dispatch(setClassChange(''))
-            //document.querySelector('.gallery__container').classList.remove('gallery__container-small')
-
+            if (classChange !== '') {
+                dispatch(setClassChange(''))
+            }
         }
     }, [view, dispatch])
     return (
@@ -50,7 +50,7 @@ const ViewChanger = () => {
                     </select>
                 </div>}
             <div className='view'>
-                <h5 className="view__subtitle">View</h5>
+                <h5 className="filter__subtitle">View</h5>
                 <select className='view__select'
                     name="view"
                     id="view"

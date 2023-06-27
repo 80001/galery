@@ -3,15 +3,14 @@ import './styles.scss'
 import Button from '../Button'
 import { addPosts } from '../../api/Firebase'
 import { useDispatch, useSelector } from 'react-redux'
-import { setAuthorizationModal, setCreatePostModal } from '../../store/modals/modals.action'
-import { selectUser } from '../../store/user/user.selector'
-import { selectPhoto } from '../../store/modals/modals.selector'
+import { selectAuth } from '../../store/user/user.selector'
+import { createModal } from '../../store/modals/modals.selector'
+import { closeModal, openModal } from '../../store/modals/modals.action'
 
 const CreatePostForm = () => {
     const dispatch = useDispatch()
-    const imageUrl = useSelector(selectPhoto)
-
-    const author = useSelector(selectUser)
+    const imageUrl = useSelector(createModal)
+    const author = useSelector(selectAuth)
     const initialValues = {
         title: '',
         subtitle: '',
@@ -19,25 +18,24 @@ const CreatePostForm = () => {
         text: '',
     }
     if (imageUrl) {
-        initialValues.image = imageUrl.urls.full
+        initialValues.image = imageUrl.params
     }
     const onSubmit = (values, { resetForm }) => {
         const { title, subtitle, image, text } = values
         addPosts(title, subtitle, image, text, author.email)
         initialValues.image = ''
-        resetForm()
         document.body.style.overflow = '';
-        dispatch(setCreatePostModal(false))
+        dispatch(closeModal('create'))
     }
     const ask = () => {
         const confirmed = window.confirm('You need to authorization to create post!')
         if (confirmed) {
-            dispatch(setCreatePostModal(false))
-            dispatch(setAuthorizationModal(true))
+            dispatch(closeModal('create'))
+            dispatch(openModal('auth'))
         } else {
             document.body.style.overflow = '';
-            window.history.back()
-            dispatch(setCreatePostModal(false))
+            //window.history.back()
+            dispatch(closeModal('create'))
         }
     };
     if (!author) {

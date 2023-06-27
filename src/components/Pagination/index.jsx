@@ -76,8 +76,8 @@ const Pages = ({ lastPage }) => {
 		setPageS(lastPage)
 	}
 	return (
-		<div className="galery__pages">
-			<Button className="galery__page"
+		<div className="pages">
+			<Button className="page"
 				buttonType="white"
 				disabled={pageDisabledMin()}
 				onClick={pageSetMinus}>Prev</Button>
@@ -88,12 +88,13 @@ const Pages = ({ lastPage }) => {
 				onChange={pageEnter}
 				value={page}
 				placeholder='69'
-				className="galery__page galery__page-input" />
-			<Button className="galery__page"
+				className="page page-input" />
+			<Button className="page"
 				buttonType="white"
 				disabled={pageDisabledMax()}
 				onClick={pageSetPlus}>Next</Button>
-			<Button className="galery__page"
+			<span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 4px' }}>...</span>
+			<Button className="page"
 				buttonType="white"
 				onClick={setLastPage}>{lastPage}</Button>
 		</div>

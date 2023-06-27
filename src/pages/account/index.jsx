@@ -1,37 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from '../../store/user/user.selector';
-import { setAuthorizationModal } from '../../store/modals/modals.action';
+import { selectAuth } from '../../store/user/user.selector';
 import Loader from '../../components/Loading';
 import './styles.scss';
 import Button from '../../components/Button';
 import { dayOnSite, lastLogin } from '../../utils/utils';
 import { getPostsByEmail } from '../../api/Firebase';
 import AccountPost from './Post';
-import { selectFullPostModal } from '../../store/modals/modals.selector';
-import FullPostModal from '../../components/modal/FullPostModal';
+import { setPostsAuthMap } from '../../store/blog/blog.action';
 
 const Account = () => {
     const dispatch = useDispatch();
-    const modal = useSelector(selectFullPostModal);
-    const author = useSelector(selectUser);
-    const [authorPhoto, setAuthorPhoto] = useState('https://otkritkis.com/wp-content/uploads/2022/06/ra8je.jpg');
+    const author = useSelector(selectAuth);
+    const authorPhoto = 'https://otkritkis.com/wp-content/uploads/2022/06/ra8je.jpg'
     const [showMy, setShowMy] = useState(true);
     const [posts, setPosts] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    useEffect(() => {
-        document.title = 'Account';
-        if (!author && !window.location.pathname.includes('auth')) {
-            dispatch(setAuthorizationModal(true));
-        } else if (author && !window.location.pathname.includes('auth')) {
-            dispatch(setAuthorizationModal(false));
-        } else if (author && author.photoURL.startsWith('https://')) {
-            setAuthorPhoto(author.photoURL);
-        } else {
-            window.history.pushState(null, '', '/account');
-        }
-    }, [author, dispatch]);
+    document.title = 'Account';
 
     const { createdAt, displayName, email, lastLoginAt } = author || {};
 
@@ -40,10 +26,17 @@ const Account = () => {
             const fetchPosts = async () => {
                 const myPosts = await getPostsByEmail(email)
                 setPosts(myPosts)
-            };
+            }
             fetchPosts();
         }
-    }, [author, email]);
+
+    }, [author, email, dispatch]);
+
+    useEffect(() => {
+        if (posts !== null) {
+            dispatch(setPostsAuthMap(posts))
+        }
+    }, [posts])
 
     if (!author) {
         return <Loader />;
@@ -70,9 +63,9 @@ const Account = () => {
                     <h4 className="account-main__created">
                         Registered <span>{daysReg}</span> days ago!
                     </h4>
-                    <h4 className="account-main__login">
-                        <span>Last login: {lastTime}</span> hours
-                    </h4>
+                    <h5 className="account-main__login">
+                        <span>Last login: {lastTime === 0 ? 'Just now' : lastTime + 'hours'}</span>
+                    </h5>
                     <img className="account-main__avatar" src={authorPhoto} alt={displayName} />
                 </div>
                 <div className="account-child">
@@ -126,7 +119,6 @@ const Account = () => {
                                     Немає поки коментарів!
                                 </div>
                             )}
-                            {modal && <FullPostModal />}
                         </div>
                     </div>
                 </div>

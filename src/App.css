@@ -100,6 +100,8 @@ code {
 }
 html,
 body {
+  min-width: 375px;
+  min-height: 667px;
 	height: 100%;
 }
 .wrapper {
@@ -120,3 +122,11 @@ body {
   margin: 0 auto;
   height: 100%;
 }
+@media (max-width: 820px) {
+    .container {
+      margin-top: 70px;
+    }
+  }
+  button{
+    text-transform: uppercase;
+  }
