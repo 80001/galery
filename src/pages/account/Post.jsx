@@ -30,17 +30,19 @@ const AccountPost = ({ post }) => {
         <li className='show-my__body-post' onLoad={handleLoadImage}>
             {isLoad && <Loader />}
             <img src={image} alt={title} onClick={openModals} className="show-my__body-img" />
-            <div className="show-my__body-text">
-                <p >Title:</p>
-                <p >{title.slice(0, 20)}</p>
-            </div>
-            <div className="show-my__body-text">
-                <p>Subtitle:</p>
-                <p>{subtitle.slice(0, 20)}</p>
-            </div>
-            <div className="show-my__body-text">
-                <p>Created At:</p>
-                <p >{timeChanger(date)}</p>
+            <div>
+                <div className="show-my__body-text">
+                    <p >Title:</p>
+                    <p >{title.slice(0, 20)}</p>
+                </div>
+                <div className="show-my__body-text">
+                    <p>Subtitle:</p>
+                    <p>{subtitle.slice(0, 20)}</p>
+                </div>
+                <div className="show-my__body-text">
+                    <p>Created At:</p>
+                    <p >{timeChanger(date)}</p>
+                </div>
             </div>
 
             <Button buttonType='dark'

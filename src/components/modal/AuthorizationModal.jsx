@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import SignUpForm from '../Forms/SignUp';
 import SignInForm from '../Forms/SignIn';
 import Button from '../Button';
-import { useNavigate } from 'react-router-dom';
 import { closeModal } from '../../store/modals/modals.action'
+import { isMobile } from 'react-device-detect';
 
 const AuthorizationModal = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const [show, setShow] = useState(false)
 
 
   const closeModals = () => {
@@ -23,10 +23,19 @@ const AuthorizationModal = () => {
         <Button className="modal-form__button-close"
           buttonType='white'
           onClick={closeModals}>Close</Button>
-        <div className="modal-auth">
-          <SignUpForm />
-          <SignInForm />
-        </div>
+        {isMobile
+          ?
+          <div className="modal-auth">
+            <Button buttonType='white' className='modal-auth__button-change' onClick={() => setShow(!show)}>{show ? 'Go to Log In' : 'Go to Registration'}</Button>
+            {show && <SignUpForm />}
+            {!show && <SignInForm />}
+          </div>
+          :
+          <div className="modal-auth">
+            <SignUpForm />
+            <SignInForm />
+          </div>
+        }
       </div>
     </div>
   )

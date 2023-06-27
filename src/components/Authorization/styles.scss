@@ -1,16 +1,27 @@
-.auth{
+.auth {
     display: flex;
-    width: 100%;
-    &__title{
-        display: flex;
+
+    &__title {
+        display    : flex;
         align-items: center;
-        font-size: 18px;
-        font-style: italic;
+        font-size  : 18px;
+        font-style : italic;
     }
-    &__button{
-        margin-left: 10px;
-        text-align: center;
+
+    &__button {
+        margin-left   : 10px;
+        text-align    : center;
         text-transform: uppercase;
-        padding: 10px 5px;
+        padding       : 10px 5px;
+    }
+}
+
+@media (max-width: 830px) {
+    .auth {
+        width: 100%;
+    }
+
+    .auth__button {
+        margin: 0 auto;
     }
 }

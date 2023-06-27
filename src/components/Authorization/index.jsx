@@ -7,18 +7,20 @@ import Button from '../Button'
 import { openModal } from '../../store/modals/modals.action'
 import { setAuthOut } from '../../store/user/user.action'
 
-const Authorization = () => {
+const Authorization = ({ setOpen }) => {
     const auth = useSelector(selectAuth)
     const dispatch = useDispatch()
     const setAuthModals = () => {
         dispatch(openModal('auth'))
         document.body.style.overflow = 'hidden';
+        setOpen(false)
         //window.history.pushState(null, '', `${window.location.pathname}/auth`)
     }
     const logout = async () => {
         googleSignOut()
         dispatch(setAuthOut())
         localStorage.removeItem('user')
+        setOpen(false)
     }
 
     return (

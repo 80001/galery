@@ -113,7 +113,7 @@ const SignUpForm = () => {
                     <div className="sign-up__form-buttons">
                         <Button type='submit'
                             buttonType='dark'
-                            className='sign-up__button-sub'>Submit</Button>
+                            className='sign-up__button-sub'>Register</Button>
                     </div>
                 </Form>
             </Formik>

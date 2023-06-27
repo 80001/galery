@@ -5,6 +5,7 @@ import Loader from '../Loading'
 import { closeModal, openModal } from '../../store/modals/modals.action'
 import { selectSearchMap } from '../../store/search/search.selector'
 import { Link } from 'react-router-dom'
+import { useSwipeable } from 'react-swipeable'
 
 const ZoomModal = ({ params }) => {
   const dispatch = useDispatch()
@@ -23,6 +24,10 @@ const ZoomModal = ({ params }) => {
     dispatch(openModal('create', photo.urls.full))
     //window.history.pushState(null, '', `create_post/${id}`)
   }
+  const handleSwipe = useSwipeable({
+    onSwipedLeft: () => prewImage(),
+    onSwipedRight: () => nextImage()
+  })
   const nextImage = () => {
     if (findPhoto === photoMap.length - 1) {
       setPhoto(photoMap[0])
@@ -51,7 +56,7 @@ const ZoomModal = ({ params }) => {
     setIsLoad(false)
   }
   return (
-    <div className='bg-modal'>
+    <div className='bg-modal' {...handleSwipe}>
       <div className="modal" >
         {isLoad && <Loader />}
         <div className="modal-zoom" >

@@ -28,6 +28,7 @@
         font-weight   : 500;
         text-transform: uppercase;
         text-shadow   : 1px 1px 2px wheat;
+        margin-bottom : 5px;
     }
 
     &__title {
@@ -53,6 +54,7 @@
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows   : repeat(5, 1fr);
         grid-gap             : 10px;
+        margin               : 0 10px;
     }
 
     //blogComp
@@ -264,4 +266,25 @@
             text-align : center;
         }
     }
+}
+
+@media (max-width: 830px) and (min-width: 350px) {
+    .blog__item-view {
+
+        &-bottom {
+            display       : flex;
+            flex-direction: column;
+
+            h4 {
+                display: none;
+            }
+        }
+
+        &-top {
+            grid-gap          : 0;
+            grid-template-rows: auto;
+        }
+
+    }
+
 }

@@ -63,9 +63,9 @@ const Account = () => {
                     <h4 className="account-main__created">
                         Registered <span>{daysReg}</span> days ago!
                     </h4>
-                    <h4 className="account-main__login">
-                        <span>Last login: {lastTime}</span> hours
-                    </h4>
+                    <h5 className="account-main__login">
+                        <span>Last login: {lastTime === 0 ? 'Just now' : lastTime + 'hours'}</span>
+                    </h5>
                     <img className="account-main__avatar" src={authorPhoto} alt={displayName} />
                 </div>
                 <div className="account-child">

@@ -47,11 +47,11 @@ const Blog = () => {
         fetchData()
 
         if (params.blog) {
-            if (params.blog && params.page !== '1') {
-                const pageValue = parseInt(params.page, 10)
-                console.log(typeof (pageValue))
-                console.log(pageValue)
-                console.log(page)
+            if (params.page === undefined) {
+                dispatch(setBlogPage(1))
+            } else if (params.page !== '1') {
+                //const pageValue = parseInt(params.page, 10)
+                const pageValue = Number(params.page)
                 dispatch(setBlogPage(pageValue))
             }
         }

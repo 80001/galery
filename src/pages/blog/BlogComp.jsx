@@ -22,7 +22,8 @@ const BlogComponent = ({ photo }) => {
         setIsLoad(false)
     }
     return (
-        <li className={`blog__item${classChange}`} >
+        <li className={`blog__item${classChange}`}
+            onLoad={handleLoadImage}>
             {isLoad && <Loader />}
             <div className={`blog__item-view${classChange}`}>
                 <div className="blog__item-view-top">

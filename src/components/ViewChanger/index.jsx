@@ -50,7 +50,7 @@ const ViewChanger = () => {
                     </select>
                 </div>}
             <div className='view'>
-                <h5 className="view__subtitle">View</h5>
+                <h5 className="filter__subtitle">View</h5>
                 <select className='view__select'
                     name="view"
                     id="view"

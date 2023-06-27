@@ -103,13 +103,12 @@
                         &-post {
                             position             : relative;
                             display              : grid;
-                            grid-template-columns: 3fr 1fr 1fr 1fr;
+                            grid-template-columns: 1fr 1fr;
                             gap                  : 10px;
                             margin               : 20px 0;
                             text-align           : center;
                             align-items          : center;
                             box-shadow           : 10px 5px 5px red;
-                            z-index              : 1;
 
                             &:hover {
                                 .show-my__body-btn {
@@ -119,15 +118,21 @@
                             }
                         }
 
+                        div {
+                            display        : flex;
+                            justify-content: space-around;
+                        }
+
                         &-img {
                             cursor: pointer;
                             width : 100%;
                         }
 
                         &-text {
-                            font-size  : 15px;
-                            font-weight: 600;
-                            line-height: 40px;
+                            flex-direction: column;
+                            font-size     : 15px;
+                            font-weight   : 600;
+                            line-height   : 40px;
                         }
 
                         &-btn {
@@ -150,6 +155,62 @@
                     }
                 }
             }
+        }
+    }
+}
+
+@media (max-width: 830px) and (min-width: 350px) {
+    .account-main {
+        position: relative;
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        h4 {
+            left     : 0;
+            top      : 0;
+            transform: translate(10%);
+        }
+
+        h5 {
+            right    : 0;
+            top      : 0;
+            transform: translate(-10%);
+        }
+    }
+
+    .account-child__my-work .show-my__body {
+        margin: 0 auto;
+
+        &-post {
+            display       : flex;
+            flex-direction: column;
+            margin        : 20px;
+        }
+
+        &-btn {
+            display: none;
+            cursor : pointer;
+        }
+
+        .delete {
+            z-index : 2;
+            position: absolute;
+            top     : 20px;
+            right   : 20px;
+        }
+
+        .edit {
+            position: absolute;
+            top     : 20px;
+            left    : 20px;
+            right   : auto;
+            bottom  : auto;
+        }
+
+        div {
+            gap: 5%;
         }
     }
 }
