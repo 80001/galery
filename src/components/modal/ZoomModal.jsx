@@ -28,7 +28,8 @@ const ZoomModal = ({ params }) => {
     onSwipedLeft: () => prewImage(),
     onSwipedRight: () => nextImage()
   })
-  const nextImage = () => {
+  const nextImage = (e) => {
+    e.stopPropagation()
     if (findPhoto === photoMap.length - 1) {
       setPhoto(photoMap[0])
       setFindPhoto(0)
@@ -40,7 +41,8 @@ const ZoomModal = ({ params }) => {
       }
     }
   }
-  const prewImage = () => {
+  const prewImage = (e) => {
+    e.stopPropagation()
     if (findPhoto === 0) {
       setPhoto(photoMap[photoMap.length - 1])
       setFindPhoto(photoMap.length - 1)
@@ -56,7 +58,8 @@ const ZoomModal = ({ params }) => {
     setIsLoad(false)
   }
   return (
-    <div className='bg-modal' {...handleSwipe}>
+    <div className='bg-modal' {...handleSwipe}
+      onClick={closeModals}>
       <div className="modal" >
         {isLoad && <Loader />}
         <div className="modal-zoom" >

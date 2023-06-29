@@ -8,9 +8,11 @@ import { dayOnSite, lastLogin } from '../../utils/utils';
 import { getPostsByEmail } from '../../api/Firebase';
 import AccountPost from './Post';
 import { setPostsAuthMap } from '../../store/blog/blog.action';
+import { useNavigate } from 'react-router-dom';
 
 const Account = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const author = useSelector(selectAuth);
     const authorPhoto = 'https://otkritkis.com/wp-content/uploads/2022/06/ra8je.jpg'
     const [showMy, setShowMy] = useState(true);
@@ -29,6 +31,9 @@ const Account = () => {
             }
             fetchPosts();
         }
+        if (!author) {
+            navigate('/')
+        }
 
     }, [author, email, dispatch]);
 
@@ -38,9 +43,7 @@ const Account = () => {
         }
     }, [posts])
 
-    if (!author) {
-        return <Loader />;
-    }
+
 
     const daysReg = dayOnSite(createdAt);
     const lastTime = lastLogin(lastLoginAt);

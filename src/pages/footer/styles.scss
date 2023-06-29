@@ -1,28 +1,34 @@
-.footer{
-    
-    &__container{
-        max-height: 100%;
-        max-width: 1080px;
-        margin: 0 auto;
-        display: block;
-        align-items: center;
+.footer {
+
+    &__container {
+        max-height      : 100%;
+        max-width       : 1080px;
+        margin          : 0 auto;
+        display         : block;
+        align-items     : center;
         background-color: #e1e1e1;
     }
-    &__nav{
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        justify-items: center;
-        padding: 20px 0;
+
+    &__nav {
+        display              : grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-items        : center;
+        padding              : 20px 0;
     }
-    &__info{
-        padding: 20px 0;
+
+    &__info {
+        padding   : 20px 0;
         text-align: center;
     }
-    &__link{
+
+    &__link {
         text-transform: uppercase;
+        padding       : 5px 10px;
+        font-weight   : 700;
     }
-    &__link:hover{
+
+    &__link:hover {
         transition: 0.2s ease;
-        transform: scale(1.1);
+        transform : scale(1.1);
     }
 }

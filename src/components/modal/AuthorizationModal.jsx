@@ -15,11 +15,16 @@ const AuthorizationModal = () => {
     dispatch(closeModal('auth'))
     document.body.style.overflow = '';
   }
-
+  const closeModalPC = () => {
+    if (!isMobile) {
+      dispatch(closeModal('auth'))
+      document.body.style.overflow = '';
+    }
+  }
 
   return (
-    <div className='bg-modal'>
-      <div className="modal-form" onClick={e => e.stopPropagation()}>
+    <div className='bg-modal' onClick={closeModalPC}>
+      <div className="modal-form" >
         <Button className="modal-form__button-close"
           buttonType='white'
           onClick={closeModals}>Close</Button>

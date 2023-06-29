@@ -10,6 +10,7 @@ const Header = () => {
 
     const handleToggle = () => {
         setOpen(!open);
+        document.body.style.overflow = '';
     };
 
     return (

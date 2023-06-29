@@ -70,7 +70,8 @@ const FullPostModal = ({ params }) => {
         onSwipedRight: () => nextPost()
     })
 
-    const nextPost = () => {
+    const nextPost = (e) => {
+        e.stopPropagation()
         if (findPost === posts.length - 1) {
             setPost(posts[0])
             setFindPost(0);
@@ -83,7 +84,8 @@ const FullPostModal = ({ params }) => {
         }
     };
 
-    const prewPost = () => {
+    const prewPost = (e) => {
+        e.stopPropagation()
         if (findPost === 0) {
             setPost(posts[posts.length - 1])
             setFindPost(posts.length - 1);
@@ -98,7 +100,7 @@ const FullPostModal = ({ params }) => {
 
     if (isEdit) {
         return (
-            <div className='bg-modal' {...handleSwipe}>
+            <div className='bg-modal' {...handleSwipe} onClick={closeModals}>
                 <div className="modal-blog" onLoad={handleLoadImage}>
                     {isLoad && <Loader />}
                     <form onSubmit={handleSubmit} className="modal-blog__view">
