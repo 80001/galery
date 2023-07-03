@@ -12,7 +12,7 @@ import {
     signInWithEmailAndPassword,
     onAuthStateChanged
 } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, setDoc, updateDoc } from 'firebase/firestore'
+import { addDoc, arrayUnion, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, onSnapshot, setDoc, updateDoc } from 'firebase/firestore'
 import { firebaseConfig } from "../configs/FirebaseConfig";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -28,6 +28,7 @@ provider.setCustomParameters({
 export const auth = getAuth()
 export const db = getFirestore(app)
 const postsCollection = collection(db, "posts");
+const postsDeletedCollection = collection(db, "postsDeleted");
 
 //Google Sign In
 export const signInWithGooglePopUp = () => signInWithPopup(auth, provider)
@@ -133,8 +134,7 @@ export const getPosts = async () => {
     });
 
     return posts;
-};
-
+}
 //Get post by ID
 export const getPostById = async (id) => {
     try {
@@ -163,12 +163,24 @@ export const getPostsByEmail = async (email) => {
     })
     return posts
 }
+export const getDeletedPostsByEmail = async (email) => {
+    const postsSnapshot = await getDocs(postsDeletedCollection)
+    const posts = []
+    postsSnapshot.forEach((doc) => {
+        const postData = doc.data()
+        const postId = doc.id
+        if (postData.author === email) {
+            posts.push({ ...postData, id: postId })
+        }
+    })
+    return posts
+}
 //Edit post
 export const changePost = async (id, newData) => {
     const postRef = doc(db, 'posts', id)
     try {
         await updateDoc(postRef, newData)
-        console.log('Doc is update')
+        console.log(newData)
     } catch (error) {
         console.error('Error', error)
     }
@@ -176,10 +188,86 @@ export const changePost = async (id, newData) => {
 //deletePost
 export const deletePosts = async (postId) => {
     try {
-        await deleteDoc(doc(db, "posts", postId));
-        console.log(`Документ з id ${postId} успішно видалено`);
+        const docRef = doc(db, 'posts', postId);
+        const docSnapshot = await getDoc(docRef);
+        if (docSnapshot.exists()) {
+            const docData = docSnapshot.data();
+            const newCollRef = doc(db, 'postsDeleted', postId);
+            try {
+                await deleteDoc(docRef);
+                await setDoc(newCollRef, docData);
+                console.log(`Документ з id ${postId} успішно перенесено в колекцію "postsDeleted" та видалено з колекції "posts"`);
+            } catch (error) {
+                console.log('Помилка перенесення документа:', error.message);
+            }
+        }
     } catch (error) {
         console.error("Помилка видалення документа:", error);
     }
 };
+//restore Post
+export const restorePosts = async (postId) => {
+    try {
+        const docRef = doc(db, 'postsDeleted', postId)
+        const docSnapshot = await getDoc(docRef)
+        if (docSnapshot.exists()) {
+            const docData = docSnapshot.data()
+            const newCollRef = doc(db, 'posts', postId);
+            try {
+                await deleteDoc(docRef);
+                await setDoc(newCollRef, docData);
+                console.log(`Документ з id ${postId} успішно відновелений`);
+            } catch (error) {
+                console.log('Помилка перенесення документа:', error.message);
+            }
+        }
+    } catch (error) {
+        console.error("Помилка відновлення документа:", error);
+    }
+};
+//create comment on post
+export const createPostComment = async (postId, comment) => {
+    const postRef = doc(db, 'posts', postId)
+    try {
+        await updateDoc(postRef, {
+            comments: arrayUnion(comment)
+        })
+    } catch (error) {
+        console.log('Error', error)
+    }
+}
 
+export const onlineComments = (id) => {
+    return new Promise((resolve, reject) => {
+        onSnapshot(doc(db, 'posts', id), (snapshot) => {
+            const data = snapshot.data();
+            console.log(data);
+            resolve(data);
+        }, (error) => {
+            console.log(error);
+            reject(error);
+        });
+    });
+};
+
+//get comments
+export const getCommentByEmail = async (email) => {
+    const postsSnapshot = await getDocs(postsCollection)
+    const comments = []
+    const posts = []
+    postsSnapshot.forEach((doc) => {
+        const postData = doc.data()
+        const postId = doc.id
+        if (postData.comments) {
+            postData.comments.forEach((comment) => {
+                if (comment.author === email) {
+                    let text = comment.text
+                    comments.push(text)
+                    posts.push({ ...postData, id: postId })
+                }
+            })
+        }
+    })
+    return { comments, posts }
+}
+//delete comments

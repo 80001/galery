@@ -87,3 +87,10 @@ $opened-height      : 160px;
     }
   }
 }
+
+@media (max-width: 850px) {
+  .button__to-top {
+    right    : 50%;
+    transform: translate(50%);
+  }
+}

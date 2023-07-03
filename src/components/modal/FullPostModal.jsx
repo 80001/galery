@@ -1,70 +1,100 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Loading';
 import { timeChanger } from '../../utils/utils';
 import Button from '../Button';
-import { changePost } from '../../api/Firebase';
+import { changePost, createPostComment } from '../../api/Firebase';
 import { closeModal } from '../../store/modals/modals.action';
 import { selectPostsAuthMap, selectPostsMap } from '../../store/blog/blog.selector';
 import { useSwipeable } from 'react-swipeable';
+import { selectAuth } from '../../store/user/user.selector';
 
 const FullPostModal = ({ params }) => {
     const [post, setPost] = useState(params)
     const postId = params.id
     const postMap = useSelector(selectPostsMap)
+    const auth = useSelector(selectAuth)
     const postAuthMap = useSelector(selectPostsAuthMap)
     const [posts, setPosts] = useState(postMap || postAuthMap)
-    const [isLoad, setIsLoad] = useState(true);
+    const [isLoad, setIsLoad] = useState(true)
     const isEdit = params.isEdit || false
-    const [findPost, setFindPost] = useState(null);
+    const [findPost, setFindPost] = useState(null)
+    const textareaRef = useRef(null);
+
+    const adjustTextareaHeight = () => {
+        const textarea = textareaRef.current;
+        textarea.style.height = 'auto';
+        textarea.style.marginTop = 'auto';
+        textarea.style.height = `${textarea.scrollHeight + 20}px`;
+    };
     const [newValues, setNewValues] = useState({
         title: post.title,
         subtitle: post.subtitle,
         text: post.text,
     });
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
+    const closeModalsBg = (event) => {
+        document.body.style.overflow = ''
+        if (event.target === event.currentTarget) {
+            if (isEdit) {
+                dispatch(closeModal('edit'))
+            } else {
+                dispatch(closeModal('full'))
+            }
+        }
+    }
     const closeModals = () => {
-        document.body.style.overflow = '';
+        document.body.style.overflow = ''
         if (isEdit) {
             dispatch(closeModal('edit'))
         } else {
             dispatch(closeModal('full'))
         }
-    };
+    }
 
     const handleLoadImage = () => {
-        setIsLoad(false);
-    };
-
+        setIsLoad(false)
+    }
     useEffect(() => {
         if (postMap.length !== 0) {
             setPosts(postMap)
         } else if (postAuthMap !== 0) {
             setPosts(postAuthMap)
         }
-    }, [postMap, postId, dispatch]);
+    }, [postMap, postId, dispatch])
 
-    const { title, subtitle, image, text, date, author } = post;
-    const formattedDate = timeChanger(date);
+    const { title, subtitle, image, text, date, author, comments } = post
+    const formattedDate = timeChanger(date)
+
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
         setNewValues((prevValues) => ({
             ...prevValues,
             [name]: value,
-        }));
-    };
-
+        }))
+    }
+    const handleComment = (e) => {
+        e.preventDefault()
+        let imageURL = auth.photoURL
+        if (!imageURL.includes('https://')) {
+            imageURL = 'https://' + imageURL
+        } else {
+        }
+        createPostComment(post.id, { author: auth.displayName, avatar: imageURL, text: textareaRef.current.value })
+        console.log(postId, { author: auth.displayName, avatar: imageURL, text: textareaRef.current.value })
+        textareaRef.current.value = ''
+    }
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         changePost(postId, newValues)
-        document.body.style.overflow = '';
+        document.body.style.overflow = ''
         dispatch(closeModal('edit'))
         navigate('/account')
-    };
+    }
     const handleSwipe = useSwipeable({
         onSwipedLeft: () => prewPost(),
         onSwipedRight: () => nextPost()
@@ -74,33 +104,33 @@ const FullPostModal = ({ params }) => {
         e.stopPropagation()
         if (findPost === posts.length - 1) {
             setPost(posts[0])
-            setFindPost(0);
+            setFindPost(0)
         } else {
-            const nextPost = posts[findPost + 1];
+            const nextPost = posts[findPost + 1]
             if (nextPost) {
                 setPost(posts[findPost + 1])
-                setFindPost(findPost + 1);
+                setFindPost(findPost + 1)
             }
         }
-    };
+    }
 
     const prewPost = (e) => {
         e.stopPropagation()
         if (findPost === 0) {
             setPost(posts[posts.length - 1])
-            setFindPost(posts.length - 1);
+            setFindPost(posts.length - 1)
         } else {
-            const prewPost = posts[findPost - 1];
+            const prewPost = posts[findPost - 1]
             if (prewPost) {
                 setPost(posts[findPost - 1])
-                setFindPost(findPost - 1);
+                setFindPost(findPost - 1)
             }
         }
-    };
+    }
 
     if (isEdit) {
         return (
-            <div className='bg-modal' {...handleSwipe} onClick={closeModals}>
+            <div className='bg-modal' {...handleSwipe} onClick={closeModalsBg}>
                 <div className="modal-blog" onLoad={handleLoadImage}>
                     {isLoad && <Loader />}
                     <form onSubmit={handleSubmit} className="modal-blog__view">
@@ -147,7 +177,7 @@ const FullPostModal = ({ params }) => {
                     </form>
                 </div>
             </div>
-        );
+        )
     } else {
         return (
             <div className='bg-modal' {...handleSwipe}>
@@ -191,6 +221,44 @@ const FullPostModal = ({ params }) => {
                             <h4 className="modal-blog__view-titles">Author:</h4>
                             <p className="modal-blog__view-text buttons">{text}</p>
                             <span className="modal-blog__view-author buttons">{author}</span>
+                        </div>
+                        <div className="modal-blog__view-comments">
+                            {comments !== undefined
+                                ?
+                                <div className="comments-wrap">
+                                    <h3 className="comments-title">Comments: {comments?.length}</h3>
+                                    {comments.map(comment => (
+                                        <div className="comment" key={comment.text}>
+                                            <div className='comment-about'>
+                                                <img className="comment-avatar" src={comment.avatar} alt={comment.author} />
+                                                <h5 className="comment-author">{comment.author}</h5>
+                                            </div>
+                                            <p className="comment-text">{comment.text}</p>
+                                        </div>
+                                    ))}
+                                    <form onSubmit={handleComment} className="comments-create">
+                                        <p className="comments-title">Write a comment</p>
+                                        <textarea
+                                            ref={textareaRef}
+                                            onChange={adjustTextareaHeight}
+                                            placeholder="Type your comment..."
+                                            type="text"
+                                            className="comments-create__input" />
+                                        <Button className='comments-create__button'>Send</Button>
+                                    </form>
+                                </div>
+                                :
+                                <div className="comments-wrap">
+                                    <h3 className="comments-title">No comments yet!<br />Create one!</h3>
+                                    <form onSubmit={handleComment} className="comments-create">
+                                        <p className="comments-title">Write a comment</p>
+                                        <textarea type="text" className="comments-create__input" ref={textareaRef}
+                                            onChange={adjustTextareaHeight}
+                                            placeholder="Type your comment..." />
+                                        <Button className='comments-create__button'>Send</Button>
+                                    </form>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

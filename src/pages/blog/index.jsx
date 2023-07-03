@@ -55,9 +55,8 @@ const Blog = () => {
                 dispatch(setBlogPage(pageValue))
             }
         }
-    }, [sorted])
+    }, [sorted, dispatch])
 
-    //
     useEffect(() => {
         navigate(`/blog/${page}`)
         if (map) {

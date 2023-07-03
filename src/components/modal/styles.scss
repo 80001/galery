@@ -6,7 +6,7 @@
     background-color: rgba(0, 0, 0, 0.827);
     width           : 100%;
     height          : 100%;
-    z-index         : 2;
+    z-index         : 1;
 }
 
 //Middle modal
@@ -182,7 +182,7 @@
     &__form {
         width  : 100%;
         height : 100%;
-        display: block;
+        display: none;
 
         &-titles {
             display       : flex;
@@ -288,6 +288,83 @@
         max-width    : 70%;
         padding      : 20px;
         border-radius: 5px;
+
+        &-comments {
+            background-color: #ffffff8b;
+
+            .comments {
+
+                &-title {
+                    text-transform: uppercase;
+                    font-size     : 20px;
+                    text-align    : center;
+                    padding       : 15px;
+                }
+
+                &-wrap {
+                    margin: 0 auto;
+                    width : 80%;
+                }
+
+                &-create {
+                    text-align     : center;
+                    display        : flex;
+                    flex-direction : column;
+                    justify-content: center;
+
+                    &__input {
+                        width     : 100%;
+                        min-height: 50px;
+                    }
+
+                    &__button {
+
+                        width : fit-content;
+                        margin: 15px auto;
+                    }
+
+                }
+            }
+
+            .comment {
+                padding       : 20px;
+                margin        : 10px 0;
+                display       : flex;
+                flex-direction: row;
+                box-shadow    : 0 0 3px rgba(96, 96, 98, 0.622);
+
+                &-about {
+                    width          : 30%;
+                    height         : 30%;
+                    display        : flex;
+                    flex-direction : column;
+                    justify-content: center;
+                    align-items    : center;
+                }
+
+                &-avatar {
+                    width  : 30%;
+                    padding: 10px;
+
+                    &:hover {
+                        transform: scale(2);
+                    }
+                }
+
+                &-author {
+                    padding   : 10px;
+                    margin-top: 5px;
+                }
+
+                &-text {
+                    display        : flex;
+                    justify-content: center;
+                    align-items    : center;
+                    width          : 70%;
+                }
+
+            }
+        }
 
         &-top {
             margin               : auto 0;
@@ -399,7 +476,15 @@
         }
 
         &-author {
-            width: 30%;
+            display       : flex;
+            flex-direction: column;
+            width         : 30%;
+            align-items   : center;
+
+            button {
+                margin: 20px;
+                width : fit-content;
+            }
         }
 
 

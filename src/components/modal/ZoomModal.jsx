@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import './styles.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../Loading'
@@ -19,7 +19,13 @@ const ZoomModal = ({ params }) => {
     dispatch(closeModal('zoom'))
     document.body.style.overflow = '';
     //window.history.back()
-  };
+  }
+  const closeModalsBg = (event) => {
+    if (event.target === event.currentTarget) {
+      dispatch(closeModal('zoom'))
+      document.body.style.overflow = ''
+    }
+  }
   const openPostModal = () => {
     dispatch(openModal('create', photo.urls.full))
     //window.history.pushState(null, '', `create_post/${id}`)
@@ -59,7 +65,7 @@ const ZoomModal = ({ params }) => {
   }
   return (
     <div className='bg-modal' {...handleSwipe}
-      onClick={closeModals}>
+      onClick={closeModalsBg}>
       <div className="modal" >
         {isLoad && <Loader />}
         <div className="modal-zoom" >

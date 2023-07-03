@@ -4,13 +4,16 @@ import { Link, Outlet } from 'react-router-dom';
 import SearchImage from '../../components/Search';
 import Authorization from '../../components/Authorization';
 import BurgerMenu from '../../components/Burger';
+import { isMobile } from 'react-device-detect';
 
 const Header = () => {
     const [open, setOpen] = useState(false);
 
     const handleToggle = () => {
-        setOpen(!open);
-        document.body.style.overflow = '';
+        if (open) {
+            setOpen(!open);
+            document.body.style.overflow = '';
+        }
     };
 
     return (

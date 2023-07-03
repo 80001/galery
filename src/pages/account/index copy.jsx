@@ -20,7 +20,6 @@ const Account = () => {
     const [comments, setComments] = useState(null);
     const [postsDeleted, setPostsDeleted] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchTermCom, setSearchTermCom] = useState('');
 
     document.title = 'Account';
 
@@ -37,45 +36,45 @@ const Account = () => {
 
     useEffect(() => {
         if (author) {
-            fetchPosts();
+            fetchPosts()
         }
         if (!author) {
             navigate('/')
         }
 
-    }, [author, email, dispatch]);
+    }, [author, email, dispatch, fetchPosts, navigate])
 
     useEffect(() => {
         if (posts !== null) {
             dispatch(setPostsAuthMap(posts))
         }
-    }, [posts])
+    }, [posts, dispatch])
     let filteredPostsDeleted = []
     let filteredComments = []
 
-    const daysReg = dayOnSite(createdAt);
-    const lastTime = lastLogin(lastLoginAt);
-    console.log(comments)
+    const daysReg = dayOnSite(createdAt)
+    const lastTime = lastLogin(lastLoginAt)
     if (posts) {
         const filteredPosts = searchTerm
             ? posts.filter((post) =>
                 post.title.toLowerCase().includes(searchTerm.toLowerCase())
             )
-            : posts;
+            : posts
         if (postsDeleted) {
             filteredPostsDeleted = searchTerm
                 ? postsDeleted.filter((post) =>
                     post.title.toLowerCase().includes(searchTerm.toLowerCase())
                 )
-                : postsDeleted;
+                : postsDeleted
         }
         if (comments) {
-            filteredComments = searchTermCom
-                ? comments.comments.filter((comm) =>
-                    comm.toLowerCase().includes(searchTermCom.toLowerCase())
+            filteredComments = searchTerm
+                ? comments.posts.filter((comm) =>
+                    comm.toLowerCase().includes(searchTerm.toLowerCase())
                 )
-                : comments.comments;
+                : comments.posts
         }
+
         return (
             <section className="account">
                 <div className="account-main">
@@ -133,7 +132,7 @@ const Account = () => {
                                         {filteredPosts.length > 0 ? (
                                             <ul className="show-my__body">
                                                 {filteredPosts.map((post) => (
-                                                    <AccountPost post={post} key={post.id} callback={fetchPosts} isPost={true} />
+                                                    <AccountPost post={post} key={post.id} callback={fetchPosts} />
                                                 ))}
                                             </ul>
                                         ) : (
@@ -151,7 +150,7 @@ const Account = () => {
                                 ) :
                                 (
                                     <div className="show-my">
-                                        <h3 className="show-my__title">My Comments: {comments.posts.length} comments</h3>
+                                        <h3 className="show-my__title">My Comments: {filteredComments.length} comments</h3>
                                         <div className="show-my__search">
                                             <label htmlFor="search" className="show-my__search-label">
                                                 Search:
@@ -159,15 +158,17 @@ const Account = () => {
                                             <input
                                                 type="text"
                                                 className="show-my__search-input"
-                                                value={searchTermCom}
-                                                onChange={(e) => setSearchTermCom(e.target.value)}
+                                                value={searchTerm}
+                                                onChange={(e) => setSearchTerm(e.target.value)}
                                             />
                                         </div>
                                         {filteredComments.length > 0 ? (
                                             <ul className="show-my__body">
-                                                {filteredComments.map((post, index) => {
+                                                {filteredComments.map((post) => {
+                                                    //console.log(post)
                                                     return (
-                                                        <AccountPost post={comments.posts[index]} key={post.id} callback={fetchPosts} comment={post} isComment={true} />
+                                                        <AccountPost post={post} key={post.id} callback={fetchPosts} isComment={true} />
+
                                                     )
                                                 })}
                                             </ul>
@@ -182,6 +183,6 @@ const Account = () => {
             </section>
         )
     }
-};
+}
 
-export default Account;
+export default Account

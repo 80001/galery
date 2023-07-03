@@ -1,6 +1,6 @@
 //change time from ms to date
 export const timeChanger = (time) => {
-    const timestamp = time.seconds * 1000 + Math.floor(time.nanoseconds / 1000000);
+    const timestamp = time?.seconds * 1000 + Math.floor(time?.nanoseconds / 1000000);
     const date = new Date(timestamp);
     const formattedDate = date.toLocaleString('uk-UK', {
         month: 'numeric',
