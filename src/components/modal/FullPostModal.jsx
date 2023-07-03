@@ -236,27 +236,34 @@ const FullPostModal = ({ params }) => {
                                             <p className="comment-text">{comment.text}</p>
                                         </div>
                                     ))}
-                                    <form onSubmit={handleComment} className="comments-create">
-                                        <p className="comments-title">Write a comment</p>
-                                        <textarea
-                                            ref={textareaRef}
-                                            onChange={adjustTextareaHeight}
-                                            placeholder="Type your comment..."
-                                            type="text"
-                                            className="comments-create__input" />
-                                        <Button className='comments-create__button'>Send</Button>
-                                    </form>
+                                    {
+                                        auth !== null ?
+                                            <form onSubmit={handleComment} className="comments-create">
+                                                <p className="comments-title">Write a comment</p>
+                                                <textarea type="text" className="comments-create__input" ref={textareaRef}
+                                                    onChange={adjustTextareaHeight}
+                                                    placeholder="Type your comment..." />
+                                                <Button className='comments-create__button'>Send</Button>
+                                            </form>
+                                            :
+                                            <h3 className="comments-title">Sign in and write a comment!</h3>
+                                    }
                                 </div>
                                 :
                                 <div className="comments-wrap">
-                                    <h3 className="comments-title">No comments yet!<br />Create one!</h3>
-                                    <form onSubmit={handleComment} className="comments-create">
-                                        <p className="comments-title">Write a comment</p>
-                                        <textarea type="text" className="comments-create__input" ref={textareaRef}
-                                            onChange={adjustTextareaHeight}
-                                            placeholder="Type your comment..." />
-                                        <Button className='comments-create__button'>Send</Button>
-                                    </form>
+                                    {
+                                        auth !== null ?
+                                            <form onSubmit={handleComment} className="comments-create">
+                                                <h3 className="comments-title">No comments yet!<br />Create one!</h3>
+                                                <p className="comments-title">Write a comment</p>
+                                                <textarea type="text" className="comments-create__input" ref={textareaRef}
+                                                    onChange={adjustTextareaHeight}
+                                                    placeholder="Type your comment..." />
+                                                <Button className='comments-create__button'>Send</Button>
+                                            </form>
+                                            :
+                                            <h3 className="comments-title">No comments yet!<br />Sign in and write a comment!</h3>
+                                    }
                                 </div>
                             }
                         </div>
